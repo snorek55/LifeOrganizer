@@ -1,0 +1,87 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:itemsAdapters="clr-namespace:Organizers.MovOrg.Adapters.Items;assembly=Organizers"
+                    xmlns:local="clr-namespace:DesktopGui.MovOrg"
+                    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:sectionAdapters="clr-namespace:Organizers.MovOrg.Adapters.Sections;assembly=Organizers">
+
+    <DataTemplate DataType="{x:Type sectionAdapters:MoviesSectionViewModel}">
+        <local:MoviesSection />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type sectionAdapters:MovieDetailsPanelViewModel}">
+        <local:MovieDetailsPanel />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type itemsAdapters:MovieViewModel}">
+        <StackPanel>
+
+            <Image Width="120"
+                   Height="120"
+                   HorizontalAlignment="Center">
+                <Image.Source>
+                    <BitmapImage DecodePixelHeight="100"
+                                 DecodePixelWidth="100"
+                                 UriSource="{Binding Image}" />
+                </Image.Source>
+            </Image>
+            <Label>
+                <Label.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}" />
+                        <TextBlock Text=" " />
+                        <materialDesign:PackIcon Kind="Rank" />
+                        <TextBlock Text="{Binding Rank}" />
+                        <materialDesign:PackIcon Kind="Heart" Visibility="{Binding IsFavorite, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                        <materialDesign:PackIcon Kind="EyeCheck" Visibility="{Binding IsWatched, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                        <materialDesign:PackIcon Kind="EyeCircleOutline" Visibility="{Binding IsMustWatch, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </Label.Content>
+            </Label>
+
+            <materialDesign:RatingBar HorizontalAlignment="Center"
+                                      Max="10"
+                                      Value="{Binding IMDbRating}" />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type itemsAdapters:DirectorViewModel}">
+        <StackPanel>
+            <TextBlock Text="{Binding Name}" />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type itemsAdapters:WriterViewModel}">
+        <StackPanel>
+            <TextBlock Text="{Binding Name}" />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type itemsAdapters:ActorViewModel}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Name}" />
+            <TextBlock Text=" As " />
+            <TextBlock Text="{Binding AsCharacter}" />
+            <Viewbox Width="100" Height="100">
+                <Image Source="{Binding ImageUrl}" />
+            </Viewbox>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type itemsAdapters:CompanyViewModel}">
+        <StackPanel>
+            <TextBlock Text="{Binding Name}" />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type itemsAdapters:RatingViewModel}">
+        <StackPanel>
+            <TextBlock>
+                <Run Text="{Binding SourceName}" />
+                <Run Text=": " />
+                <Run Text="{Binding Score}" />
+            </TextBlock>
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>
