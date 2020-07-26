@@ -46,6 +46,8 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		public bool OnlyTop250 { get; set; }
 
+		private string suggestedTitleFilter { get; set; }
+
 		#endregion Filtering Properties
 
 		#region Data
@@ -101,6 +103,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		private async Task ClearSearchAsync()
 		{
+			suggestedTitleFilter = string.Empty;
 			var moviesResponse = await ExecuteCommandTaskAsync(() => moviesService.GetAllMoviesFromLocal(), "Loaded movies from local");
 
 			if (!moviesResponse.HasError)
@@ -118,24 +121,27 @@ namespace Organizers.MovOrg.Adapters.Sections
 				ResetAndUpdateMovies(moviesResponse.Movies);
 		}
 
-		//TODO: does not work
 		private async Task SearchMoviesWithChosenTitleAsync()
 		{
-			NotifyWait();
 			if (string.IsNullOrEmpty(SuggestedTitle))
 			{
 				await ClearSearchAsync();
 				return;
 			}
-			var suggestedTitleResponse = await moviesService.GetMoviesFromSuggestedTitleAsync(SuggestedTitle);
 
-			if (suggestedTitleResponse.HasError)
-				HandleError(suggestedTitleResponse.Error);
-			else
+			var suggestedTitleResponse = await ExecuteCommandTaskAsync(() => moviesService.GetMoviesFromSuggestedTitleAsync(SuggestedTitle), "");
+
+			if (suggestedTitleResponse.AlreadySearched)
 			{
-				//TODO: get the movies and then filter out
+				suggestedTitleFilter = SuggestedTitle;
+				RefreshFilter();
+				return;
+			}
+
+			if (!suggestedTitleResponse.HasError)
+			{
 				ResetAndUpdateMovies(suggestedTitleResponse.Movies);
-				NotifyStatus("Obtenidas " + suggestedTitleResponse.Movies.Count() + " peliculas");
+				NotifyStatus("Found " + suggestedTitleResponse.Movies.Count() + " movies");
 			}
 		}
 
@@ -155,6 +161,8 @@ namespace Organizers.MovOrg.Adapters.Sections
 				conditions &= movie.IsWatched;
 			if (OnlyTop250)
 				conditions &= movie.Rank != null && movie.Rank > 0;
+			if (!string.IsNullOrEmpty(suggestedTitleFilter))
+				conditions &= movie.Title.Contains(suggestedTitleFilter);
 
 			return conditions;
 		}
@@ -170,7 +178,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 		private void RefreshFilter()
 		{
 			moviesCollectionView.Refresh();
-			NotifyStatus("Peliculas filtradas. Viendo: " + moviesCollectionView.Cast<object>().Count());
+			NotifyStatus("Filtered movies: " + moviesCollectionView.Cast<object>().Count());
 		}
 
 		#endregion Filtering and Sorting Methods
@@ -213,9 +221,12 @@ namespace Organizers.MovOrg.Adapters.Sections
 		{
 			if (SelectedMovie == null) return;
 
-			var response = await ExecuteCommandTaskAsync(() => moviesService.GetMovieWithId(SelectedMovie.Id, forceUpdate), "Loaded info");
+			var response = await ExecuteCommandTaskAsync(() => moviesService.GetMovieWithId(SelectedMovie.Id, forceUpdate), "");
 			if (!response.HasError)
+			{
 				MovieDetailsPanel.SelectedMovie = mapper.Map<MovieViewModel>(response.Movie);
+				NotifyStatus("Loaded info for movie " + SelectedMovie.Title);
+			}
 		}
 
 #pragma warning restore IDE0051 // Quitar miembros privados no utilizados

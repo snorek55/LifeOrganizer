@@ -34,6 +34,7 @@ namespace Organizers.Main.Adapters.Sections
 			if (result.HasError)
 			{
 				NotifyError(result.Error);
+				NotifyStatus(string.Empty);
 			}
 			else
 			{

@@ -3,16 +3,34 @@
 using Organizers.Common.Config;
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace EntryPoint
 {
 	public class Config : IConfig
 	{
 		private string path = AppDomain.CurrentDomain.BaseDirectory + ConfigurationManager.AppSettings["RecentMoviesSearchesPath"];
+
+		public Config()
+		{
+			if (!File.Exists(path))
+				File.Create(path);
+		}
+
+		public async Task AddSearchedTitleAsync(string suggestedTitle)
+		{
+			var lines = await File.ReadAllLinesAsync(path);
+			if (!lines.Contains(suggestedTitle))
+			{
+				await File.AppendAllLinesAsync(path, new List<string> { suggestedTitle });
+				File.ReadAllLines(path);
+			}
+		}
 
 		public string GetConnectionString()
 		{
@@ -32,13 +50,8 @@ namespace EntryPoint
 
 		public async Task<bool> WasAlreadySearched(string term)
 		{
-			if (File.Exists(path))
-			{
-				var lines = await File.ReadAllLinesAsync(path);
-				return lines.ToList().Any(x => x.Equals(term, StringComparison.OrdinalIgnoreCase));
-			}
-
-			return false;
+			var lines = await File.ReadAllLinesAsync(path);
+			return lines.ToList().Any(x => x.Equals(term, StringComparison.OrdinalIgnoreCase));
 		}
 	}
 }

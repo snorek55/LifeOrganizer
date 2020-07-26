@@ -9,5 +9,7 @@ namespace Organizers.Common.Config
 		string GetConnectionString();
 
 		string GetIMDbApiKey();
+
+		Task AddSearchedTitleAsync(string suggestedTitle);
 	}
 }

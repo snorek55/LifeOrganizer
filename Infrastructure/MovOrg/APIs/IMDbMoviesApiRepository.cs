@@ -33,6 +33,7 @@ namespace Infrastructure.MovOrg.APIs
 		public async Task<IEnumerable<Movie>> GetMoviesFromSuggestedTitle(string suggestedTitle)
 		{
 			Ensure.IsNotNull(suggestedTitle);
+			//TODO: filter does not get the same movies as this because it also looks in description. must create a description property and filter it out also
 			var data = await apiLib.SearchMovieAsync(suggestedTitle);
 			ThrowIfError(data.ErrorMessage);
 			return mapper.Map<IEnumerable<Movie>>(data.Results);

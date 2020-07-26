@@ -8,6 +8,7 @@ using Organizers.MovOrg.UseCases.Responses;
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Organizers.MovOrg.UseCases
@@ -46,20 +47,32 @@ namespace Organizers.MovOrg.UseCases
 			try
 			{
 				var wasSearched = await config.WasAlreadySearched(suggestedTitle);
-				if (wasSearched)
-					throw new RepositoryException("Word already looked up, please filter movies");
-
-				using var context = dbContextScopeFactory.Create();
-				IEnumerable<Movie> movies;
-				movies = await apiRepository.GetMoviesFromSuggestedTitle(suggestedTitle);
-				await localRepository.UpdateSuggestedTitleMovies(movies);
-				await context.SaveChangesAsync();
-				return new GetSuggestedTitleMoviesResponse(movies);
+				if (!wasSearched || forceUpdateFromApi)
+					return await LoadMoviesFromSuggestedTitleAsync(suggestedTitle, forceUpdateFromApi);
+				else
+					return new GetSuggestedTitleMoviesResponse
+					{
+						AlreadySearched = true
+					};
 			}
-			catch (RepositoryException ex)
+			catch (Exception ex)
 			{
-				return new GetSuggestedTitleMoviesResponse(ex.ToString());
+				if (ex is FileNotFoundException || ex is DirectoryNotFoundException || ex is RepositoryException)
+					return new GetSuggestedTitleMoviesResponse(ex.ToString());
+
+				throw;
 			}
+		}
+
+		private async Task<GetSuggestedTitleMoviesResponse> LoadMoviesFromSuggestedTitleAsync(string suggestedTitle, bool forceUpdateFromApi)
+		{
+			using var context = dbContextScopeFactory.Create();
+			IEnumerable<Movie> movies;
+			movies = await apiRepository.GetMoviesFromSuggestedTitle(suggestedTitle);
+			await localRepository.UpdateSuggestedTitleMovies(movies);
+			await context.SaveChangesAsync();
+			await config.AddSearchedTitleAsync(suggestedTitle);
+			return new GetSuggestedTitleMoviesResponse(movies);
 		}
 
 		public async Task<GetMovieDetailsResponse> GetMovieWithId(string id, bool forceUpdateFromApi = false)

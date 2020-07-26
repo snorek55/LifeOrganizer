@@ -10,7 +10,13 @@ namespace Organizers.MovOrg.UseCases.Responses
 	{
 		public IEnumerable<Movie> Movies { get; private set; }
 
-		public GetSuggestedTitleMoviesResponse(IEnumerable<Movie> movies) : base(null)
+		public bool AlreadySearched { get; set; }
+
+		public GetSuggestedTitleMoviesResponse()
+		{
+		}
+
+		public GetSuggestedTitleMoviesResponse(IEnumerable<Movie> movies) : base()
 		{
 			Movies = movies ?? throw new ArgumentNullException(nameof(movies));
 		}
