@@ -2,7 +2,7 @@
 
 using System.Threading.Tasks;
 
-namespace UnitTests
+namespace Tests.Common
 {
 	public class TestConfig : IConfig
 	{

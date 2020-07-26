@@ -28,7 +28,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 		{
 			this.parent = parent;
 			this.service = service;
-			UpdateMovieCommand = new AsyncCommand(UpdateCurrentMovieAsync, parent);
+			UpdateMovieCommand = new AsyncCommand(UpdateCurrentMovieAsync, parent.NotificationsHandler);
 			WikipediaCommand = new SyncCommand(GoToWikipedia);
 			IMDbCommand = new SyncCommand(GoToIMDbPage);
 			TrailerCommand = new SyncCommand(ShowTrailer);

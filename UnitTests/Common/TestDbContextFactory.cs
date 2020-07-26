@@ -8,7 +8,7 @@ using Organizers.Common.Config;
 
 using System;
 
-namespace EntryPoint
+namespace Tests.Common
 {
 	public class TestDbContextFactory : IDbContextFactory
 	{

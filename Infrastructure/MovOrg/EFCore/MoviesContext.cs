@@ -1,8 +1,8 @@
-﻿using Domain;
-
-using EntityFramework.DbContextScope.Interfaces;
+﻿using EntityFramework.DbContextScope.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
+
+using Organizers.MovOrg.Domain;
 
 namespace Infrastructure.EFCore
 {

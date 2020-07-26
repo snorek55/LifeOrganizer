@@ -1,9 +1,5 @@
-﻿using Domain;
-
-using EntityFramework.DbContextScope;
+﻿using EntityFramework.DbContextScope;
 using EntityFramework.DbContextScope.Interfaces;
-
-using EntryPoint;
 
 using Infrastructure.EFCore;
 using Infrastructure.MovOrg.EFCore;
@@ -12,17 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Organizers.Common.UseCases;
+using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases.Repositories;
 
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Tests;
+using Tests.Common;
 
-using UnitTests;
-
-namespace Integration
+namespace Tests.Integration
 {
 	public abstract class LocalRepoMoviesTests : TestData
 	{

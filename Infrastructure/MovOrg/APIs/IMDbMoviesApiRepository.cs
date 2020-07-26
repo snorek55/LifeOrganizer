@@ -1,11 +1,10 @@
-﻿using Domain;
-
-using IMDbApiLib;
+﻿using IMDbApiLib;
 using IMDbApiLib.Models;
 
 using Organizers.Common;
 using Organizers.Common.Config;
 using Organizers.Common.UseCases;
+using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases.Repositories;
 
 using System;

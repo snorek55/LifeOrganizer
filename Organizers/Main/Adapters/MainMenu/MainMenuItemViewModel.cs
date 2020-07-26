@@ -1,6 +1,7 @@
 ﻿using Organizers.Common.Adapters;
+using Organizers.Main.Adapters.Sections;
 
-namespace Organizers.Main.Adapters
+namespace Organizers.Main.Adapters.MainMenu
 {
 	public class MainMenuItemViewModel : BaseViewModel
 	{

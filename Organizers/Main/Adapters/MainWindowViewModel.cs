@@ -1,4 +1,6 @@
 ﻿using Organizers.Common.Adapters;
+using Organizers.Main.Adapters.MainMenu;
+using Organizers.Main.Adapters.Sections;
 
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,13 +19,12 @@ namespace Organizers.Main.Adapters
 		{
 			MainMenuOptionsItems.Add(mainMenuItemFactory.GenerateAboutMenu());
 			MainMenuOptionsItems.Add(mainMenuItemFactory.GenerateConfigMenu());
-			MainMenuItems.Add(mainMenuItemFactory.GenerateFoodMenu());
-			MainMenuItems.Add(mainMenuItemFactory.GenerateGamesMenu());
-
-			MainMenuItems.Add(mainMenuItemFactory.GenerateGymMenu());
 			MainMenuItems.Add(mainMenuItemFactory.GenerateMoviesMenu());
+			MainMenuItems.Add(mainMenuItemFactory.GenerateGamesMenu());
+			MainMenuItems.Add(mainMenuItemFactory.GenerateGymMenu());
+			MainMenuItems.Add(mainMenuItemFactory.GenerateFoodMenu());
 
-			SelectedItem = MainMenuItems.Last();
+			SelectedItem = MainMenuItems.First();
 		}
 
 #pragma warning disable IDE0051 // Quitar miembros privados no utilizados

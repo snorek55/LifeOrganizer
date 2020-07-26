@@ -3,6 +3,7 @@
 using MahApps.Metro.IconPacks;
 
 using Organizers.Main.Adapters;
+using Organizers.Main.Adapters.MainMenu;
 
 using System;
 using System.Globalization;

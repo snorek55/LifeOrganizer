@@ -1,8 +1,8 @@
-﻿using Domain;
+﻿using Organizers.MovOrg.Domain;
 
 using System;
 
-namespace Tests
+namespace Tests.Common
 {
 	public class TestData
 	{

@@ -1,9 +1,8 @@
-﻿using Domain;
-
-using EntityFramework.DbContextScope.Interfaces;
+﻿using EntityFramework.DbContextScope.Interfaces;
 
 using Organizers.Common.Config;
 using Organizers.Common.UseCases;
+using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases.Repositories;
 using Organizers.MovOrg.UseCases.Responses;
 

@@ -5,7 +5,7 @@ using Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Integration
+namespace Tests.Integration
 {
 	[TestClass]
 	public class SqlServerMoviesTests : LocalRepoMoviesTests

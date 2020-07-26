@@ -1,4 +1,4 @@
-﻿namespace Organizers.Main.Adapters
+﻿namespace Organizers.Main.Adapters.MainMenu
 {
 	public interface IMainMenuItemFactory
 	{

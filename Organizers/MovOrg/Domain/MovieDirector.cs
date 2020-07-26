@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain
+namespace Organizers.MovOrg.Domain
 {
 	public class MovieDirector
 	{

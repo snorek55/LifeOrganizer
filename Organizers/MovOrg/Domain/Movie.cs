@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Domain
+namespace Organizers.MovOrg.Domain
 {
 	public class Movie : Entity
 	{

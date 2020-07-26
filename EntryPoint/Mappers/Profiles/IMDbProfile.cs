@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 
-using Domain;
-
 using IMDbApiLib.Models;
+
+using Organizers.MovOrg.Domain;
 
 namespace EntryPoint.Mapper.Profiles
 {

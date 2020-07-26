@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Organizers.MovOrg.Domain;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;

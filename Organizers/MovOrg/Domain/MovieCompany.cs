@@ -1,4 +1,4 @@
-﻿namespace Domain
+﻿namespace Organizers.MovOrg.Domain
 {
 	public class MovieCompany
 	{

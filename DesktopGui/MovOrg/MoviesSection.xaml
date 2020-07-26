@@ -13,7 +13,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -133,11 +132,5 @@
         <ContentControl Content="{Binding MovieDetailsPanel}"
                         Grid.Row="1"
                         Grid.Column="2" />
-
-        <StatusBar Grid.Row="2">
-            <StatusBarItem>
-                <TextBlock Text="{Binding StatusMessage, UpdateSourceTrigger=PropertyChanged}" />
-            </StatusBarItem>
-        </StatusBar>
     </Grid>
 </UserControl>

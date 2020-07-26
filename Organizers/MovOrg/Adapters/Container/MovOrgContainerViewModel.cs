@@ -1,16 +1,17 @@
 ﻿using Organizers.Main.Adapters;
-using Organizers.MovOrg.Adapters.Sections;
+using Organizers.Main.Adapters.Sections;
+
+using System.Collections.ObjectModel;
 
 namespace Organizers.MovOrg.Adapters.Container
 {
 	public class MovOrgContainerViewModel : OrganizerContainerViewModel
 	{
-		public MovOrgContainerViewModel(MoviesSectionViewModel moviesSection, ActorsSectionViewModel actorsSection)
+		public MovOrgContainerViewModel(ISectionsFactory sectionsFactory) : base(sectionsFactory)
 		{
-			Sections.Add(moviesSection);
-			Sections.Add(actorsSection);
+			Sections = new ObservableCollection<SectionViewModel>(sectionsFactory.GenerateMoviesSections());
 
-			SelectedSection = moviesSection;
+			SelectedSection = Sections[0];
 		}
 	}
 }

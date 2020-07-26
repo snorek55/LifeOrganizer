@@ -1,6 +1,4 @@
-﻿using Domain;
-
-using EntityFramework.DbContextScope.Interfaces;
+﻿using EntityFramework.DbContextScope.Interfaces;
 
 using Infrastructure.EFCore;
 
@@ -8,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Organizers.Common.Domain;
 using Organizers.Common.UseCases;
+using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases.Repositories;
 
 using System;

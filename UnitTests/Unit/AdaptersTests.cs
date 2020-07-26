@@ -1,6 +1,4 @@
-﻿using Domain;
-
-using EntryPoint.Mapper;
+﻿using EntryPoint.Mapper;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,13 +7,14 @@ using Moq;
 using Organizers.Common;
 using Organizers.Common.Config;
 using Organizers.MovOrg.Adapters.Sections;
+using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases;
 using Organizers.MovOrg.UseCases.Responses;
 
 using System;
 using System.Collections.Generic;
 
-namespace Unit
+namespace Tests.Unit
 {
 	[TestClass]
 	public class AdaptersTests

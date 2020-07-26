@@ -1,10 +1,9 @@
-﻿using Domain;
-
-using Organizers.Common;
+﻿using Organizers.Common;
 using Organizers.Common.Adapters;
 using Organizers.Common.Config;
-using Organizers.Main.Adapters;
+using Organizers.Main.Adapters.Sections;
 using Organizers.MovOrg.Adapters.Items;
+using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases;
 
 using System;
@@ -19,8 +18,7 @@ using System.Windows.Input;
 
 namespace Organizers.MovOrg.Adapters.Sections
 {
-	//TODO: pasar el IErrorHandler al main
-	public class MoviesSectionViewModel : SectionViewModel, IErrorHandler
+	public class MoviesSectionViewModel : SectionViewModel
 	{
 		public ObservableCollection<MovieViewModel> Movies { get; set; } = new ObservableCollection<MovieViewModel>();
 
@@ -53,9 +51,6 @@ namespace Organizers.MovOrg.Adapters.Sections
 		#region Data
 
 		public string SuggestedTitle { get; set; }
-		public string StatusMessage { get; set; }
-
-		public bool StatusHasError { get; set; }
 
 		public DateTime? LastUpdatedTop250 { get; set; }
 
@@ -80,17 +75,19 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 			MovieDetailsPanel = new MovieDetailsPanelViewModel(moviesService, this);
 
-			SearchCommand = new AsyncCommand(SearchMoviesWithChosenTitleAsync, this);
-			ClearSearchCommand = new AsyncCommand(ClearSearchAsync, this);
-			Top250Command = new AsyncCommand(SearchTop250MoviesAsync, this);
+			SearchCommand = new AsyncCommand(SearchMoviesWithChosenTitleAsync, NotificationsHandler);
+			ClearSearchCommand = new AsyncCommand(ClearSearchAsync, NotificationsHandler);
+			Top250Command = new AsyncCommand(SearchTop250MoviesAsync, NotificationsHandler);
 			SortAlphabeticallyCommand = new SyncCommand(SortAlphabetically);
 			moviesCollectionView = CollectionViewSource.GetDefaultView(Movies);
 			moviesCollectionView.Filter = new Predicate<object>(x => MovieFiltering(x as MovieViewModel));
-			this.dispatcher.BeginInvoke(() => GetAllMoviesFromLocal().FireAndForgetSafeAsync(this));
+
+			this.dispatcher.BeginInvoke(() => GetAllMoviesFromLocal().FireAndForgetSafeAsync(NotificationsHandler));
 		}
 
 		private async Task GetAllMoviesFromLocal()
 		{
+			NotificationsHandler.NotifyWaitMessage();
 			var response = await moviesService.GetAllMoviesFromLocal();
 			if (response.HasError)
 				HandleError(response.Error);
@@ -98,25 +95,27 @@ namespace Organizers.MovOrg.Adapters.Sections
 			{
 				ResetAndUpdateMovies(response.Movies);
 			}
+
+			NotificationsHandler.NotifyStatusMessage("Loaded movies from local");
 		}
 
 		#region Command Methods
 
 		private async Task ClearSearchAsync()
 		{
-			ClearStatusMessage();
+			NotificationsHandler.NotifyWaitMessage();
 			var localMoviesResponse = await moviesService.GetAllMoviesFromLocal();
 			if (localMoviesResponse.HasError)
 				HandleError(localMoviesResponse.Error);
 			else
 				ResetAndUpdateMovies(localMoviesResponse.Movies);
 
-			StatusMessage = "Loaded movies from local";
+			NotificationsHandler.NotifyStatusMessage("Loaded movies from local");
 		}
 
 		private async Task SearchTop250MoviesAsync()
 		{
-			ClearStatusMessage();
+			NotificationsHandler.NotifyWaitMessage();
 			var response = await moviesService.UpdateTopMovies();
 			//TODO: pasar a sectionviewmodel
 			if (response.HasError)
@@ -132,14 +131,14 @@ namespace Organizers.MovOrg.Adapters.Sections
 			else
 			{
 				ResetAndUpdateMovies(responseAllMovies.Movies);
-				StatusMessage = "Actualizadas mejores 250 peliculas";
+				NotificationsHandler.NotifyStatusMessage("Actualizadas mejores 250 peliculas");
 			}
 		}
 
 		//TODO: does not work
 		private async Task SearchMoviesWithChosenTitleAsync()
 		{
-			ClearStatusMessage();
+			NotificationsHandler.NotifyWaitMessage();
 			if (string.IsNullOrEmpty(SuggestedTitle))
 			{
 				await ClearSearchAsync();
@@ -153,7 +152,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 			{
 				//TODO: get the movies and then filter out
 				ResetAndUpdateMovies(suggestedTitleResponse.Movies);
-				StatusMessage = "Obtenidas " + suggestedTitleResponse.Movies.Count() + " peliculas";
+				NotificationsHandler.NotifyStatusMessage("Obtenidas " + suggestedTitleResponse.Movies.Count() + " peliculas");
 			}
 		}
 
@@ -188,7 +187,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 		private void RefreshFilter()
 		{
 			moviesCollectionView.Refresh();
-			StatusMessage = "Peliculas filtradas. Viendo: " + moviesCollectionView.Cast<object>().Count();
+			NotificationsHandler.NotifyStatusMessage("Peliculas filtradas. Viendo: " + moviesCollectionView.Cast<object>().Count());
 		}
 
 		#endregion Filtering and Sorting Methods
@@ -219,14 +218,13 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		private void OnSelectedMovieChanged()
 		{
-			ShowSelectedMovieInfoAsync().FireAndForgetSafeAsync(this);
+			ShowSelectedMovieInfoAsync().FireAndForgetSafeAsync(NotificationsHandler);
 		}
 
 		public async Task ShowSelectedMovieInfoAsync(bool forceUpdate = false)
 		{
+			NotificationsHandler.NotifyWaitMessage();
 			if (SelectedMovie == null) return;
-			StatusHasError = false;
-			StatusMessage = string.Empty;
 
 			var response = await moviesService.GetMovieWithId(SelectedMovie.Id, forceUpdate);
 			if (response.HasError)
@@ -234,7 +232,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 			else
 			{
 				MovieDetailsPanel.SelectedMovie = mapper.Map<MovieViewModel>(response.Movie);
-				StatusMessage = "Obtenida info de película";
+				NotificationsHandler.NotifyStatusMessage("Obtenida info de película");
 			}
 		}
 
@@ -259,19 +257,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 		public void HandleError(string errorMessage)
 		{
 			Debug.Write(errorMessage);
-			StatusMessage = errorMessage;
-			StatusHasError = true;
-		}
-
-		public void HandleError(Exception ex)
-		{
-			HandleError(ex.ToString());
-		}
-
-		private void ClearStatusMessage()
-		{
-			StatusHasError = false;
-			StatusMessage = "";
+			NotificationsHandler.NotifyError(errorMessage);
 		}
 
 		#endregion Rendering

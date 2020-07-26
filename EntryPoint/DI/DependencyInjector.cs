@@ -16,6 +16,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Organizers.Common;
 using Organizers.Common.Config;
 using Organizers.Main.Adapters;
+using Organizers.Main.Adapters.MainMenu;
+using Organizers.Main.Adapters.Sections;
 using Organizers.MovOrg.Adapters.Container;
 using Organizers.MovOrg.Adapters.Sections;
 using Organizers.MovOrg.UseCases;
@@ -72,6 +74,7 @@ namespace EntryPoint.DI
 		public void LoadAdapters(ServiceCollection services)
 		{
 			services.AddSingleton<IMainMenuItemFactory, MainMenuItemFactory>();
+			services.AddSingleton<ISectionsFactory, SectionsFactory>();
 
 			services.AddSingleton<MovOrgContainerViewModel>();
 			services.AddSingleton<MainWindowViewModel>();
@@ -82,7 +85,6 @@ namespace EntryPoint.DI
 			services.AddSingleton<App>(App);
 
 			services.AddSingleton<IDispatcher>(new GuiDispatcher());
-			//builder.RegisterType<GuiDispatcher>().As<IDispatcher>();
 		}
 	}
 }

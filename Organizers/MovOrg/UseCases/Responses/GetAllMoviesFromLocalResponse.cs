@@ -1,6 +1,5 @@
-﻿using Domain;
-
-using Organizers.Common.UseCases;
+﻿using Organizers.Common.UseCases;
+using Organizers.MovOrg.Domain;
 
 using System.Collections.Generic;
 

@@ -1,4 +1,4 @@
-﻿using Organizers.Main.Adapters;
+﻿using Organizers.Main.Adapters.Sections;
 
 namespace Organizers.GamesOrg
 {

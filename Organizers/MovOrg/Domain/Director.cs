@@ -1,6 +1,6 @@
 ﻿using Organizers.Common.Domain;
 
-namespace Domain
+namespace Organizers.MovOrg.Domain
 {
 	public class Director : Entity
 	{

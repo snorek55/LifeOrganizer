@@ -1,7 +1,6 @@
-﻿using Organizers.GamesOrg;
-using Organizers.MovOrg.Adapters.Container;
+﻿using Organizers.MovOrg.Adapters.Container;
 
-namespace Organizers.Main.Adapters
+namespace Organizers.Main.Adapters.MainMenu
 {
 	public class MainMenuItemFactory : IMainMenuItemFactory
 	{
@@ -29,7 +28,7 @@ namespace Organizers.Main.Adapters
 
 		public MainMenuItemViewModel GenerateGamesMenu()
 		{
-			return new MainMenuItemViewModel("Games", MainMenuIconType.Games, new GamesOrgContainerViewModel());
+			return new MainMenuItemViewModel("Games", MainMenuIconType.Games, null);
 		}
 
 		public MainMenuItemViewModel GenerateGymMenu()

@@ -17,11 +17,11 @@ namespace Organizers.Common.Adapters
 		private bool _isExecuting;
 		private readonly Func<Task> _execute;
 		private readonly Func<bool> _canExecute;
-		private readonly IErrorHandler _errorHandler;
+		private readonly INotificationHandler _errorHandler;
 
 		internal AsyncCommand(
 			Func<Task> execute,
-			IErrorHandler errorHandler = null,
+			INotificationHandler errorHandler = null,
 				Func<bool> canExecute = null)
 		{
 			_execute = execute;
@@ -77,9 +77,9 @@ namespace Organizers.Common.Adapters
 		private bool _isExecuting;
 		private readonly Func<T, Task> _execute;
 		private readonly Func<T, bool> _canExecute;
-		private readonly IErrorHandler _errorHandler;
+		private readonly INotificationHandler _errorHandler;
 
-		internal AsyncCommand(Func<T, Task> execute, IErrorHandler errorHandler = null, Func<T, bool> canExecute = null)
+		internal AsyncCommand(Func<T, Task> execute, INotificationHandler errorHandler = null, Func<T, bool> canExecute = null)
 		{
 			_execute = execute;
 			_canExecute = canExecute;

@@ -1,6 +1,4 @@
-﻿using Domain;
-
-using EntityFramework.DbContextScope;
+﻿using EntityFramework.DbContextScope;
 using EntityFramework.DbContextScope.Interfaces;
 
 using EntryPoint;
@@ -10,14 +8,15 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Organizers.Common.Config;
+using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases;
 using Organizers.MovOrg.UseCases.Repositories;
 
 using System.Threading.Tasks;
 
-using Tests;
+using Tests.Common;
 
-namespace Unit
+namespace Tests.Unit
 {
 	[TestClass]
 	public class MovOrgTests : TestData

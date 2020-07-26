@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 
-using Domain;
-
 using Organizers.MovOrg.Adapters.Items;
+using Organizers.MovOrg.Domain;
 
 namespace EntryPoint.Mapper.Profiles
 {

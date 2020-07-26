@@ -2,9 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:DesktopGui.Main"
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-                    xmlns:mainAdapters="clr-namespace:Organizers.Main.Adapters;assembly=Organizers"
                     xmlns:mainConverters="clr-namespace:DesktopGui.Main.Converters"
-                    xmlns:moviesAdapters="clr-namespace:Organizers.MovOrg.Adapters;assembly=Organizers">
+                    xmlns:moviesAdapters="clr-namespace:Organizers.Common.Adapters;assembly=Organizers"
+                    xmlns:sections="clr-namespace:Organizers.Main.Adapters.Sections;assembly=Organizers">
 
     <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mah:HamburgerMenuIconItem}">
         <Grid>
@@ -32,7 +32,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type mainAdapters:OrganizerContainerViewModel}">
+    <DataTemplate DataType="{x:Type sections:OrganizerContainerViewModel}">
         <local:MainContainer />
     </DataTemplate>
 </ResourceDictionary>
