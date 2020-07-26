@@ -89,16 +89,6 @@ namespace Organizers.MovOrg.UseCases
 			}
 		}
 
-		public UpdateFavoriteResponse UpdateFavoriteStatus(string id, bool isFavorite)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public UpdateMustWatchResponse UpdateMustWatch(string id, bool isMustWatch)
-		{
-			throw new System.NotImplementedException();
-		}
-
 		public async Task<UpdateTopMoviesResponse> UpdateTopMovies()
 		{
 			try
@@ -116,9 +106,49 @@ namespace Organizers.MovOrg.UseCases
 			}
 		}
 
+		public UpdateFavoriteResponse UpdateFavoriteStatus(string id, bool isFavorite)
+		{
+			try
+			{
+				using var context = dbContextScopeFactory.Create();
+				localRepository.MarkMovieAsFavorite(id, isFavorite);
+				context.SaveChanges();
+				return new UpdateFavoriteResponse();
+			}
+			catch (RepositoryException ex)
+			{
+				return new UpdateFavoriteResponse(ex.ToString());
+			}
+		}
+
+		public UpdateMustWatchResponse UpdateMustWatch(string id, bool isMustWatch)
+		{
+			try
+			{
+				using var context = dbContextScopeFactory.Create();
+				localRepository.MarkMovieAsMustWatch(id, isMustWatch);
+				context.SaveChanges();
+				return new UpdateMustWatchResponse();
+			}
+			catch (RepositoryException ex)
+			{
+				return new UpdateMustWatchResponse(ex.ToString());
+			}
+		}
+
 		public UpdateWatchedResponse UpdateWatched(string id, bool isWatched)
 		{
-			throw new System.NotImplementedException();
+			try
+			{
+				using var context = dbContextScopeFactory.Create();
+				localRepository.MarkMovieAsWatched(id, isWatched);
+				context.SaveChanges();
+				return new UpdateWatchedResponse();
+			}
+			catch (RepositoryException ex)
+			{
+				return new UpdateWatchedResponse(ex.ToString());
+			}
 		}
 	}
 }

@@ -85,7 +85,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 			Top250Command = new AsyncCommand(SearchTop250MoviesAsync, this);
 			SortAlphabeticallyCommand = new SyncCommand(SortAlphabetically);
 			moviesCollectionView = CollectionViewSource.GetDefaultView(Movies);
-			moviesCollectionView.Filter = new Predicate<object>(x => MovieFiltering(x as Movie));
+			moviesCollectionView.Filter = new Predicate<object>(x => MovieFiltering(x as MovieViewModel));
 			this.dispatcher.BeginInvoke(() => GetAllMoviesFromLocal().FireAndForgetSafeAsync(this));
 		}
 
@@ -161,7 +161,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		#region Filtering and Sorting Methods
 
-		private bool MovieFiltering(Movie movie)
+		private bool MovieFiltering(MovieViewModel movie)
 		{
 			bool conditions = true;
 
