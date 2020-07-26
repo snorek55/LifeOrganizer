@@ -34,15 +34,24 @@
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
+
             <StatusBarItem>
-                <TextBlock Text="{Binding StatusMessage, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="{Binding TotalItemCount, UpdateSourceTrigger=PropertyChanged}" />
             </StatusBarItem>
             <Separator Grid.Column="1" />
             <StatusBarItem Grid.Column="2">
+                <TextBlock Text="{Binding StatusMessage, UpdateSourceTrigger=PropertyChanged}" />
+            </StatusBarItem>
+            <Separator Grid.Column="3" />
+            <StatusBarItem Grid.Column="4">
                 <TextBlock Text="{Binding ErrorMessage, UpdateSourceTrigger=PropertyChanged}" />
             </StatusBarItem>
         </StatusBar>

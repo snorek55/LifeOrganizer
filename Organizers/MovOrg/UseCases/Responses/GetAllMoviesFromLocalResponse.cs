@@ -9,6 +9,10 @@ namespace Organizers.MovOrg.UseCases.Responses
 	{
 		public IEnumerable<Movie> Movies { get; internal set; }
 
+		public GetAllMoviesFromLocalResponse()
+		{
+		}
+
 		public GetAllMoviesFromLocalResponse(IEnumerable<Movie> movies) : base(null)
 		{
 			Movies = movies;

@@ -82,63 +82,46 @@ namespace Organizers.MovOrg.Adapters.Sections
 			moviesCollectionView = CollectionViewSource.GetDefaultView(Movies);
 			moviesCollectionView.Filter = new Predicate<object>(x => MovieFiltering(x as MovieViewModel));
 
-			this.dispatcher.BeginInvoke(() => GetAllMoviesFromLocal().FireAndForgetSafeAsync(NotificationsHandler));
+			Movies.CollectionChanged += Movies_CollectionChanged;
+
+			GetAllMoviesFromLocalOnStartup();
 		}
 
-		private async Task GetAllMoviesFromLocal()
+		private void GetAllMoviesFromLocalOnStartup()
 		{
-			NotificationsHandler.NotifyWaitMessage();
-			var response = await moviesService.GetAllMoviesFromLocal();
-			if (response.HasError)
-				HandleError(response.Error);
-			else
+			dispatcher.BeginInvoke(async () =>
 			{
-				ResetAndUpdateMovies(response.Movies);
-			}
-
-			NotificationsHandler.NotifyStatusMessage("Loaded movies from local");
+				var response = await ExecuteCommandTaskAsync(() => moviesService.GetAllMoviesFromLocal(), "Loaded movies from local");
+				if (!response.HasError)
+					ResetAndUpdateMovies(response.Movies);
+			});
 		}
 
 		#region Command Methods
 
 		private async Task ClearSearchAsync()
 		{
-			NotificationsHandler.NotifyWaitMessage();
-			var localMoviesResponse = await moviesService.GetAllMoviesFromLocal();
-			if (localMoviesResponse.HasError)
-				HandleError(localMoviesResponse.Error);
-			else
-				ResetAndUpdateMovies(localMoviesResponse.Movies);
+			var moviesResponse = await ExecuteCommandTaskAsync(() => moviesService.GetAllMoviesFromLocal(), "Loaded movies from local");
 
-			NotificationsHandler.NotifyStatusMessage("Loaded movies from local");
+			if (!moviesResponse.HasError)
+				ResetAndUpdateMovies(moviesResponse.Movies);
 		}
 
 		private async Task SearchTop250MoviesAsync()
 		{
-			NotificationsHandler.NotifyWaitMessage();
-			var response = await moviesService.UpdateTopMovies();
-			//TODO: pasar a sectionviewmodel
-			if (response.HasError)
-			{
-				HandleError(response.Error);
+			var updateResponse = await ExecuteCommandTaskAsync(() => moviesService.UpdateTopMovies(), "");
+			if (updateResponse.HasError)
 				return;
-			}
 
-			var responseAllMovies = await moviesService.GetAllMoviesFromLocal();
-
-			if (responseAllMovies.HasError)
-				HandleError(responseAllMovies.Error);
-			else
-			{
-				ResetAndUpdateMovies(responseAllMovies.Movies);
-				NotificationsHandler.NotifyStatusMessage("Actualizadas mejores 250 peliculas");
-			}
+			var moviesResponse = await ExecuteCommandTaskAsync(() => moviesService.GetAllMoviesFromLocal(), "Actualizadas mejores 250 peliculas");
+			if (!moviesResponse.HasError)
+				ResetAndUpdateMovies(moviesResponse.Movies);
 		}
 
 		//TODO: does not work
 		private async Task SearchMoviesWithChosenTitleAsync()
 		{
-			NotificationsHandler.NotifyWaitMessage();
+			NotifyWait();
 			if (string.IsNullOrEmpty(SuggestedTitle))
 			{
 				await ClearSearchAsync();
@@ -152,7 +135,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 			{
 				//TODO: get the movies and then filter out
 				ResetAndUpdateMovies(suggestedTitleResponse.Movies);
-				NotificationsHandler.NotifyStatusMessage("Obtenidas " + suggestedTitleResponse.Movies.Count() + " peliculas");
+				NotifyStatus("Obtenidas " + suggestedTitleResponse.Movies.Count() + " peliculas");
 			}
 		}
 
@@ -187,7 +170,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 		private void RefreshFilter()
 		{
 			moviesCollectionView.Refresh();
-			NotificationsHandler.NotifyStatusMessage("Peliculas filtradas. Viendo: " + moviesCollectionView.Cast<object>().Count());
+			NotifyStatus("Peliculas filtradas. Viendo: " + moviesCollectionView.Cast<object>().Count());
 		}
 
 		#endregion Filtering and Sorting Methods
@@ -195,6 +178,11 @@ namespace Organizers.MovOrg.Adapters.Sections
 		#region Events
 
 #pragma warning disable IDE0051 // Quitar miembros privados no utilizados
+
+		private void Movies_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		{
+			NotifyItemTotal(Movies.Count);
+		}
 
 		private void OnOnlyTop250Changed()
 		{
@@ -223,17 +211,11 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		public async Task ShowSelectedMovieInfoAsync(bool forceUpdate = false)
 		{
-			NotificationsHandler.NotifyWaitMessage();
 			if (SelectedMovie == null) return;
 
-			var response = await moviesService.GetMovieWithId(SelectedMovie.Id, forceUpdate);
-			if (response.HasError)
-				HandleError(response.Error);
-			else
-			{
+			var response = await ExecuteCommandTaskAsync(() => moviesService.GetMovieWithId(SelectedMovie.Id, forceUpdate), "Loaded info");
+			if (!response.HasError)
 				MovieDetailsPanel.SelectedMovie = mapper.Map<MovieViewModel>(response.Movie);
-				NotificationsHandler.NotifyStatusMessage("Obtenida info de película");
-			}
 		}
 
 #pragma warning restore IDE0051 // Quitar miembros privados no utilizados
@@ -257,7 +239,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 		public void HandleError(string errorMessage)
 		{
 			Debug.Write(errorMessage);
-			NotificationsHandler.NotifyError(errorMessage);
+			NotifyError(errorMessage);
 		}
 
 		#endregion Rendering

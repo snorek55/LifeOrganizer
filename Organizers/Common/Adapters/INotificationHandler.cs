@@ -8,8 +8,10 @@ namespace Organizers.Common.Adapters
 
 		void NotifyError(string error);
 
-		void NotifyStatusMessage(string message);
+		void NotifyStatus(string message);
 
-		void NotifyWaitMessage();
+		void NotifyWait();
+
+		void NotifyItemCount(int count);
 	}
 }

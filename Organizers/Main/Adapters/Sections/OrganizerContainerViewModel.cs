@@ -1,5 +1,4 @@
 ﻿using Organizers.Common.Adapters;
-using Organizers.Main.Adapters.Sections;
 
 using System;
 using System.Collections.ObjectModel;
@@ -11,6 +10,9 @@ namespace Organizers.Main.Adapters.Sections
 		public ObservableCollection<SectionViewModel> Sections { get; set; } = new ObservableCollection<SectionViewModel>();
 		public SectionViewModel SelectedSection { get; set; }
 		protected ISectionsFactory SectionsFactory { get; set; }
+
+		public int TotalItemCount { get; set; }
+
 		public string StatusMessage { get; set; }
 
 		public string ErrorMessage { get; set; }
@@ -33,14 +35,19 @@ namespace Organizers.Main.Adapters.Sections
 			ErrorMessage = error;
 		}
 
-		public void NotifyStatusMessage(string message)
+		public void NotifyStatus(string message)
 		{
 			StatusMessage = message;
 		}
 
-		public void NotifyWaitMessage()
+		public void NotifyWait()
 		{
 			StatusMessage = "Processing, please wait...";
+		}
+
+		public void NotifyItemCount(int count)
+		{
+			TotalItemCount = count;
 		}
 	}
 }

@@ -15,12 +15,17 @@ namespace Organizers.Common.Adapters
 			Debug.WriteLine(error);
 		}
 
-		public void NotifyStatusMessage(string message)
+		public void NotifyItemCount(int count)
+		{
+			Debug.WriteLine("updated count" + count);
+		}
+
+		public void NotifyStatus(string message)
 		{
 			Debug.WriteLine(message);
 		}
 
-		public void NotifyWaitMessage()
+		public void NotifyWait()
 		{
 			Debug.WriteLine("Processing, please wait...");
 		}

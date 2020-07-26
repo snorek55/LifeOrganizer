@@ -7,7 +7,11 @@ namespace Organizers.MovOrg.UseCases.Responses
 	{
 		public Movie Movie { get; set; }
 
-		public GetMovieDetailsResponse(Movie movie) : base(null)
+		public GetMovieDetailsResponse()
+		{
+		}
+
+		public GetMovieDetailsResponse(Movie movie) : base()
 		{
 			Movie = movie;
 		}
