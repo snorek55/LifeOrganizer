@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="DesktopGui.MovOrg.MovieDetailsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:common="[common ]clr-namespace:DesktopGui.Common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:DesktopGui.MovOrg"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -12,9 +13,20 @@
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <TextBlock Text="{Binding SelectedMovie.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Viewbox MaxWidth="300" MaxHeight="300">
-                    <Image Source="{Binding SelectedMovie.Image}" />
-                </Viewbox>
+                <Image Source="{Binding SelectedMovie.Image}">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Setter Property="Height" Value="300" />
+                            <Setter Property="Width" Value="300" />
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Height" Value="800" />
+                                    <Setter Property="Width" Value="800" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
 
                 <StackPanel Orientation="Horizontal">
                     <Button Content="{materialDesign:PackIcon Kind=Wikipedia}"
@@ -167,42 +179,27 @@
                 <Expander Header="Cast Crew">
                     <StackPanel Background="DarkGreen">
                         <Expander materialDesign:ExpanderAssist.DownHeaderPadding="35,2,24,2" Header="Directors">
-                            <ListView ItemsSource="{Binding SelectedMovie.DirectorList}">
-                                <ListView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <VirtualizingStackPanel />
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
-                            </ListView>
+                            <ListView ItemsSource="{Binding SelectedMovie.DirectorList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
                         </Expander>
 
                         <Expander materialDesign:ExpanderAssist.DownHeaderPadding="35,2,24,2" Header="Actors">
-                            <ListView ItemsSource="{Binding SelectedMovie.ActorList}">
-                                <ListView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <VirtualizingStackPanel />
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
+                            <ListView ItemsSource="{Binding SelectedMovie.ActorList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Width" Value="300" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
                             </ListView>
                         </Expander>
                         <Expander materialDesign:ExpanderAssist.DownHeaderPadding="35,2,24,2" Header="Companies">
-                            <ListView ItemsSource="{Binding SelectedMovie.CompanyList}">
-                                <ListView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <VirtualizingStackPanel />
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
-                            </ListView>
+                            <ListView ItemsSource="{Binding SelectedMovie.CompanyList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
                         </Expander>
                         <Expander materialDesign:ExpanderAssist.DownHeaderPadding="35,2,24,2" Header="Writers">
-                            <ListView ItemsSource="{Binding SelectedMovie.WriterList}">
-
-                                <ListView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <VirtualizingStackPanel />
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
-                            </ListView>
+                            <ListView ItemsSource="{Binding SelectedMovie.WriterList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
                         </Expander>
                     </StackPanel>
                 </Expander>

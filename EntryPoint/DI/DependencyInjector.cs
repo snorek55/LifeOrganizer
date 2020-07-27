@@ -65,10 +65,14 @@ namespace EntryPoint.DI
 			services.AddSingleton<IMoviesService, MoviesService>();
 			services.AddDbContext<MoviesContext>();
 
-			var contextFactory = new DbContextFactory();
-			var scopeFactory = new DbContextScopeFactory(contextFactory);
+			services.AddSingleton<DbContextFactory>();
+			services.AddSingleton<IDbContextScopeFactory, DbContextScopeFactory>();
 
-			services.AddSingleton<IDbContextScopeFactory>(scopeFactory);
+			services.AddSingleton<IDbContextScopeFactory>(provider =>
+			{
+				var dependency = provider.GetRequiredService<DbContextFactory>();
+				return new DbContextScopeFactory(dependency);
+			});
 		}
 
 		public void LoadAdapters(ServiceCollection services)
@@ -82,7 +86,7 @@ namespace EntryPoint.DI
 			services.AddSingleton<ActorsSectionViewModel>();
 
 			services.AddSingleton<MainWindow>();
-			services.AddSingleton<App>(App);
+			services.AddSingleton(App);
 
 			services.AddSingleton<IDispatcher>(new GuiDispatcher());
 		}

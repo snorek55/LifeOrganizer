@@ -15,12 +15,11 @@ namespace EntryPoint
 {
 	public class DbContextFactory : IDbContextFactory, IDesignTimeDbContextFactory<MoviesContext>
 	{
-		//TODO: arreglar el tema del config con la inyeccion
 		private IConfig config;
 
-		public DbContextFactory()
+		public DbContextFactory(IConfig config)
 		{
-			config = new Config();
+			this.config = config;
 		}
 
 		public TDbContext CreateDbContext<TDbContext>() where TDbContext : class, IDbContext
