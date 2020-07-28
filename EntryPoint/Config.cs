@@ -5,30 +5,46 @@ using Organizers.Common.Config;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace EntryPoint
 {
 	public class Config : IConfig
 	{
-		private string path = AppDomain.CurrentDomain.BaseDirectory + ConfigurationManager.AppSettings["RecentMoviesSearchesPath"];
+		private string recentMoviesSearchesPath;
+		private string recentMoviesSearchesFile = ConfigurationManager.AppSettings["RecentMoviesSearchesPath"];
 
 		public Config()
 		{
-			if (!File.Exists(path))
-				File.Create(path);
+			CreateRecentMoviesSearchesIfNotExists();
+		}
+
+		private void CreateRecentMoviesSearchesIfNotExists()
+		{
+			if (recentMoviesSearchesFile == null)
+			{
+				Debug.WriteLine($"Returned invalid path for movies searches file. {recentMoviesSearchesPath}. Will use default.");
+				recentMoviesSearchesPath = AppDomain.CurrentDomain.BaseDirectory + "RecentMoviesSeaches.txt";
+			}
+			else
+			{
+				recentMoviesSearchesPath = AppDomain.CurrentDomain.BaseDirectory + recentMoviesSearchesFile;
+			}
+
+			if (!File.Exists(recentMoviesSearchesPath))
+				File.Create(recentMoviesSearchesPath);
 		}
 
 		public async Task AddSearchedTitleAsync(string suggestedTitle)
 		{
-			var lines = await File.ReadAllLinesAsync(path);
+			var lines = await File.ReadAllLinesAsync(recentMoviesSearchesPath);
 			if (!lines.Contains(suggestedTitle))
 			{
-				await File.AppendAllLinesAsync(path, new List<string> { suggestedTitle });
-				File.ReadAllLines(path);
+				await File.AppendAllLinesAsync(recentMoviesSearchesPath, new List<string> { suggestedTitle });
+				File.ReadAllLines(recentMoviesSearchesPath);
 			}
 		}
 
@@ -50,7 +66,7 @@ namespace EntryPoint
 
 		public async Task<bool> WasAlreadySearched(string term)
 		{
-			var lines = await File.ReadAllLinesAsync(path);
+			var lines = await File.ReadAllLinesAsync(recentMoviesSearchesPath);
 			return lines.ToList().Any(x => x.Equals(term, StringComparison.OrdinalIgnoreCase));
 		}
 	}

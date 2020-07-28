@@ -27,6 +27,9 @@ namespace Tests.Unit
 		public AdaptersTests()
 		{
 			mockMoviesService = new Mock<IMoviesService>();
+			var response = new GetAllMoviesFromLocalResponse(new List<Movie>() { new Movie { Id = "TestMovie", Title = "Test" }, new Movie { Id = "TestMovie2", Title = "TestMovie2" } });
+			//Must setup for constructor in MoviesSection
+			mockMoviesService.Setup(x => x.GetAllMoviesFromLocal()).ReturnsAsync(response);
 			mockDispatcher = new Mock<IDispatcher>();
 			mockDispatcher.Setup(x => x.BeginInvoke(It.IsAny<Action>())).Callback<Action>(a => a.Invoke());
 			autoMapper = new MapperImpl();
@@ -49,7 +52,7 @@ namespace Tests.Unit
 		[TestMethod]
 		public void ClearSearchCommand_ShouldShowMoviesFromLocal_WhenExecuted()
 		{
-			//TODO: change IBackgroundWorker with Async and try again
+			//TODO: make sure async is responsive
 			var response = new GetAllMoviesFromLocalResponse(new List<Movie>() { new Movie { Id = "TestMovie", Title = "Test" }, new Movie { Id = "TestMovie2", Title = "TestMovie2" } });
 			mockMoviesService.Setup(x => x.GetAllMoviesFromLocal()).ReturnsAsync(response);
 

@@ -1,4 +1,7 @@
-﻿using Organizers.MovOrg.Domain;
+﻿using EntryPoint;
+
+using Organizers.Common.Config;
+using Organizers.MovOrg.Domain;
 
 using System;
 
@@ -6,6 +9,9 @@ namespace Tests.Common
 {
 	public class TestData
 	{
+		public static IConfig UnitTestConfig { get; } = new UnitTestConfig();
+		public static IConfig IntegrationConfig { get; } = new Config();
+
 		protected readonly Movie testMovieSeeded = new Movie
 		{
 			Id = "TestMovie",

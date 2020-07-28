@@ -4,10 +4,6 @@ using Infrastructure.EFCore;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Debug;
-
-using Organizers.Common.Config;
 
 using System;
 
@@ -15,11 +11,11 @@ namespace EntryPoint
 {
 	public class DbContextFactory : IDbContextFactory, IDesignTimeDbContextFactory<MoviesContext>
 	{
-		private IConfig config;
+		private DbContextOptionsBuilder<MoviesContext> optionsBuilderMoviesContext;
 
-		public DbContextFactory(IConfig config)
+		public DbContextFactory(DbContextOptionsBuilder<MoviesContext> optionsBuilderMoviesContext)
 		{
-			this.config = config;
+			this.optionsBuilderMoviesContext = optionsBuilderMoviesContext;
 		}
 
 		public TDbContext CreateDbContext<TDbContext>() where TDbContext : class, IDbContext
@@ -32,13 +28,7 @@ namespace EntryPoint
 
 		public MoviesContext CreateDbContext(string[] args)
 		{
-			var optionsBuilder = new DbContextOptionsBuilder<MoviesContext>();
-			optionsBuilder.UseSqlServer(config.GetConnectionString())
-					.EnableSensitiveDataLogging()
-					.UseLoggerFactory(new LoggerFactory(
-						new[] { new DebugLoggerProvider() }, new LoggerFilterOptions { MinLevel = LogLevel.Warning }));
-
-			return new MoviesContext(optionsBuilder.Options);
+			return new MoviesContext(optionsBuilderMoviesContext.Options);
 		}
 	}
 }

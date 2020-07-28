@@ -1,12 +1,16 @@
 ﻿using EntityFramework.DbContextScope;
 using EntityFramework.DbContextScope.Interfaces;
 
+using EntryPoint;
+
 using Infrastructure.EFCore;
 using Infrastructure.MovOrg.EFCore;
 
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Organizers.Common.Config;
 using Organizers.Common.UseCases;
 using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases.Repositories;
@@ -17,15 +21,16 @@ using System.Threading.Tasks;
 
 using Tests.Common;
 
-namespace Tests.Integration
+namespace Tests.Unit
 {
 	public abstract class LocalRepoMoviesTests : TestData
 	{
-		protected DbContextOptions<MoviesContext> ContextOptions { get; }
 		protected IDbContextScopeFactory DbContextScopeFactory { get; }
 		protected IAmbientDbContextLocator AmbientDbContextLocator { get; }
 
 		protected ILocalMoviesRepository LocalRepo { get; }
+
+		protected IConfig Config { get; set; }
 
 		private MoviesContext MoviesContext
 		{
@@ -42,20 +47,39 @@ namespace Tests.Integration
 
 		#region Initialization
 
-		protected LocalRepoMoviesTests(DbContextOptions<MoviesContext> contextOptions)
+		protected LocalRepoMoviesTests(IConfig config)
 		{
-			ContextOptions = contextOptions;
-			var contextFactory = new TestDbContextFactory(new TestConfig());
+			Config = config;
+			var optionsBuilderMoviesContext = GenerateOptionsBuilderMoviexContext();
+
+			var contextFactory = new DbContextFactory(optionsBuilderMoviesContext);
 			DbContextScopeFactory = new DbContextScopeFactory(contextFactory);
 			AmbientDbContextLocator = new AmbientDbContextLocator();
 			LocalRepo = new EFCoreLocalMoviesRepository(AmbientDbContextLocator);
 			Seed();
 		}
 
+		private DbContextOptionsBuilder<MoviesContext> GenerateOptionsBuilderMoviexContext()
+		{
+			var options = new DbContextOptionsBuilder<MoviesContext>();
+			var connString = Config.GetConnectionString();
+			if (Config is UnitTestConfig)
+			{
+				var connection = new SqliteConnection(connString);
+				connection.Open();
+				return options.UseSqlite(connection)
+					.EnableSensitiveDataLogging();
+			}
+			else if (Config is Config)
+				return options.UseSqlServer(connString)
+						.EnableSensitiveDataLogging();
+			else
+				throw new Exception("Unknown config type");
+		}
+
 		private void Seed()
 		{
 			using var context = DbContextScopeFactory.Create();
-
 			MoviesContext.Database.EnsureDeleted();
 			MoviesContext.Database.EnsureCreated();
 

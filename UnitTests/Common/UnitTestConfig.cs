@@ -4,16 +4,22 @@ using System.Threading.Tasks;
 
 namespace Tests.Common
 {
-	public class TestConfig : IConfig
+	public class UnitTestConfig : IConfig
 	{
 		public void AddSearchedTitle(string suggestedTitle)
 		{
 			throw new System.NotImplementedException();
 		}
 
+		public Task AddSearchedTitleAsync(string suggestedTitle)
+		{
+			throw new System.NotImplementedException();
+		}
+
 		public string GetConnectionString()
 		{
-			return "Filename=Test.db";
+			//SQLite in memory db
+			return "DataSource =:memory:";
 		}
 
 		public string GetIMDbApiKey()

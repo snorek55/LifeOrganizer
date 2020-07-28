@@ -1,8 +1,6 @@
 ﻿using EntityFramework.DbContextScope;
 using EntityFramework.DbContextScope.Interfaces;
 
-using EntryPoint;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -25,7 +23,7 @@ namespace Tests.Unit
 		private Mock<IConfig> mockConfig = new Mock<IConfig>();
 		private Mock<ILocalMoviesRepository> mockLocalRepo = new Mock<ILocalMoviesRepository>();
 		private Mock<IApiMoviesRepository> mockApiRepo = new Mock<IApiMoviesRepository>();
-		private IDbContextScopeFactory contextScopeFactory = new DbContextScopeFactory(new TestDbContextFactory(new Config()));
+		private IDbContextScopeFactory contextScopeFactory = new DbContextScopeFactory(new TestDbContextFactory(UnitTestConfig));
 
 		public MovOrgTests()
 		{

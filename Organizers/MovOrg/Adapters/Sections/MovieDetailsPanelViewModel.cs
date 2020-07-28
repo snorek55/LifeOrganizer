@@ -39,6 +39,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		private void UpdateWatched()
 		{
+			//TODO: must add interceptor
 			var response = service.UpdateWatched(SelectedMovie.Id, SelectedMovie.IsWatched);
 			if (response.HasError)
 				parent.HandleError(response.Error);

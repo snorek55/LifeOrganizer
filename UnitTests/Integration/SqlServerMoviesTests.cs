@@ -1,19 +1,13 @@
-﻿using EntryPoint;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Infrastructure.EFCore;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Tests.Unit;
 
 namespace Tests.Integration
 {
 	[TestClass]
 	public class SqlServerMoviesTests : LocalRepoMoviesTests
 	{
-		public SqlServerMoviesTests() : base(
-		new DbContextOptionsBuilder<MoviesContext>()
-					.UseSqlServer(new Config().GetConnectionString())
-					.Options)
+		public SqlServerMoviesTests() : base(IntegrationConfig)
 		{
 		}
 	}
