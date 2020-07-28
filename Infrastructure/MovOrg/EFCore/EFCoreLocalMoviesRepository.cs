@@ -122,8 +122,8 @@ namespace Infrastructure.MovOrg.EFCore
 				.Include(x => x.DirectorList)
 				.Include(x => x.WriterList)
 				.SingleOrDefaultAsync(x => x.Id == movie.Id);
-			//TODO: better way?
-			if (existingMovie == null) throw new RepositoryException("Movie does not exists in local. Cannot persist details.");
+
+			if (existingMovie == null) throw new RepositoryException("Movie does not exists in local. Cannot update details.");
 
 			var lastUpdatedTop = existingMovie.LastUpdatedTop250;
 			var rank = existingMovie.Rank;
@@ -132,16 +132,23 @@ namespace Infrastructure.MovOrg.EFCore
 			existingMovie.LastUpdatedTop250 = lastUpdatedTop;
 			existingMovie.Rank = rank;
 			existingMovie.LastUpdatedDetails = lastUpdatedDetails;
+			UpdateRelatedInfo(movie);
 
-			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.DirectorList, DbContext);
-			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.ActorList, DbContext);
-			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.WriterList, DbContext);
-			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.CompanyList, DbContext);
+			UpdateRatings(movie, existingMovie);
+		}
 
-			existingMovie.BoxOffice = movie.BoxOffice;
-			existingMovie.Trailer = movie.Trailer;
-			//existingMovie.Ratings = movie.Ratings;
+		private void UpdateRelatedInfo(Movie movie)
+		{
+			movie.BoxOffice = movie.BoxOffice;
+			movie.Trailer = movie.Trailer;
+			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.DirectorList, DbContext, typeof(Movie), typeof(Director));
+			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.ActorList, DbContext, typeof(Movie), typeof(Actor));
+			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.WriterList, DbContext, typeof(Movie), typeof(Writer));
+			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.CompanyList, DbContext, typeof(Movie), typeof(Company));
+		}
 
+		private void UpdateRatings(Movie movie, Movie existingMovie)
+		{
 			foreach (var rating in movie.Ratings)
 			{
 				Rating existingRating = DbContext.Ratings.Find(rating.Id, rating.RatingSourceId);

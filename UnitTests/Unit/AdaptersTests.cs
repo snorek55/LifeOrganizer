@@ -52,7 +52,6 @@ namespace Tests.Unit
 		[TestMethod]
 		public void ClearSearchCommand_ShouldShowMoviesFromLocal_WhenExecuted()
 		{
-			//TODO: make sure async is responsive
 			var response = new GetAllMoviesFromLocalResponse(new List<Movie>() { new Movie { Id = "TestMovie", Title = "Test" }, new Movie { Id = "TestMovie2", Title = "TestMovie2" } });
 			mockMoviesService.Setup(x => x.GetAllMoviesFromLocal()).ReturnsAsync(response);
 

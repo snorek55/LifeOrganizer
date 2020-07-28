@@ -6,7 +6,6 @@ namespace Infrastructure.Migrations
 {
 	public partial class InitialCreate : Migration
 	{
-		//TODO: hacer un revert porque me han dejado cosas de tests en la puta base de datos
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
 			migrationBuilder.CreateTable(

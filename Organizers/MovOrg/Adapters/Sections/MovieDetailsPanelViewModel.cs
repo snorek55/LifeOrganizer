@@ -43,7 +43,6 @@ namespace Organizers.MovOrg.Adapters.Sections
 			var response = service.UpdateWatched(SelectedMovie.Id, SelectedMovie.IsWatched);
 			if (response.HasError)
 				parent.HandleError(response.Error);
-			//TODO: must simplify this
 			parent.SelectedMovie.IsWatched = SelectedMovie.IsWatched;
 		}
 

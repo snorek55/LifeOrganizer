@@ -2,7 +2,6 @@
 
 using Organizers.Common.Domain;
 using Organizers.Common.UseCases;
-using Organizers.MovOrg.Domain;
 
 using System;
 using System.Collections.Generic;
@@ -10,87 +9,92 @@ using System.Reflection;
 
 namespace Infrastructure.Common
 {
-	public static class EfCoreUtils
+	internal static class EfCoreUtils
 	{
-		public static void UpdateManyToManyLinkAndEntities<T>(IEnumerable<T> disconnectedLinksEnumerable, DbContext dbContext) where T : class
+		private struct LinkPropsInfo
+		{
+			public PropertyInfo id;
+			public PropertyInfo entity;
+		}
+
+		public static void UpdateManyToManyLinkAndEntities<T>(IEnumerable<T> disconnectedLinksEnumerable, DbContext dbContext, Type mainType, Type dependentType) where T : class
 		{
 			var linkType = typeof(T);
-			Type movieType = typeof(Movie);
-			Type entityType = null;
-			PropertyInfo movieIdPropertyInfo = linkType.GetProperty("MovieId");
-			PropertyInfo entityIdPropertyInfo = null;
-			PropertyInfo entityPropertyInfo = null;
-			PropertyInfo linkListMoviePropertyInfo = null;
+			LinkPropsInfo mainPropsInfo = FindLinkEntityPropInfo(linkType, mainType);
+			LinkPropsInfo dependentPropsInfo = FindLinkEntityPropInfo(linkType, dependentType);
+			PropertyInfo mainListLinkPropInfo = FindListPropInMainEntity(linkType, mainType);
 
-			//Busco las propiedades de la entidad, las de la pelicula ya las conozco
-			foreach (var prop in linkType.GetProperties())
-			{
-				if (prop.Name.Equals("MovieId") || prop.Name.Equals("Movie"))
-					continue;
+			//Guards: make sure class has only navigational properties (that is, Movie,MovieId,Entity,EntityId)
+			if (mainListLinkPropInfo == null ||
+				mainPropsInfo.entity == null ||
+				mainPropsInfo.id == null ||
+				dependentPropsInfo.entity == null ||
+				dependentPropsInfo.id == null ||
+				linkType.GetProperties().Length != 4) throw new ArgumentException("Error while trying to get types of many-to-many link entities. Could not find entity type.");
 
-				if (prop.Name.EndsWith("Id"))
-					entityIdPropertyInfo = linkType.GetProperty(prop.Name);
-				else
-				{
-					entityType = prop.PropertyType;
-					entityPropertyInfo = linkType.GetProperty(prop.Name);
-				}
-			}
-			//Busco la propiedad de la lista en la entidad de peliculas
-			var entityListType = typeof(List<>).MakeGenericType(linkType);
-			foreach (var prop in movieType.GetProperties())
-			{
-				if (prop.PropertyType.Equals(entityListType))
-					linkListMoviePropertyInfo = prop;
-			}
-
-			//Guards
-			//TODO: improve guards
-			if (entityType == null || linkType.GetProperties().Length != 4) throw new ArgumentException("Error while trying to get types of many-to-many link entities");
-
-			//TODO: extension method for dbcontext
-			var linkDbSet = dbContext.GetType().GetMethod("Set").MakeGenericMethod(linkType).Invoke(dbContext, null);
-			var movieDbSet = dbContext.GetType().GetMethod("Set").MakeGenericMethod(movieType).Invoke(dbContext, null);
-			var entityDbSet = dbContext.GetType().GetMethod("Set").MakeGenericMethod(entityType).Invoke(dbContext, null);
-
-			var linkDbSetFindMethod = linkDbSet.GetType().GetMethod("Find");
-			var movieDbSetFindMethod = movieDbSet.GetType().GetMethod("Find");
-			var entityDbSetFindMethod = entityDbSet.GetType().GetMethod("Find");
+			dynamic linkDbSet = dbContext.GetDbSetWithReflection(linkType);
+			dynamic mainDbSet = dbContext.GetDbSetWithReflection(mainType);
+			dynamic dependentDbSet = dbContext.GetDbSetWithReflection(dependentPropsInfo.entity.PropertyType);
 
 			//Por cada link desconnectado, miro si existe y si no existe, miro si existen cada uno de los componentes y los creo si son necesarios asi como el link
 			foreach (var link in disconnectedLinksEnumerable)
 			{
-				var movieId = (string)movieIdPropertyInfo.GetValue(link);
-				var entityId = (string)entityIdPropertyInfo.GetValue(link);
-				var existingLink = linkDbSetFindMethod.Invoke(linkDbSet, new object[] { new object[] { movieId, entityId } });
+				var mainId = (string)mainPropsInfo.id.GetValue(link);
+				var dependentId = (string)dependentPropsInfo.id.GetValue(link);
+				var existingLink = linkDbSet.Find(new object[] { mainId, dependentId });
 				if (existingLink != null)
 					continue;
-				UpdateEntity((Entity)entityPropertyInfo.GetValue(link), dbContext);
-				var existingEntity = entityDbSetFindMethod.Invoke(entityDbSet, new object[] { new object[] { entityId } });
-				if (existingEntity == null) throw new RepositoryException("Entity not added correctly when updating many to many link");
-				var existingMovie = movieDbSetFindMethod.Invoke(movieDbSet, new object[] { new object[] { movieId } });
-				if (existingMovie == null) throw new RepositoryException("Movie not found when updating many to many link");
+				UpdateEntity((Entity)dependentPropsInfo.entity.GetValue(link), dbContext);
+				var existingDependent = dependentDbSet.Find(new object[] { dependentId });
+				if (existingDependent == null) throw new RepositoryException("Entity not added correctly when updating many to many link");
+				var existingMain = mainDbSet.Find(new object[] { mainId });
+				if (existingMain == null) throw new RepositoryException("Movie not found when updating many to many link");
 
 				var newLink = Activator.CreateInstance(linkType);
-				linkType.GetProperty("MovieId").SetValue(newLink, movieId);
-				linkType.GetProperty("Movie").SetValue(newLink, existingMovie);
-				entityIdPropertyInfo.SetValue(newLink, entityId);
-				entityPropertyInfo.SetValue(newLink, existingEntity);
-				var existingMovieLinkList = linkListMoviePropertyInfo.GetValue(existingMovie);
-				typeof(List<>).MakeGenericType(linkType).GetMethod("Add").Invoke(existingMovieLinkList, new object[] { newLink });
+				mainPropsInfo.id.SetValue(newLink, mainId);
+				mainPropsInfo.entity.SetValue(newLink, existingMain);
+				dependentPropsInfo.id.SetValue(newLink, dependentId);
+				dependentPropsInfo.entity.SetValue(newLink, existingDependent);
+				var existingMovieLinkList = mainListLinkPropInfo.GetValue(existingMain);
+				mainListLinkPropInfo.PropertyType.GetMethod("Add").Invoke(existingMovieLinkList, new object[] { newLink });
 			}
+		}
+
+		private static PropertyInfo FindListPropInMainEntity(Type linkType, Type mainType)
+		{
+			var entityListType = typeof(List<>).MakeGenericType(linkType);
+			foreach (var prop in mainType.GetProperties())
+			{
+				if (prop.PropertyType.Equals(entityListType))
+					return prop;
+			}
+
+			return null;
+		}
+
+		private static LinkPropsInfo FindLinkEntityPropInfo(Type linkType, Type entityType)
+		{
+			LinkPropsInfo linkEntityPropsInfo = new LinkPropsInfo();
+
+			foreach (var prop in linkType.GetProperties())
+			{
+				if (prop.PropertyType == entityType)
+					linkEntityPropsInfo.entity = prop;
+				else if (prop.PropertyType != entityType && prop.Name.Contains(entityType.Name) && prop.Name.Substring(prop.Name.Length - 2).Equals("Id"))
+					linkEntityPropsInfo.id = linkType.GetProperty(prop.Name);
+			}
+
+			return linkEntityPropsInfo;
 		}
 
 		//TODO: https://stackoverflow.com/questions/16153047/net-invoke-async-method-and-await
 		public static void UpdateEntity(Entity entity, DbContext dbContext)
 		{
 			var superEntityType = entity.GetType();
-			var dbSet = dbContext.GetType().GetMethod("Set").MakeGenericMethod(superEntityType).Invoke(dbContext, null);
-			var parameterArray = new object[] { new object[] { entity.Id } };
+			dynamic dbSet = dbContext.GetDbSetWithReflection(superEntityType);
 			var dbsetType = dbSet.GetType();
-			var findMethod = dbsetType.GetMethod("Find");
+			var existingEntity = dbSet.Find(new object[] { entity.Id });
 
-			var existingEntity = findMethod.Invoke(dbSet, parameterArray);
 			if (existingEntity == null)
 			{
 				var addMethod = dbsetType.GetMethod("Add");
