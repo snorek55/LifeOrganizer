@@ -22,6 +22,7 @@ namespace Infrastructure.Common
 			PropertyInfo entityPropertyInfo = null;
 			PropertyInfo linkListMoviePropertyInfo = null;
 
+			//Busco las propiedades de la entidad, las de la pelicula ya las conozco
 			foreach (var prop in linkType.GetProperties())
 			{
 				if (prop.Name.Equals("MovieId") || prop.Name.Equals("Movie"))
@@ -35,6 +36,7 @@ namespace Infrastructure.Common
 					entityPropertyInfo = linkType.GetProperty(prop.Name);
 				}
 			}
+			//Busco la propiedad de la lista en la entidad de peliculas
 			var entityListType = typeof(List<>).MakeGenericType(linkType);
 			foreach (var prop in movieType.GetProperties())
 			{
@@ -42,6 +44,7 @@ namespace Infrastructure.Common
 					linkListMoviePropertyInfo = prop;
 			}
 
+			//Guards
 			//TODO: improve guards
 			if (entityType == null || linkType.GetProperties().Length != 4) throw new ArgumentException("Error while trying to get types of many-to-many link entities");
 
@@ -54,6 +57,7 @@ namespace Infrastructure.Common
 			var movieDbSetFindMethod = movieDbSet.GetType().GetMethod("Find");
 			var entityDbSetFindMethod = entityDbSet.GetType().GetMethod("Find");
 
+			//Por cada link desconnectado, miro si existe y si no existe, miro si existen cada uno de los componentes y los creo si son necesarios asi como el link
 			foreach (var link in disconnectedLinksEnumerable)
 			{
 				var movieId = (string)movieIdPropertyInfo.GetValue(link);

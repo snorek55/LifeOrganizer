@@ -70,7 +70,7 @@ namespace Tests.Unit
 				return options.UseSqlite(connection)
 					.EnableSensitiveDataLogging();
 			}
-			else if (Config is Config)
+			else if (Config is IntegrationTestConfig)
 				return options.UseSqlServer(connString)
 						.EnableSensitiveDataLogging();
 			else
@@ -136,7 +136,7 @@ namespace Tests.Unit
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MoviesDirectors.Find(movieUnderTest.Id, testDirectorSeeded.Id);
-			Assert.IsNotNull(existingMovie);
+			Assert.AreEqual(movieUnderTest, existingMovie);
 			Assert.IsNotNull(existingRelation);
 		}
 
@@ -160,7 +160,7 @@ namespace Tests.Unit
 			var existingDirector = MoviesContext.Directors.Find(testDirectorNotSeeded.Id);
 
 			Assert.IsNotNull(existingRelation);
-			Assert.IsNotNull(existingDirector);
+			Assert.AreEqual(testDirectorNotSeeded, existingDirector);
 		}
 
 		[TestMethod]
@@ -188,7 +188,7 @@ namespace Tests.Unit
 			Assert.IsNotNull(existingFirstRelation);
 			Assert.IsNotNull(existingSecondRelation);
 			Assert.IsNotNull(existingSecondDirector);
-			Assert.AreEqual(2, existingMovie.DirectorList.Count);
+			Assert.AreEqual(movieUnderTest, existingMovie);
 		}
 
 		[TestMethod]
@@ -201,7 +201,6 @@ namespace Tests.Unit
 			await LocalRepo.UpdateMovieDetails(newMovie);
 		}
 
-		//TODO: make sure all data is persisted
 		[TestMethod]
 		public async Task UpdateMovieDetails_ShoulAddNewMovieActor_WhenOtherExistsPreviously()
 		{
@@ -227,9 +226,7 @@ namespace Tests.Unit
 			Assert.IsNotNull(existingFirstRelation);
 			Assert.IsNotNull(existingSecondRelation);
 			Assert.IsNotNull(existingSecondActor);
-			Assert.AreEqual(2, existingMovie.ActorList.Count);
-			Assert.IsNotNull(existingFirstRelation.Actor);
-			Assert.IsNotNull(existingSecondRelation.Actor);
+			Assert.AreEqual(movieUnderTest, existingMovie);
 		}
 
 		#endregion UpdateMovieDetails
@@ -241,10 +238,7 @@ namespace Tests.Unit
 			var movieUnderTest = testMovieSeededWithDetails;
 			var actualMovie = await LocalRepo.GetMovieDetailsById(movieUnderTest.Id);
 
-			//TODO: should make sure all details are in there, I should make a comparer or something...
-			Assert.AreEqual(movieUnderTest.Id, actualMovie.Id);
-			Assert.AreEqual(movieUnderTest.DirectorList.Count, actualMovie.DirectorList.Count);
-			Assert.AreEqual(movieUnderTest.ActorList.Count, actualMovie.ActorList.Count);
+			Assert.AreEqual(movieUnderTest, actualMovie);
 		}
 
 		[TestMethod]

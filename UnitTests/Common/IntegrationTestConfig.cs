@@ -2,12 +2,11 @@
 
 namespace Tests.Common
 {
-	public class UnitTestConfig : Config
+	public class IntegrationTestConfig : Config
 	{
 		public override string GetConnectionString()
 		{
-			//SQLite in memory db
-			return "DataSource =:memory:";
+			return @"Data Source=(LocalDB)\MSSQLLocalDB;Database=LifeOrganizerDBTest;";
 		}
 
 		public override string GetIMDbApiKey()

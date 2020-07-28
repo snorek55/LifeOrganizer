@@ -48,7 +48,7 @@ namespace EntryPoint
 			}
 		}
 
-		public string GetConnectionString()
+		public virtual string GetConnectionString()
 		{
 			//Workaround for Migrations because ConfigurationManager returns null
 			var configuration = new ConfigurationBuilder()
@@ -59,7 +59,7 @@ namespace EntryPoint
 			return connString;
 		}
 
-		public string GetIMDbApiKey()
+		public virtual string GetIMDbApiKey()
 		{
 			return ConfigurationManager.AppSettings["IMDbApiKey"];
 		}

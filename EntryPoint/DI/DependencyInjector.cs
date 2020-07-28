@@ -11,6 +11,7 @@ using Infrastructure.EFCore;
 using Infrastructure.MovOrg.APIs;
 using Infrastructure.MovOrg.EFCore;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 using Organizers.Common;
@@ -70,8 +71,13 @@ namespace EntryPoint.DI
 
 			services.AddSingleton<IDbContextScopeFactory>(provider =>
 			{
-				var dependency = provider.GetRequiredService<DbContextFactory>();
-				return new DbContextScopeFactory(dependency);
+				var dependency = provider.GetRequiredService<IConfig>();
+				var dbOptions = new DbContextOptionsBuilder<MoviesContext>().UseSqlServer(dependency.GetConnectionString())
+						.EnableSensitiveDataLogging();
+
+				var dbContextFactory = new DbContextFactory(dbOptions);
+
+				return new DbContextScopeFactory(dbContextFactory);
 			});
 		}
 
