@@ -162,7 +162,13 @@ namespace Organizers.MovOrg.Adapters.Sections
 			if (OnlyTop250)
 				conditions &= movie.Rank != null && movie.Rank > 0;
 			if (!string.IsNullOrEmpty(suggestedTitleFilter))
-				conditions &= movie.Title.Contains(suggestedTitleFilter);
+			{
+				var titleContainsFilter = movie.Title.Contains(suggestedTitleFilter);
+				var descriptionContainsFilter = false;
+				if (movie.Description != null)
+					descriptionContainsFilter = movie.Description.Contains(suggestedTitleFilter);
+				conditions &= titleContainsFilter || descriptionContainsFilter;
+			}
 
 			return conditions;
 		}

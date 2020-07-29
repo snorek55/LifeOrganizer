@@ -71,7 +71,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		private void ShowTrailer()
 		{
-			Process.Start("explorer.exe", SelectedMovie.TrailerLinkEmbed);
+			Process.Start("explorer.exe", SelectedMovie.Trailer.LinkEmbed);
 		}
 
 		private void GoToIMDbPage()

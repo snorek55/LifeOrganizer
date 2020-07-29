@@ -72,18 +72,14 @@
                 </StackPanel>
 
                 <Canvas Width="300" Height="300">
-                    <Viewbox Canvas.Left="1"
-                             Canvas.Top="1"
-                             Width="300"
-                             Height="300">
-                        <Image Source="{Binding SelectedMovie.TrailerThumbnailUrl}" />
-                    </Viewbox>
 
+                    <ContentControl Content="{Binding SelectedMovie.Trailer}" />
                     <Button Canvas.Left="120"
                             Canvas.Top="120"
                             Background="{DynamicResource MaterialDesignDarkBackground}"
                             Command="{Binding TrailerCommand}"
                             Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+
                         <materialDesign:PackIcon Kind="Play" />
                     </Button>
                 </Canvas>
@@ -144,36 +140,7 @@
                 </Expander>
 
                 <Expander Header="Budget">
-
-                    <Grid Margin="5" Background="DarkRed">
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Text="Presupuesto" />
-                        <TextBlock Grid.Column="1" Text="{Binding SelectedMovie.BoxOfficeBudget}" />
-                        <TextBlock Grid.Row="1" Text="Opening Wekeend USA" />
-                        <TextBlock Text="{Binding SelectedMovie.BoxOfficeOpeningWeekendUSA}"
-                                   Grid.Row="1"
-                                   Grid.Column="1" />
-                        <TextBlock Grid.Row="2" Text="Gross USA" />
-                        <TextBlock Text="{Binding SelectedMovie.BoxOfficeGrossUsa}"
-                                   Grid.Row="2"
-                                   Grid.Column="1" />
-                        <TextBlock Grid.Row="3" Text="Cumulative WorldWide Gross" />
-                        <TextBlock Text="{Binding SelectedMovie.BoxOfficeCumulativeWorldwideGross}"
-                                   Grid.Row="3"
-                                   Grid.Column="1" />
-                    </Grid>
+                    <ContentPresenter Content="{Binding SelectedMovie.BoxOffice}" />
                 </Expander>
 
                 <Expander Header="Cast Crew">

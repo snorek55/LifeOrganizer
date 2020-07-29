@@ -84,4 +84,45 @@
             </TextBlock>
         </StackPanel>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type itemsAdapters:BoxOfficeViewModel}">
+        <Grid Margin="5" Background="DarkRed">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Presupuesto" />
+            <TextBlock Grid.Column="1" Text="{Binding Budget}" />
+            <TextBlock Grid.Row="1" Text="Opening Wekeend USA" />
+            <TextBlock Text="{Binding OpeningWeekendUSA}"
+                       Grid.Row="1"
+                       Grid.Column="1" />
+            <TextBlock Grid.Row="2" Text="Gross USA" />
+            <TextBlock Text="{Binding GrossUsa}"
+                       Grid.Row="2"
+                       Grid.Column="1" />
+            <TextBlock Grid.Row="3" Text="Cumulative WorldWide Gross" />
+            <TextBlock Text="{Binding CumulativeWorldwideGross}"
+                       Grid.Row="3"
+                       Grid.Column="1" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type itemsAdapters:TrailerViewModel}">
+        <Viewbox Canvas.Left="1"
+                 Canvas.Top="1"
+                 Width="300"
+                 Height="300">
+            <Image Source="{Binding ThumbnailUrl}" />
+        </Viewbox>
+    </DataTemplate>
 </ResourceDictionary>

@@ -87,7 +87,6 @@ namespace Infrastructure.Common
 			return linkEntityPropsInfo;
 		}
 
-		//TODO: https://stackoverflow.com/questions/16153047/net-invoke-async-method-and-await
 		public static void UpdateEntity(Entity entity, DbContext dbContext)
 		{
 			var superEntityType = entity.GetType();

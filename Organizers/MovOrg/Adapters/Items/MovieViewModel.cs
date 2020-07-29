@@ -25,6 +25,8 @@ namespace Organizers.MovOrg.Adapters.Items
 
 		public string Plot { get; set; }
 
+		public string Description { get; set; } = "";
+
 		public string Year { get; set; }
 
 		public string Tagline { get; set; }
@@ -47,19 +49,9 @@ namespace Organizers.MovOrg.Adapters.Items
 
 		public string LastUpdatedDetails { get; set; }
 
-		//TODO: include in Box office data object
+		public BoxOfficeViewModel BoxOffice { get; set; }
 
-		public string BoxOfficeBudget { get; set; }
-
-		public string BoxOfficeOpeningWeekendUSA { get; set; }
-
-		public string BoxOfficeGrossUsa { get; set; }
-
-		public string BoxOfficeCumulativeWorldwideGross { get; set; }
-
-		public string TrailerThumbnailUrl { get; set; }
-
-		public string TrailerLinkEmbed { get; set; }
+		public TrailerViewModel Trailer { get; set; }
 
 		public List<DirectorViewModel> DirectorList { get; set; }
 

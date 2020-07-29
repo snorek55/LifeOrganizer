@@ -90,7 +90,7 @@ namespace Organizers.MovOrg.Domain
 				   Languages == other.Languages &&
 				   LastUpdatedTop250 == other.LastUpdatedTop250 &&
 				   IsTop250 == other.IsTop250 &&
-				   //TODO: time is not the same and makes more difficult to compare on testing. What to do?
+				   //TODO: time is not the same and makes more difficult to compare on testing. What to do? Fake Datetime
 				   //  LastUpdatedDetails == other.LastUpdatedDetails &&
 				   AreDetailsAvailable == other.AreDetailsAvailable &&
 				   ReleaseDate == other.ReleaseDate &&

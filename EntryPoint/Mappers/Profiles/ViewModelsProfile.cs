@@ -10,6 +10,8 @@ namespace EntryPoint.Mapper.Profiles
 		public ViewModelsProfile()
 		{
 			CreateMap<Movie, MovieViewModel>();
+			CreateMap<BoxOffice, BoxOfficeViewModel>();
+			CreateMap<Trailer, TrailerViewModel>();
 
 			CreateMap<MovieDirector, DirectorViewModel>()
 				.ForMember(d => d.Id, opt => opt.MapFrom(s => s.DirectorId))

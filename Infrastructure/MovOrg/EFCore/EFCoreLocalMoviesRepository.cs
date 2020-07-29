@@ -45,7 +45,10 @@ namespace Infrastructure.MovOrg.EFCore
 
 		public async Task<IEnumerable<Movie>> GetAllMovies()
 		{
-			return await DbContext.Movies.ToListAsync();
+			return await DbContext.Movies
+							.Include(x => x.BoxOffice)
+							.Include(x => x.Trailer)
+							.ToListAsync();
 		}
 
 		public async Task<Movie> GetMovieDetailsById(string id)
