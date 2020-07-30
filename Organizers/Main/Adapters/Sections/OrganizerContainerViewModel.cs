@@ -3,6 +3,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Windows.Input;
 
 namespace Organizers.Main.Adapters.Sections
 {
@@ -20,6 +21,8 @@ namespace Organizers.Main.Adapters.Sections
 
 		public bool HasError { get; set; }
 
+		public ICommand ClearErrorsCommand { get => new SyncCommand(() => ClearAllInfo()); }
+
 		public OrganizerContainerViewModel(ISectionsFactory sectionsFactory)
 		{
 			SectionsFactory = sectionsFactory;
@@ -28,8 +31,7 @@ namespace Organizers.Main.Adapters.Sections
 
 		public void NotifyError(Exception ex)
 		{
-			ErrorMessage = ex.ToString();
-			Debug.WriteLine(ErrorMessage);
+			NotifyError(ex.ToString());
 		}
 
 		public void NotifyError(string error)
@@ -51,6 +53,12 @@ namespace Organizers.Main.Adapters.Sections
 		public void NotifyItemCount(int count)
 		{
 			TotalItemCount = count;
+		}
+
+		public void ClearAllInfo()
+		{
+			ErrorMessage = string.Empty;
+			StatusMessage = string.Empty;
 		}
 	}
 }

@@ -5,6 +5,11 @@ namespace Organizers.Common.Adapters
 {
 	internal class BaseErrorHandler : INotificationHandler
 	{
+		public void ClearAllInfo()
+		{
+			return;
+		}
+
 		public void NotifyError(Exception ex)
 		{
 			Debug.WriteLine(ex);

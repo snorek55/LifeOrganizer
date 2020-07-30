@@ -38,6 +38,8 @@
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
@@ -53,6 +55,9 @@
             <Separator Grid.Column="3" />
             <StatusBarItem Grid.Column="4">
                 <TextBlock Text="{Binding ErrorMessage, UpdateSourceTrigger=PropertyChanged}" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="8">
+                <Button Command="{Binding ClearErrorsCommand}" Content="X" />
             </StatusBarItem>
         </StatusBar>
     </Grid>

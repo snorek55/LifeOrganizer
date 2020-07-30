@@ -13,5 +13,7 @@ namespace Organizers.Common.Adapters
 		void NotifyWait();
 
 		void NotifyItemCount(int count);
+
+		void ClearAllInfo();
 	}
 }
