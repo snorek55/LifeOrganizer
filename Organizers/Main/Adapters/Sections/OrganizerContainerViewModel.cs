@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Organizers.Main.Adapters.Sections
 {
@@ -28,11 +29,13 @@ namespace Organizers.Main.Adapters.Sections
 		public void NotifyError(Exception ex)
 		{
 			ErrorMessage = ex.ToString();
+			Debug.WriteLine(ErrorMessage);
 		}
 
 		public void NotifyError(string error)
 		{
 			ErrorMessage = error;
+			Debug.WriteLine(ErrorMessage);
 		}
 
 		public void NotifyStatus(string message)

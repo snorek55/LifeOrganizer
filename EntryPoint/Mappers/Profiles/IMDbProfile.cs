@@ -19,7 +19,7 @@ namespace EntryPoint.Mapper.Profiles
 				.Ignore(d => d.IsFavorite)
 				.Ignore(d => d.IsWatched)
 				.Ignore(d => d.IsMustWatch)
-				.Ignore(d => d.Ratings) //TODO: can conversion be done here?
+				.Ignore(d => d.Ratings)
 				.AfterMap((src, dest) => dest.BoxOffice.Movie = dest)
 				.AfterMap((src, dest) => dest.BoxOffice.Id = dest.Id)
 				.AfterMap((src, dest) => dest.Trailer.Id = dest.Id)

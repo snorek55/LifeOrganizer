@@ -7,9 +7,11 @@ namespace Organizers.MovOrg.Domain
 	public class Rating : Entity, IEquatable<Rating>
 	{
 		public float? Score { get; set; }
+
+		public string MovieId { get; set; }
 		public Movie Movie { get; set; }
 
-		public int RatingSourceId { get; set; }
+		public string RatingSourceId { get; set; }
 		public RatingSource RatingSource { get; set; }
 
 		public override bool Equals(object obj)
@@ -20,7 +22,6 @@ namespace Organizers.MovOrg.Domain
 		public bool Equals(Rating other)
 		{
 			return other != null &&
-				   Id == other.Id &&
 				   Score == other.Score &&
 				   Movie.Id == other.Movie.Id &&
 				   RatingSourceId == other.RatingSourceId;
@@ -28,7 +29,7 @@ namespace Organizers.MovOrg.Domain
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Score, Movie.Id, RatingSourceId);
+			return HashCode.Combine(Score, Movie.Id, RatingSourceId);
 		}
 	}
 }

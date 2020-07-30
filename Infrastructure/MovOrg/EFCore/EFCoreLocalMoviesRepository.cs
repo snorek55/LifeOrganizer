@@ -74,7 +74,7 @@ namespace Infrastructure.MovOrg.EFCore
 		public async Task UpdateMovieDetails(Movie movie)
 		{
 			await UpdateMovie(movie);
-			var persistentMovie = await DbContext.Movies.FindAsync(movie.Id);
+			var persistentMovie = await GetMovieDetailsById(movie.Id);
 			persistentMovie.LastUpdatedDetails = DateTime.Now;
 			movie.LastUpdatedDetails = DateTime.Now;
 		}
@@ -111,7 +111,32 @@ namespace Infrastructure.MovOrg.EFCore
 
 		public async Task<IEnumerable<RatingSource>> GetRatingSources()
 		{
+			var count = await DbContext.RatingSources.CountAsync();
+			if (count < 6)
+				await AddAndSaveDefaultRatingSources();
+
 			return await DbContext.RatingSources.ToListAsync();
+		}
+
+		private async Task AddAndSaveDefaultRatingSources()
+		{
+			var list = await DbContext.RatingSources.ToListAsync();
+			var count = 1;
+			foreach (var source in Enum.GetNames(typeof(DefaultRatingSources)))
+			{
+				if (list.Find(x => x.Name == source) == null)
+				{
+					DbContext.Add(
+								new RatingSource
+								{
+									Id = count.ToString(),
+									Name = source
+								});
+				}
+				count++;
+			}
+
+			DbContext.SaveChanges();
 		}
 
 		private async Task UpdateMovie(Movie movie)
@@ -131,10 +156,19 @@ namespace Infrastructure.MovOrg.EFCore
 			var lastUpdatedTop = existingMovie.LastUpdatedTop250;
 			var rank = existingMovie.Rank;
 			var lastUpdatedDetails = existingMovie.LastUpdatedDetails;
+			var mustWatch = existingMovie.IsMustWatch;
+			var watched = existingMovie.IsWatched;
+			var fav = existingMovie.IsFavorite;
 			DbContext.Entry(existingMovie).CurrentValues.SetValues(movie);
 			existingMovie.LastUpdatedTop250 = lastUpdatedTop;
 			existingMovie.Rank = rank;
 			existingMovie.LastUpdatedDetails = lastUpdatedDetails;
+			existingMovie.IsMustWatch = mustWatch;
+			existingMovie.IsWatched = watched;
+			existingMovie.IsFavorite = fav;
+			existingMovie.BoxOffice = movie.BoxOffice;
+			existingMovie.Trailer = movie.Trailer;
+
 			UpdateRelatedInfo(movie);
 
 			UpdateRatings(movie, existingMovie);
@@ -142,8 +176,6 @@ namespace Infrastructure.MovOrg.EFCore
 
 		private void UpdateRelatedInfo(Movie movie)
 		{
-			movie.BoxOffice = movie.BoxOffice;
-			movie.Trailer = movie.Trailer;
 			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.DirectorList, DbContext, typeof(Movie), typeof(Director));
 			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.ActorList, DbContext, typeof(Movie), typeof(Actor));
 			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.WriterList, DbContext, typeof(Movie), typeof(Writer));
@@ -154,12 +186,12 @@ namespace Infrastructure.MovOrg.EFCore
 		{
 			foreach (var rating in movie.Ratings)
 			{
-				Rating existingRating = DbContext.Ratings.Find(rating.Id, rating.RatingSourceId);
+				Rating existingRating = DbContext.Ratings.Find(rating.MovieId, rating.RatingSourceId);
 				if (existingRating == null)
 				{
 					rating.Movie = existingMovie;
 					DbContext.Ratings.Add(rating);
-					existingRating = DbContext.Ratings.Find(rating.Id, rating.RatingSourceId);
+					existingRating = DbContext.Ratings.Find(rating.MovieId, rating.RatingSourceId);
 				}
 
 				existingMovie.Ratings.Add(existingRating);

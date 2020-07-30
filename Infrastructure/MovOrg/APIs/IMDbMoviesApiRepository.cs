@@ -33,8 +33,6 @@ namespace Infrastructure.MovOrg.APIs
 		public async Task<IEnumerable<Movie>> GetMoviesFromSuggestedTitle(string suggestedTitle)
 		{
 			Ensure.IsNotNull(suggestedTitle);
-			//TODO:filter does not work
-			//TODO: ratings do not work because there is no info about rating sources...must update somehow
 			var data = await apiLib.SearchMovieAsync(suggestedTitle);
 			ThrowIfError(data.ErrorMessage);
 			return mapper.Map<IEnumerable<Movie>>(data.Results);
@@ -67,6 +65,7 @@ namespace Infrastructure.MovOrg.APIs
 		{
 			var ratings = new List<Rating>();
 			var sources = await localMoviesRepository.GetRatingSources();
+			var i = 1;
 			foreach (var source in sources)
 			{
 				var property = data.GetType().GetProperties().ToList().Single(x => x.Name.Equals(source.Name, StringComparison.OrdinalIgnoreCase));
@@ -80,14 +79,17 @@ namespace Infrastructure.MovOrg.APIs
 				var rating = new Rating
 				{
 					RatingSource = source,
-					RatingSourceId = Convert.ToInt32(source.Id),
+					RatingSourceId = source.Id,
 					Movie = movie,
-					Id = movie.Id,
+					MovieId = movie.Id,
+					Id = i.ToString(),
 					Score = floatScore
 				};
 
 				ratings.Add(rating);
+				i++;
 			}
+
 			movie.Ratings = ratings;
 		}
 

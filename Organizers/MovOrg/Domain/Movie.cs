@@ -49,7 +49,12 @@ namespace Organizers.MovOrg.Domain
 		public List<MovieCompany> CompanyList { get; set; } = new List<MovieCompany>();
 
 		public List<MovieWriter> WriterList { get; set; } = new List<MovieWriter>();
-		public List<Rating> Ratings { get; set; } = new List<Rating>();
+
+		public List<Rating> Ratings
+		{
+			get;
+			set;
+		} = new List<Rating>();
 
 		#endregion Related data
 

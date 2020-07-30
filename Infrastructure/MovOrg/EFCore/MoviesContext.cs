@@ -1,6 +1,7 @@
 ﻿using EntityFramework.DbContextScope.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 using Organizers.MovOrg.Domain;
 
@@ -8,6 +9,10 @@ namespace Infrastructure.EFCore
 {
 	public class MoviesContext : DbContext, IDbContext
 	{
+		public static readonly LoggerFactory _myLoggerFactory = new LoggerFactory(new[] {
+		new Microsoft.Extensions.Logging.Debug.DebugLoggerProvider()
+	});
+
 		public DbSet<Movie> Movies { get; set; }
 
 		public DbSet<BoxOffice> BoxOffices { get; set; }
@@ -35,6 +40,11 @@ namespace Infrastructure.EFCore
 		{
 		}
 
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+			optionsBuilder.UseLoggerFactory(_myLoggerFactory);
+		}
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<MovieDirector>()
@@ -50,17 +60,17 @@ namespace Infrastructure.EFCore
 						.HasKey(c => new { c.MovieId, c.WriterId });
 
 			modelBuilder.Entity<Rating>()
-				.HasKey(c => new { c.Id, c.RatingSourceId });
+				.HasKey(c => new { c.MovieId, c.RatingSourceId });
 
 			modelBuilder.Entity<Rating>()
 				.HasOne(x => x.Movie)
 				.WithMany(x => x.Ratings)
-				.HasForeignKey(x => x.Id);
+				.HasForeignKey(x => x.MovieId);
 
 			modelBuilder.Entity<RatingSource>()
 				.HasMany(x => x.Ratings)
 				.WithOne(x => x.RatingSource)
-				.HasForeignKey(x => x.Id);
+				.HasForeignKey(x => x.RatingSourceId);
 
 			modelBuilder.Entity<Movie>()
 				.HasOne(x => x.BoxOffice)

@@ -82,17 +82,16 @@ namespace Organizers.MovOrg.UseCases
 				using var context = dbContextScopeFactory.Create();
 				bool areDetailsAvailableInLocal = await localRepository.AreDetailsAvailableFor(id);
 				Movie movie = null;
-				if (areDetailsAvailableInLocal && !forceUpdateFromApi)
-				{
-					movie = await localRepository.GetMovieDetailsById(id);
-				}
-				else
+				if (!areDetailsAvailableInLocal || forceUpdateFromApi)
 				{
 					movie = await apiRepository.GetMovieDetailsById(id);
 					await localRepository.UpdateMovieDetails(movie);
-					await context.SaveChangesAsync();
 				}
-
+				else
+				{
+					movie = await localRepository.GetMovieDetailsById(id);
+				}
+				await context.SaveChangesAsync();
 				return new GetMovieDetailsResponse(movie);
 			}
 			catch (RepositoryException ex)

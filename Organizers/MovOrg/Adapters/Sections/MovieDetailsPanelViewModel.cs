@@ -10,9 +10,10 @@ namespace Organizers.MovOrg.Adapters.Sections
 {
 	public class MovieDetailsPanelViewModel : BaseViewModel
 	{
+		//TODO: style. All commands must be create on get method to make sure notifications handler is updated
 		public MovieViewModel SelectedMovie { get; set; }
 
-		public ICommand UpdateMovieCommand { get; private set; }
+		public ICommand UpdateMovieCommand { get => new AsyncCommand(UpdateCurrentMovieAsync, parent.NotificationsHandler); }
 		public ICommand WikipediaCommand { get; private set; }
 		public ICommand IMDbCommand { get; private set; }
 		public ICommand TrailerCommand { get; private set; }
@@ -28,7 +29,6 @@ namespace Organizers.MovOrg.Adapters.Sections
 		{
 			this.parent = parent;
 			this.service = service;
-			UpdateMovieCommand = new AsyncCommand(UpdateCurrentMovieAsync, parent.NotificationsHandler);
 			WikipediaCommand = new SyncCommand(GoToWikipedia);
 			IMDbCommand = new SyncCommand(GoToIMDbPage);
 			TrailerCommand = new SyncCommand(ShowTrailer);

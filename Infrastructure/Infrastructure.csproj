@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200729181350_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200729181350_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200730131445_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200730131445_InitialCreate.Designer.cs" />
     <Compile Remove="MovOrg\IMDBMoviesRepository.cs" />
   </ItemGroup>
 
