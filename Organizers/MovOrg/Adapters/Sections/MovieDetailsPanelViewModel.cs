@@ -14,12 +14,12 @@ namespace Organizers.MovOrg.Adapters.Sections
 		public MovieViewModel SelectedMovie { get; set; }
 
 		public ICommand UpdateMovieCommand { get => new AsyncCommand(UpdateCurrentMovieAsync, parent.NotificationsHandler); }
-		public ICommand WikipediaCommand { get; private set; }
-		public ICommand IMDbCommand { get; private set; }
-		public ICommand TrailerCommand { get; private set; }
-		public ICommand IsFavoriteCommand { get; private set; }
-		public ICommand IsMustWatchCommand { get; private set; }
-		public ICommand IsWatchedCommand { get; private set; }
+		public ICommand WikipediaCommand { get => new SyncCommand(GoToWikipedia); }
+		public ICommand IMDbCommand { get => new SyncCommand(GoToIMDbPage); }
+		public ICommand TrailerCommand { get => new SyncCommand(ShowTrailer); }
+		public ICommand IsFavoriteCommand { get => new SyncCommand(UpdateFavoriteStatus); }
+		public ICommand IsMustWatchCommand { get => new SyncCommand(UpdateMustWatch); }
+		public ICommand IsWatchedCommand { get => new SyncCommand(UpdateWatched); }
 
 		private MoviesSectionViewModel parent;
 
@@ -29,12 +29,6 @@ namespace Organizers.MovOrg.Adapters.Sections
 		{
 			this.parent = parent;
 			this.service = service;
-			WikipediaCommand = new SyncCommand(GoToWikipedia);
-			IMDbCommand = new SyncCommand(GoToIMDbPage);
-			TrailerCommand = new SyncCommand(ShowTrailer);
-			IsFavoriteCommand = new SyncCommand(UpdateFavoriteStatus);
-			IsMustWatchCommand = new SyncCommand(UpdateMustWatch);
-			IsWatchedCommand = new SyncCommand(UpdateWatched);
 		}
 
 		private void UpdateWatched()

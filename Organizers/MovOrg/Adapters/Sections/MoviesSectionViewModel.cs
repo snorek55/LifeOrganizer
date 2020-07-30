@@ -28,11 +28,13 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		#region Commands
 
-		public ICommand SearchCommand { get; }
-		public ICommand ClearSearchCommand { get; }
-		public ICommand Top250Command { get; }
+		public ICommand SearchCommand { get => new AsyncCommand(SearchMoviesWithChosenTitleAsync, NotificationsHandler); }
 
-		public ICommand SortAlphabeticallyCommand { get; }
+		public ICommand ClearSearchCommand { get => new AsyncCommand(ClearSearchAsync, NotificationsHandler); }
+
+		public ICommand Top250Command { get => new AsyncCommand(SearchTop250MoviesAsync, NotificationsHandler); }
+
+		public ICommand SortAlphabeticallyCommand { get => new SyncCommand(SortAlphabetically); }
 
 		#endregion Commands
 
@@ -77,10 +79,6 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 			MovieDetailsPanel = new MovieDetailsPanelViewModel(moviesService, this);
 
-			SearchCommand = new AsyncCommand(SearchMoviesWithChosenTitleAsync, NotificationsHandler);
-			ClearSearchCommand = new AsyncCommand(ClearSearchAsync, NotificationsHandler);
-			Top250Command = new AsyncCommand(SearchTop250MoviesAsync, NotificationsHandler);
-			SortAlphabeticallyCommand = new SyncCommand(SortAlphabetically);
 			moviesCollectionView = CollectionViewSource.GetDefaultView(Movies);
 			moviesCollectionView.Filter = new Predicate<object>(x => MovieFiltering(x as MovieViewModel));
 
