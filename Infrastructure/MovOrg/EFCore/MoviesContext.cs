@@ -42,7 +42,7 @@ namespace Infrastructure.EFCore
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseLoggerFactory(_myLoggerFactory);
+			//optionsBuilder.UseLoggerFactory(_myLoggerFactory);
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

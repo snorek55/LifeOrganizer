@@ -60,12 +60,19 @@
 
     <DataTemplate DataType="{x:Type itemsAdapters:ActorViewModel}">
         <StackPanel x:Name="Panel">
-            <TextBlock Text="{Binding Name}" />
-            <TextBlock Text=" As " />
-            <TextBlock Text="{Binding AsCharacter}" />
-            <Image x:Name="ActorImage" Source="{Binding ImageUrl}">
-                <!--  TODO: must do some enlarging when user clicks on image or smt  -->
-            </Image>
+            <TextBlock Text="{Binding Name}"
+                       HorizontalAlignment="Center"
+                       FontWeight="Bold" />
+            <TextBlock Text="{Binding AsCharacter}"
+                       HorizontalAlignment="Center"
+                       FontStyle="Italic" />
+
+            <Image Width="200"
+                   Height="200"
+                   HorizontalAlignment="Center"
+                   Source="{Binding ImageUrl}" />
+
+            <!--  TODO: must do some enlarging when user clicks on image or smt  -->
         </StackPanel>
     </DataTemplate>
 
@@ -100,7 +107,7 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Presupuesto" />
+            <TextBlock Text="Budget" />
             <TextBlock Grid.Column="1" Text="{Binding Budget}" />
             <TextBlock Grid.Row="1" Text="Opening Wekeend USA" />
             <TextBlock Text="{Binding OpeningWeekendUSA}"

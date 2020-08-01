@@ -3,32 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:common="[common ]clr-namespace:DesktopGui.Common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:designTemplates="clr-namespace:DesktopGui.MovOrg.DesignDataTemplates"
              xmlns:local="clr-namespace:DesktopGui.MovOrg"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance designTemplates:MovieDetailPanelDesignTemplate,
+                                              IsDesignTimeCreatable=True}"
+             d:DesignHeight="800"
+             d:DesignWidth="700"
              mc:Ignorable="d">
-    <Grid>
+    <Grid x:Name="mainGrid" Background="Red">
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <TextBlock Text="{Binding SelectedMovie.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Image Source="{Binding SelectedMovie.Image}">
+            <Grid Margin="5">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Image Grid.Row="0"
+                       Grid.Column="0"
+                       Source="{Binding SelectedMovie.Image}">
                     <Image.Style>
                         <Style TargetType="Image">
                             <Setter Property="Height" Value="300" />
-                            <Setter Property="Width" Value="300" />
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Height" Value="800" />
-                                    <Setter Property="Width" Value="800" />
-                                </Trigger>
-                            </Style.Triggers>
                         </Style>
                     </Image.Style>
                 </Image>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Grid.Row="1"
+                            Grid.Column="0"
+                            Orientation="Horizontal">
                     <Button Content="{materialDesign:PackIcon Kind=Wikipedia}"
                             Margin="5,5,0,0"
                             HorizontalAlignment="Right"
@@ -44,9 +57,19 @@
                             HorizontalAlignment="Right"
                             Command="{Binding IMDbCommand}"
                             Style="{StaticResource MaterialDesignFloatingActionDarkButton}" />
+
+                    <Button Margin="5,5,0,0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding TrailerCommand}"
+                            Style="{StaticResource MaterialDesignFloatingActionDarkButton}">
+
+                        <materialDesign:PackIcon Kind="Play" />
+                    </Button>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Grid.Row="2"
+                            Grid.Column="0"
+                            Orientation="Horizontal">
                     <ToggleButton Command="{Binding IsFavoriteCommand}"
                                   IsChecked="{Binding SelectedMovie.IsFavorite}"
                                   Style="{StaticResource MaterialDesignFlatPrimaryToggleButton}"
@@ -71,112 +94,278 @@
                     </ToggleButton>
                 </StackPanel>
 
-                <Canvas Width="300" Height="300">
+                <StackPanel Grid.Row="0"
+                            Grid.RowSpan="4"
+                            Grid.Column="1"
+                            Margin="5"
+                            Orientation="Vertical">
 
-                    <ContentControl Content="{Binding SelectedMovie.Trailer}" />
-                    <Button Canvas.Left="120"
-                            Canvas.Top="120"
-                            Background="{DynamicResource MaterialDesignDarkBackground}"
-                            Command="{Binding TrailerCommand}"
-                            Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+                    <TextBlock Margin="5" FontFamily="Verdana">
+                        <Run Text="{Binding SelectedMovie.Title}">
+                            <Run.Style>
+                                <Style TargetType="Run">
+                                    <Setter Property="FontWeight" Value="Black" />
+                                </Style>
+                            </Run.Style>
+                        </Run>
+                        <Run Text=" (" />
+                        <Run Text="{Binding SelectedMovie.Year}" />
+                        <Run Text=")" />
+                    </TextBlock>
 
-                        <materialDesign:PackIcon Kind="Play" />
-                    </Button>
-                </Canvas>
+                    <TextBlock Margin="5" Text="{Binding SelectedMovie.Tagline}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontStyle" Value="Italic" />
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
 
-                <Expander Header="Plot">
+                    <Label Margin="5">
+                        <Label.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Height="20" Source="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/IMDb_logo.svg/640px-IMDb_logo.svg.png" />
+                                <TextBlock Text="{Binding SelectedMovie.IMDbRating}" />
+                                <TextBlock Text="/10" />
+                                <materialDesign:PackIcon Kind="Star" />
+                            </StackPanel>
+                        </Label.Content>
+                    </Label>
+
                     <TextBlock Text="{Binding SelectedMovie.Plot}"
+                               Margin="5"
+                               Padding="5"
                                Background="DarkOrange"
+                               TextAlignment="Left"
                                TextWrapping="Wrap" />
-                </Expander>
 
-                <Expander Header="Info">
-                    <StackPanel Margin="5" Background="DarkBlue">
-                        <Label>
-                            <Label.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="Star" />
-                                    <TextBlock Text="{Binding SelectedMovie.IMDbRating}" />
-                                </StackPanel>
-                            </Label.Content>
-                        </Label>
-                        <TextBlock>
-                            <Run Text="Year:" />
-                            <Run Text="{Binding SelectedMovie.Year}" />
-                        </TextBlock>
-                        <TextBlock>
-                            <Run Text="Tagline:" />
-                            <Run Text="{Binding SelectedMovie.Tagline}" />
-                        </TextBlock>
-                        <TextBlock>
-                            <Run Text="Keywords:" />
-                            <Run Text="{Binding SelectedMovie.Keywords}" />
-                        </TextBlock>
-                        <TextBlock>
-                            <Run Text="RuntimeStr:" />
-                            <Run Text="{Binding SelectedMovie.RuntimeStr}" />
-                        </TextBlock>
-                        <TextBlock>
-                            <Run Text="Awards:" />
-                            <Run Text="{Binding SelectedMovie.Awards}" />
-                        </TextBlock>
-                        <TextBlock>
-                            <Run Text="Genres:" />
-                            <Run Text="{Binding SelectedMovie.Genres}" />
-                        </TextBlock>
-                        <TextBlock>
-                            <Run Text="Countries:" />
-                            <Run Text="{Binding SelectedMovie.Countries}" />
-                        </TextBlock>
-                        <TextBlock>
-                            <Run Text="Languages:" />
-                            <Run Text="{Binding SelectedMovie.Languages}" />
-                        </TextBlock>
-                        <TextBlock>
-                            <Run Text="ReleaseDate:" />
-                            <Run Text="{Binding SelectedMovie.ReleaseDate, StringFormat=d, ConverterCulture=es-es}" />
-                        </TextBlock>
-                    </StackPanel>
-                </Expander>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                <Expander Header="Budget">
-                    <ContentPresenter Content="{Binding SelectedMovie.BoxOffice}" />
-                </Expander>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <Border Background="Purple"
+                                    BorderBrush="Black"
+                                    BorderThickness="1">
+                                <TextBlock Text="Info"
+                                           Padding="5"
+                                           HorizontalAlignment="Center"
+                                           FontFamily="Verdana"
+                                           FontSize="16" />
+                            </Border>
 
-                <Expander Header="Cast Crew">
-                    <StackPanel Background="DarkGreen">
-                        <Expander materialDesign:ExpanderAssist.DownHeaderPadding="35,2,24,2" Header="Directors">
-                            <ListView ItemsSource="{Binding SelectedMovie.DirectorList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
-                        </Expander>
-
-                        <Expander materialDesign:ExpanderAssist.DownHeaderPadding="35,2,24,2" Header="Actors">
-                            <ListView ItemsSource="{Binding SelectedMovie.ActorList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Width" Value="300" />
-                                            </Trigger>
-                                        </Style.Triggers>
+                            <UniformGrid Grid.Row="1"
+                                         Margin="0,0,0,5"
+                                         Columns="2">
+                                <UniformGrid.Resources>
+                                    <Style x:Key="LabelBorder" TargetType="Border">
+                                        <Setter Property="BorderBrush" Value="Black" />
+                                        <Setter Property="Background" Value="Purple" />
+                                        <Setter Property="BorderThickness" Value="1" />
                                     </Style>
-                                </ListView.ItemContainerStyle>
-                            </ListView>
-                        </Expander>
-                        <Expander materialDesign:ExpanderAssist.DownHeaderPadding="35,2,24,2" Header="Companies">
-                            <ListView ItemsSource="{Binding SelectedMovie.CompanyList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
-                        </Expander>
-                        <Expander materialDesign:ExpanderAssist.DownHeaderPadding="35,2,24,2" Header="Writers">
-                            <ListView ItemsSource="{Binding SelectedMovie.WriterList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
-                        </Expander>
-                    </StackPanel>
-                </Expander>
+                                    <Style x:Key="InfoBorder"
+                                           BasedOn="{StaticResource LabelBorder}"
+                                           TargetType="Border">
+                                        <Setter Property="Background" Value="Transparent" />
+                                    </Style>
 
-                <Expander Header="Ratings">
+                                    <Style x:Key="LabelText" TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                        <Setter Property="FontWeight" Value="DemiBold" />
+                                    </Style>
+
+                                    <Style x:Key="InfoText"
+                                           BasedOn="{StaticResource LabelText}"
+                                           TargetType="TextBlock">
+                                        <Setter Property="FontStyle" Value="Oblique" />
+                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                        <Setter Property="Margin" Value="5" />
+                                    </Style>
+                                </UniformGrid.Resources>
+
+                                <Border Style="{StaticResource LabelBorder}">
+                                    <TextBlock Style="{StaticResource LabelText}" Text="Released" />
+                                </Border>
+                                <Border Style="{StaticResource InfoBorder}">
+                                    <TextBlock Style="{StaticResource InfoText}" Text="{Binding SelectedMovie.ReleaseDate, StringFormat=d, ConverterCulture=es-es}" />
+                                </Border>
+
+                                <Border Style="{StaticResource LabelBorder}">
+                                    <TextBlock Style="{StaticResource LabelText}" Text="Runtime" />
+                                </Border>
+
+                                <Border Style="{StaticResource InfoBorder}">
+                                    <TextBlock Style="{StaticResource InfoText}" Text="{Binding SelectedMovie.RuntimeStr}" />
+                                </Border>
+
+                                <Border Style="{StaticResource LabelBorder}">
+                                    <TextBlock Text="Keywords">
+                                        <TextBlock.Style>
+                                            <Style BasedOn="{StaticResource LabelText}" TargetType="TextBlock" />
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
+
+                                <Border Style="{StaticResource InfoBorder}">
+                                    <TextBlock Text="{Binding SelectedMovie.Keywords}">
+                                        <TextBlock.Style>
+                                            <Style BasedOn="{StaticResource InfoText}" TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
+                                <Border Style="{StaticResource LabelBorder}">
+                                    <TextBlock Style="{StaticResource LabelText}" Text="Awards" />
+                                </Border>
+
+                                <Border Style="{StaticResource InfoBorder}">
+                                    <TextBlock Text="{Binding SelectedMovie.Awards}">
+                                        <TextBlock.Style>
+                                            <Style BasedOn="{StaticResource InfoText}" TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
+
+                                <Border Style="{StaticResource LabelBorder}">
+                                    <TextBlock Style="{StaticResource LabelText}" Text="Genres" />
+                                </Border>
+
+                                <Border Style="{StaticResource InfoBorder}">
+                                    <TextBlock Style="{StaticResource InfoText}" Text="{Binding SelectedMovie.Genres}" />
+                                </Border>
+                                <Border Style="{StaticResource LabelBorder}">
+                                    <TextBlock Style="{StaticResource LabelText}" Text="Countries" />
+                                </Border>
+
+                                <Border Style="{StaticResource InfoBorder}">
+                                    <TextBlock Style="{StaticResource InfoText}" Text="{Binding SelectedMovie.Countries}" />
+                                </Border>
+                                <Border Style="{StaticResource LabelBorder}">
+                                    <TextBlock Style="{StaticResource LabelText}" Text="Languages" />
+                                </Border>
+
+                                <Border Style="{StaticResource InfoBorder}">
+                                    <TextBlock Style="{StaticResource InfoText}" Text="{Binding SelectedMovie.Languages}" />
+                                </Border>
+                            </UniformGrid>
+                        </Grid>
+
+                        <StackPanel Grid.Column="1">
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                            </Grid>
+                            <Border Margin="5,0,5,0"
+                                    Background="Purple"
+                                    BorderBrush="Black"
+                                    BorderThickness="1">
+                                <TextBlock Text="People"
+                                           Grid.Row="0"
+                                           Padding="5"
+                                           HorizontalAlignment="Center"
+                                           FontSize="16"
+                                           FontStretch="Expanded" />
+                            </Border>
+
+                            <UniformGrid Grid.Row="1"
+                                         Grid.Column="1"
+                                         Margin="5,0,5,5"
+                                         Columns="2">
+                                <UniformGrid.Resources>
+                                    <Style x:Key="LabelBorder" TargetType="Border">
+                                        <Setter Property="BorderBrush" Value="Black" />
+                                        <Setter Property="Background" Value="Purple" />
+                                        <Setter Property="BorderThickness" Value="1" />
+                                    </Style>
+                                    <Style x:Key="InfoBorder"
+                                           BasedOn="{StaticResource LabelBorder}"
+                                           TargetType="Border">
+                                        <Setter Property="Background" Value="Transparent" />
+                                    </Style>
+
+                                    <Style x:Key="LabelText" TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                        <Setter Property="FontWeight" Value="DemiBold" />
+                                    </Style>
+
+                                    <Style x:Key="InfoText"
+                                           BasedOn="{StaticResource LabelText}"
+                                           TargetType="TextBlock">
+                                        <Setter Property="FontStyle" Value="Oblique" />
+                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                        <Setter Property="Margin" Value="5" />
+                                    </Style>
+                                </UniformGrid.Resources>
+
+                                <Border Style="{StaticResource LabelBorder}">
+                                    <TextBlock Style="{StaticResource LabelText}" Text="Directors" />
+                                </Border>
+                                <Border Style="{StaticResource InfoBorder}">
+                                    <ItemsControl Padding="5" ItemsSource="{Binding SelectedMovie.DirectorList}" />
+                                </Border>
+
+                                <Border Style="{StaticResource LabelBorder}">
+                                    <TextBlock Style="{StaticResource LabelText}" Text="Writers" />
+                                </Border>
+
+                                <Border Style="{StaticResource InfoBorder}">
+                                    <ItemsControl Padding="5" ItemsSource="{Binding SelectedMovie.WriterList}" />
+                                </Border>
+
+                                <Border Style="{StaticResource LabelBorder}">
+                                    <TextBlock Text="Companies">
+                                        <TextBlock.Style>
+                                            <Style BasedOn="{StaticResource LabelText}" TargetType="TextBlock" />
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
+
+                                <Border Style="{StaticResource InfoBorder}">
+                                    <ItemsControl Padding="5" ItemsSource="{Binding SelectedMovie.CompanyList}" />
+                                </Border>
+                            </UniformGrid>
+
+                            <TextBlock HorizontalAlignment="Center" Text="Budget" />
+
+                            <ContentPresenter Content="{Binding SelectedMovie.BoxOffice}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Grid.Row="4"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2">
+                    <Border Background="Purple"
+                            BorderBrush="Black"
+                            BorderThickness="1">
+                        <TextBlock Text="Actors"
+                                   HorizontalAlignment="Center"
+                                   FontFamily="Verdana"
+                                   FontSize="16" />
+                    </Border>
+                    <ListView ItemsSource="{Binding SelectedMovie.ActorList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
+                </StackPanel>
+
+                <!--<Expander Header="Ratings">
                     <ListView ItemsSource="{Binding SelectedMovie.Ratings}" />
                 </Expander>
 
-                <TextBlock Text="{Binding SelectedMovie.LastUpdatedDetails}" />
-            </StackPanel>
+                <TextBlock Text="{Binding SelectedMovie.LastUpdatedDetails}" />-->
+            </Grid>
         </ScrollViewer>
     </Grid>
 </UserControl>
