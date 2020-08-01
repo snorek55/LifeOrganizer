@@ -11,6 +11,8 @@ namespace Organizers.MovOrg.Domain
 
 		public List<Rating> Ratings { get; set; }
 
+		public string LogoUrl { get; set; }
+
 		public override bool Equals(object obj)
 		{
 			return Equals(obj as RatingSource);
@@ -20,12 +22,13 @@ namespace Organizers.MovOrg.Domain
 		{
 			return other != null &&
 				   Id == other.Id &&
+				   LogoUrl == other.LogoUrl &&
 				   Name == other.Name;
 		}
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Name);
+			return HashCode.Combine(Id, Name, LogoUrl);
 		}
 	}
 }

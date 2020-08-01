@@ -2,7 +2,7 @@
 
 namespace DesktopGui.MovOrg.DesignDataTemplates
 {
-	public class ActorDesignTemplate : ActorViewModel
+	internal class ActorDesignTemplate : ActorViewModel
 	{
 		public ActorDesignTemplate()
 		{

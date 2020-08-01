@@ -11,5 +11,7 @@ namespace Organizers.Common.Config
 		string GetIMDbApiKey();
 
 		Task AddSearchedTitleAsync(string suggestedTitle);
+
+		string GetRatingSourceLogoUrl(string ratingSourceName);
 	}
 }

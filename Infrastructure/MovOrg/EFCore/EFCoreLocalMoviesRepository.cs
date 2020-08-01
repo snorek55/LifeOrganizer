@@ -5,6 +5,7 @@ using Infrastructure.EFCore;
 
 using Microsoft.EntityFrameworkCore;
 
+using Organizers.Common.Config;
 using Organizers.Common.UseCases;
 using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases.Repositories;
@@ -33,9 +34,12 @@ namespace Infrastructure.MovOrg.EFCore
 			}
 		}
 
-		public EFCoreLocalMoviesRepository(IAmbientDbContextLocator ambientDbContextLocator)
+		private IConfig config;
+
+		public EFCoreLocalMoviesRepository(IAmbientDbContextLocator ambientDbContextLocator, IConfig config)
 		{
 			this.ambientDbContextLocator = ambientDbContextLocator ?? throw new ArgumentNullException(nameof(ambientDbContextLocator));
+			this.config = config;
 		}
 
 		public async Task<bool> AreDetailsAvailableFor(string id)
@@ -57,7 +61,7 @@ namespace Infrastructure.MovOrg.EFCore
 			.Include(x => x.BoxOffice)
 			.Include(x => x.Trailer)
 			.Include(x => x.Ratings)
-				.ThenInclude(x => x.RatingSource)
+				.ThenInclude(x => x.Source)
 			.Include(x => x.ActorList)
 				.ThenInclude(x => x.Actor)
 			.Include(x => x.CompanyList)
@@ -130,8 +134,9 @@ namespace Infrastructure.MovOrg.EFCore
 								new RatingSource
 								{
 									Id = count.ToString(),
-									Name = source
-								});
+									Name = source,
+									LogoUrl = config.GetRatingSourceLogoUrl(source)
+								}); ;
 				}
 				count++;
 			}
@@ -186,12 +191,12 @@ namespace Infrastructure.MovOrg.EFCore
 		{
 			foreach (var rating in movie.Ratings)
 			{
-				Rating existingRating = DbContext.Ratings.Find(rating.MovieId, rating.RatingSourceId);
+				Rating existingRating = DbContext.Ratings.Find(rating.MovieId, rating.SourceId);
 				if (existingRating == null)
 				{
 					rating.Movie = existingMovie;
 					DbContext.Ratings.Add(rating);
-					existingRating = DbContext.Ratings.Find(rating.MovieId, rating.RatingSourceId);
+					existingRating = DbContext.Ratings.Find(rating.MovieId, rating.SourceId);
 				}
 
 				existingMovie.Ratings.Add(existingRating);

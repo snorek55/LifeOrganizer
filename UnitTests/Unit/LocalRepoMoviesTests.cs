@@ -55,7 +55,7 @@ namespace Tests.Unit
 			var contextFactory = new DbContextFactory(optionsBuilderMoviesContext);
 			DbContextScopeFactory = new DbContextScopeFactory(contextFactory);
 			AmbientDbContextLocator = new AmbientDbContextLocator();
-			LocalRepo = new EFCoreLocalMoviesRepository(AmbientDbContextLocator);
+			LocalRepo = new EFCoreLocalMoviesRepository(AmbientDbContextLocator, config);
 			Seed();
 		}
 

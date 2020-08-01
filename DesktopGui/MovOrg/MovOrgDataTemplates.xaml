@@ -83,12 +83,21 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type itemsAdapters:RatingViewModel}">
-        <StackPanel>
-            <TextBlock>
-                <Run Text="{Binding SourceName}" />
-                <Run Text=": " />
-                <Run Text="{Binding Score}" />
-            </TextBlock>
+        <StackPanel Orientation="Horizontal">
+            <Image Width="60"
+                   Height="40"
+                   Margin="0,0,5,0"
+                   Source="{Binding SourceLogoUrl}"
+                   Stretch="Uniform"
+                   ToolTip="{Binding SourceName}" />
+            <TextBlock Text="{Binding Score}"
+                       Margin="0,0,2,0"
+                       VerticalAlignment="Center"
+                       FontSize="20" />
+            <materialDesign:PackIcon Width="20"
+                                     Height="20"
+                                     VerticalAlignment="Center"
+                                     Kind="Star" />
         </StackPanel>
     </DataTemplate>
 

@@ -82,7 +82,8 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    LogoUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -218,13 +219,13 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     MovieId = table.Column<string>(nullable: false),
-                    RatingSourceId = table.Column<string>(nullable: false),
+                    SourceId = table.Column<string>(nullable: false),
                     Id = table.Column<string>(nullable: true),
                     Score = table.Column<float>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ratings", x => new { x.MovieId, x.RatingSourceId });
+                    table.PrimaryKey("PK_Ratings", x => new { x.MovieId, x.SourceId });
                     table.ForeignKey(
                         name: "FK_Ratings_Movies_MovieId",
                         column: x => x.MovieId,
@@ -232,8 +233,8 @@ namespace Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Ratings_RatingSources_RatingSourceId",
-                        column: x => x.RatingSourceId,
+                        name: "FK_Ratings_RatingSources_SourceId",
+                        column: x => x.SourceId,
                         principalTable: "RatingSources",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -284,9 +285,9 @@ namespace Infrastructure.Migrations
                 column: "WriterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ratings_RatingSourceId",
+                name: "IX_Ratings_SourceId",
                 table: "Ratings",
-                column: "RatingSourceId");
+                column: "SourceId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

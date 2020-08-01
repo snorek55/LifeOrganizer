@@ -78,8 +78,8 @@ namespace Infrastructure.MovOrg.APIs
 
 				var rating = new Rating
 				{
-					RatingSource = source,
-					RatingSourceId = source.Id,
+					Source = source,
+					SourceId = source.Id,
 					Movie = movie,
 					MovieId = movie.Id,
 					Id = i.ToString(),

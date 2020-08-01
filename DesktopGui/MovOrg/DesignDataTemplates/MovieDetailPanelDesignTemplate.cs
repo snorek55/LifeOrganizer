@@ -74,6 +74,13 @@ namespace DesktopGui.MovOrg.DesignDataTemplates
 					var actor = new ActorDesignTemplate();
 					ActorList.Add(actor);
 				}
+
+				Ratings = new List<RatingViewModel>();
+				for (int i = 0; i < 5; i++)
+				{
+					var rating = new RatingDesignTemplate();
+					Ratings.Add(rating);
+				}
 			}
 		}
 	}

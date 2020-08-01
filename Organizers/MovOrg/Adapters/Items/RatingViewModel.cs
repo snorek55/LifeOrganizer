@@ -6,6 +6,8 @@ namespace Organizers.MovOrg.Adapters.Items
 	{
 		public string SourceName { get; set; }
 
+		public string SourceLogoUrl { get; set; }
+
 		public string Score { get; set; }
 	}
 }

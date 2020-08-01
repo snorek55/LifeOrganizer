@@ -11,8 +11,8 @@ namespace Organizers.MovOrg.Domain
 		public string MovieId { get; set; }
 		public Movie Movie { get; set; }
 
-		public string RatingSourceId { get; set; }
-		public RatingSource RatingSource { get; set; }
+		public string SourceId { get; set; }
+		public RatingSource Source { get; set; }
 
 		public override bool Equals(object obj)
 		{
@@ -24,12 +24,12 @@ namespace Organizers.MovOrg.Domain
 			return other != null &&
 				   Score == other.Score &&
 				   Movie.Id == other.Movie.Id &&
-				   RatingSourceId == other.RatingSourceId;
+				   SourceId == other.SourceId;
 		}
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Score, Movie.Id, RatingSourceId);
+			return HashCode.Combine(Score, Movie.Id, SourceId);
 		}
 	}
 }

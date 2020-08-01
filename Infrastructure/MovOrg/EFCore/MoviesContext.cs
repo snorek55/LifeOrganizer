@@ -60,7 +60,7 @@ namespace Infrastructure.EFCore
 						.HasKey(c => new { c.MovieId, c.WriterId });
 
 			modelBuilder.Entity<Rating>()
-				.HasKey(c => new { c.MovieId, c.RatingSourceId });
+				.HasKey(c => new { c.MovieId, c.SourceId });
 
 			modelBuilder.Entity<Rating>()
 				.HasOne(x => x.Movie)
@@ -69,8 +69,8 @@ namespace Infrastructure.EFCore
 
 			modelBuilder.Entity<RatingSource>()
 				.HasMany(x => x.Ratings)
-				.WithOne(x => x.RatingSource)
-				.HasForeignKey(x => x.RatingSourceId);
+				.WithOne(x => x.Source)
+				.HasForeignKey(x => x.SourceId);
 
 			modelBuilder.Entity<Movie>()
 				.HasOne(x => x.BoxOffice)

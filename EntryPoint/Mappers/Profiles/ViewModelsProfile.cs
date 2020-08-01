@@ -32,7 +32,6 @@ namespace EntryPoint.Mapper.Profiles
 			.ForMember(d => d.Name, opt => opt.MapFrom(s => s.Company.Name));
 
 			CreateMap<Rating, RatingViewModel>()
-			.ForMember(d => d.SourceName, opt => opt.MapFrom(s => s.RatingSource.Name))
 			.ForMember(d => d.Score, opt => opt.MapFrom(y => (y.Score != null) ? y.Score.ToString() : "N/A"));
 		}
 	}

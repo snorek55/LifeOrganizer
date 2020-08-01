@@ -69,5 +69,11 @@ namespace EntryPoint
 			var lines = await File.ReadAllLinesAsync(recentMoviesSearchesPath);
 			return lines.ToList().Any(x => x.Equals(term, StringComparison.OrdinalIgnoreCase));
 		}
+
+		public virtual string GetRatingSourceLogoUrl(string ratingSourceName)
+		{
+			var logoKeyName = ratingSourceName + "Logo";
+			return ConfigurationManager.AppSettings[logoKeyName];
+		}
 	}
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MoviesContext))]
-    [Migration("20200730132246_InitialCreate")]
+    [Migration("20200801111236_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -226,7 +226,7 @@ namespace Infrastructure.Migrations
                     b.Property<string>("MovieId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("RatingSourceId")
+                    b.Property<string>("SourceId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Id")
@@ -235,9 +235,9 @@ namespace Infrastructure.Migrations
                     b.Property<float?>("Score")
                         .HasColumnType("real");
 
-                    b.HasKey("MovieId", "RatingSourceId");
+                    b.HasKey("MovieId", "SourceId");
 
-                    b.HasIndex("RatingSourceId");
+                    b.HasIndex("SourceId");
 
                     b.ToTable("Ratings");
                 });
@@ -246,6 +246,9 @@ namespace Infrastructure.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LogoUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -361,9 +364,9 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Organizers.MovOrg.Domain.RatingSource", "RatingSource")
+                    b.HasOne("Organizers.MovOrg.Domain.RatingSource", "Source")
                         .WithMany("Ratings")
-                        .HasForeignKey("RatingSourceId")
+                        .HasForeignKey("SourceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
