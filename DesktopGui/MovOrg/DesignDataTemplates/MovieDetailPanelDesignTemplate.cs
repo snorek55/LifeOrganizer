@@ -29,7 +29,6 @@ namespace DesktopGui.MovOrg.DesignDataTemplates
 
 				Keywords = "Lorem,ipsum,dolor,sit,amet";
 
-				IMDbRating = 9.9f;
 				Awards = "Lorem,ipsum,dolor,sit,amet";
 				Countries = "Lorem,ipsum,dolor,sit,amet";
 				Genres = "Lorem,ipsum,dolor,sit,amet";

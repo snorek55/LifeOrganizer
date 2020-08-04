@@ -11,7 +11,6 @@ namespace Organizers.MovOrg.Domain
 
 		public string Title { get; set; }
 		public string Plot { get; set; }
-		public float IMDbRating { get; set; }
 		public string Description { get; set; }
 		public string Image { get; set; }
 		public string Year { get; set; }

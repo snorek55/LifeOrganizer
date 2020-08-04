@@ -13,8 +13,6 @@ namespace Organizers.MovOrg.Adapters.Items
 
 		public string Title { get; set; }
 
-		public float IMDbRating { get; set; }
-
 		public string Image { get; set; }
 
 		public int? Rank { get; set; }

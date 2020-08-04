@@ -7,15 +7,15 @@ namespace EntryPoint.Mapper
 {
 	public static class MapperExtensions
 	{
-		public static IMappingExpression<TSource, TDestination> Ignore<TSource, TDestination>(this IMappingExpression<TSource, TDestination> map, Expression<Func<TDestination, object>> selector)
+		public static IMappingExpression<TSource, TDestination> IgnoreDestinationMember<TSource, TDestination>(this IMappingExpression<TSource, TDestination> map, Expression<Func<TDestination, object>> selector)
 		{
 			map.ForMember(selector, config => config.Ignore());
 			return map;
 		}
 
-		public static IMappingExpression<TSource, TDestination> DoNotValidate<TSource, TDestination>(this IMappingExpression<TSource, TDestination> map, Expression<Func<TSource, object>> sourceMember)
+		public static IMappingExpression<TSource, TDestination> IgnoreSourceMember<TSource, TDestination>(this IMappingExpression<TSource, TDestination> map, Expression<Func<TSource, object>> selector)
 		{
-			map.ForSourceMember(sourceMember, config => config.DoNotValidate());
+			map.ForSourceMember(selector, config => config.DoNotValidate());
 			return map;
 		}
 	}
