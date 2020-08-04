@@ -62,10 +62,12 @@
         <StackPanel x:Name="Panel">
             <TextBlock Text="{Binding Name}"
                        HorizontalAlignment="Center"
-                       FontWeight="Bold" />
+                       FontWeight="Bold"
+                       TextWrapping="Wrap" />
             <TextBlock Text="{Binding AsCharacter}"
                        HorizontalAlignment="Center"
-                       FontStyle="Italic" />
+                       FontStyle="Italic"
+                       TextWrapping="Wrap" />
 
             <Image Width="200"
                    Height="200"
@@ -146,7 +148,8 @@
         <StackPanel>
             <TextBlock Text="{Binding Title}"
                        HorizontalAlignment="Center"
-                       FontWeight="Bold" />
+                       FontWeight="Bold"
+                       TextWrapping="Wrap" />
             <Image Width="200"
                    Height="200"
                    HorizontalAlignment="Center"
