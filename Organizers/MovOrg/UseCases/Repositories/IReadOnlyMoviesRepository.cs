@@ -8,6 +8,6 @@ namespace Organizers.MovOrg.UseCases.Repositories
 	{
 		Task<Movie> GetMovieDetailsById(string id);
 
-		Task<Director> GetDirectorDetails(string id);
+		Task<Person> GetPersonDetails(string id);
 	}
 }

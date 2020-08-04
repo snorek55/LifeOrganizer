@@ -26,59 +26,60 @@ namespace EntryPoint.Mapper.Profiles
 				.AfterMap((src, dest) => dest.Trailer.Movie = dest)
 				.AfterMap((s, d) =>
 				{
-					foreach (var director in d.DirectorList)
-					{
-						director.Movie = d;
-						director.MovieId = d.Id;
-					};
 					foreach (var actor in d.ActorList)
 					{
 						actor.Movie = d;
 						actor.MovieId = d.Id;
 					}
-					foreach (var company in d.CompanyList)
+
+					foreach (var director in d.DirectorList)
 					{
-						company.Movie = d;
-						company.MovieId = d.Id;
+						director.Movie = d;
+						director.MovieId = d.Id;
 					}
 					foreach (var writer in d.WriterList)
 					{
 						writer.Movie = d;
 						writer.MovieId = d.Id;
 					}
+
+					foreach (var company in d.CompanyList)
+					{
+						company.Movie = d;
+						company.MovieId = d.Id;
+					}
 				});
 
 			CreateMap<SearchResult, Movie>(MemberList.Source)
-			.DoNotValidate(s => s.ResultType);
+				.DoNotValidate(s => s.ResultType);
 
 			CreateMap<Top250DataDetail, Movie>(MemberList.Source)
 				.DoNotValidate(s => s.FullTitle)
 				.DoNotValidate(s => s.Crew)
 				.DoNotValidate(s => s.IMDbRatingCount);
 
-			CreateMap<StarShort, MovieDirector>(MemberList.None)
-				.ForMember(d => d.Director, o => o.MapFrom(s => new Director { Id = s.Id, Name = s.Name }))
-				.ForMember(d => d.DirectorId, o => o.MapFrom(s => s.Id))
+			CreateMap<ActorShort, MovieActor>(MemberList.None)
+				.ForMember(d => d.Person, o => o.MapFrom(s => new Person { Id = s.Id, Name = s.Name, ImageUrl = s.Image }))
+				.ForMember(d => d.PersonId, o => o.MapFrom(s => s.Id))
 				.Ignore(d => d.Movie)
 				.Ignore(d => d.MovieId);
+
+			CreateMap<StarShort, MovieDirector>(MemberList.None)
+				.ForMember(d => d.Person, o => o.MapFrom(s => new Person { Id = s.Id, Name = s.Name }))
+				.ForMember(d => d.PersonId, o => o.MapFrom(s => s.Id))
+				.Ignore(d => d.Movie);
 
 			CreateMap<StarShort, MovieWriter>(MemberList.None)
-				.ForMember(d => d.Writer, o => o.MapFrom(s => new Writer { Id = s.Id, Name = s.Name }))
-				.ForMember(d => d.WriterId, o => o.MapFrom(s => s.Id))
+				.ForMember(d => d.Person, o => o.MapFrom(s => new Person { Id = s.Id, Name = s.Name }))
+				.ForMember(d => d.PersonId, o => o.MapFrom(s => s.Id))
 				.Ignore(d => d.Movie)
 				.Ignore(d => d.MovieId);
 
-			CreateMap<ActorShort, MovieActor>(MemberList.None)
-			.ForMember(d => d.Actor, o => o.MapFrom(s => new Actor { Id = s.Id, Name = s.Name, AsCharacter = s.AsCharacter, ImageUrl = s.Image }))
-			.ForMember(d => d.ActorId, o => o.MapFrom(s => s.Id))
-			.Ignore(d => d.Movie)
-			.Ignore(d => d.MovieId);
-
 			CreateMap<CompanyShort, MovieCompany>(MemberList.None)
-			.ForMember(d => d.Company, o => o.MapFrom(s => new Company { Id = s.Id, Name = s.Name }))
-			.ForMember(d => d.CompanyId, o => o.MapFrom(s => s.Id))
-			.Ignore(d => d.Movie)
-			.Ignore(d => d.MovieId);
+				.ForMember(d => d.Company, o => o.MapFrom(s => new Company { Id = s.Id, Name = s.Name }))
+				.ForMember(d => d.CompanyId, o => o.MapFrom(s => s.Id))
+				.Ignore(d => d.Movie)
+				.Ignore(d => d.MovieId);
 
 			CreateMap<TrailerData, Trailer>()
 				.Ignore(d => d.Movie)

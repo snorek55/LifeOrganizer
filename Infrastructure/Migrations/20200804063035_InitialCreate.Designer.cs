@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MoviesContext))]
-    [Migration("20200801111236_InitialCreate")]
+    [Migration("20200804063035_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,25 +20,6 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Organizers.MovOrg.Domain.Actor", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AsCharacter")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Actors");
-                });
 
             modelBuilder.Entity("Organizers.MovOrg.Domain.BoxOffice", b =>
                 {
@@ -73,19 +54,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
-                });
-
-            modelBuilder.Entity("Organizers.MovOrg.Domain.Director", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Directors");
                 });
 
             modelBuilder.Entity("Organizers.MovOrg.Domain.Movie", b =>
@@ -166,14 +134,17 @@ namespace Infrastructure.Migrations
                     b.Property<string>("MovieId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ActorId")
+                    b.Property<string>("PersonId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("MovieId", "ActorId");
+                    b.Property<string>("AsCharacter")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("ActorId");
+                    b.HasKey("MovieId", "PersonId");
 
-                    b.ToTable("MoviesActors");
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("MovieActors");
                 });
 
             modelBuilder.Entity("Organizers.MovOrg.Domain.MovieCompany", b =>
@@ -188,7 +159,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("MoviesCompanies");
+                    b.ToTable("MovieCompanies");
                 });
 
             modelBuilder.Entity("Organizers.MovOrg.Domain.MovieDirector", b =>
@@ -196,14 +167,14 @@ namespace Infrastructure.Migrations
                     b.Property<string>("MovieId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DirectorId")
+                    b.Property<string>("PersonId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("MovieId", "DirectorId");
+                    b.HasKey("MovieId", "PersonId");
 
-                    b.HasIndex("DirectorId");
+                    b.HasIndex("PersonId");
 
-                    b.ToTable("MoviesDirectors");
+                    b.ToTable("MovieDirectors");
                 });
 
             modelBuilder.Entity("Organizers.MovOrg.Domain.MovieWriter", b =>
@@ -211,14 +182,48 @@ namespace Infrastructure.Migrations
                     b.Property<string>("MovieId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("WriterId")
+                    b.Property<string>("PersonId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("MovieId", "WriterId");
+                    b.HasKey("MovieId", "PersonId");
 
-                    b.HasIndex("WriterId");
+                    b.HasIndex("PersonId");
 
-                    b.ToTable("MoviesWriters");
+                    b.ToTable("MovieWriters");
+                });
+
+            modelBuilder.Entity("Organizers.MovOrg.Domain.Person", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Awards")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeathDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Height")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("People");
                 });
 
             modelBuilder.Entity("Organizers.MovOrg.Domain.Rating", b =>
@@ -274,19 +279,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("Trailers");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.Writer", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Writers");
-                });
-
             modelBuilder.Entity("Organizers.MovOrg.Domain.BoxOffice", b =>
                 {
                     b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
@@ -298,15 +290,15 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Organizers.MovOrg.Domain.MovieActor", b =>
                 {
-                    b.HasOne("Organizers.MovOrg.Domain.Actor", "Actor")
-                        .WithMany()
-                        .HasForeignKey("ActorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
                         .WithMany("ActorList")
                         .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Organizers.MovOrg.Domain.Person", "Person")
+                        .WithMany("ActedIn")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -328,15 +320,15 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Organizers.MovOrg.Domain.MovieDirector", b =>
                 {
-                    b.HasOne("Organizers.MovOrg.Domain.Director", "Director")
-                        .WithMany()
-                        .HasForeignKey("DirectorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
                         .WithMany("DirectorList")
                         .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Organizers.MovOrg.Domain.Person", "Person")
+                        .WithMany("DirectorOf")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -349,9 +341,9 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Organizers.MovOrg.Domain.Writer", "Writer")
+                    b.HasOne("Organizers.MovOrg.Domain.Person", "Person")
                         .WithMany()
-                        .HasForeignKey("WriterId")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

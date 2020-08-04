@@ -9,7 +9,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DataContext="{d:DesignInstance designTemplates:MovieDetailPanelDesignTemplate,
                                               IsDesignTimeCreatable=True}"
-             d:DesignHeight="800"
+             d:DesignHeight="1200"
              d:DesignWidth="700"
              mc:Ignorable="d">
     <Grid x:Name="mainGrid" Background="Red">

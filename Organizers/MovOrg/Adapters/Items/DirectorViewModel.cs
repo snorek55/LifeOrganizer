@@ -1,11 +1,6 @@
-﻿using Organizers.Common.Adapters;
-
-namespace Organizers.MovOrg.Adapters.Items
+﻿namespace Organizers.MovOrg.Adapters.Items
 {
-	public class DirectorViewModel : BaseViewModel
+	public class DirectorViewModel : PersonViewModel
 	{
-		public string Id { get; set; }
-
-		public string Name { get; set; }
 	}
 }

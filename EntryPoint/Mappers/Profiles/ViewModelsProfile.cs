@@ -10,22 +10,23 @@ namespace EntryPoint.Mapper.Profiles
 		public ViewModelsProfile()
 		{
 			CreateMap<Movie, MovieViewModel>();
+
 			CreateMap<BoxOffice, BoxOfficeViewModel>();
 			CreateMap<Trailer, TrailerViewModel>();
+			CreateMap<MovieActor, ActorViewModel>()
+				.ForMember(d => d.Id, opt => opt.MapFrom(s => s.Person.Id))
+				.ForMember(d => d.Name, opt => opt.MapFrom(s => s.Person.Name))
+				.ForMember(d => d.ImageUrl, opt => opt.MapFrom(s => s.Person.ImageUrl));
 
 			CreateMap<MovieDirector, DirectorViewModel>()
-				.ForMember(d => d.Id, opt => opt.MapFrom(s => s.DirectorId))
-				.ForMember(d => d.Name, opt => opt.MapFrom(s => s.Director.Name));
+				.ForMember(d => d.Id, opt => opt.MapFrom(s => s.Person.Id))
+				.ForMember(d => d.Name, opt => opt.MapFrom(s => s.Person.Name))
+				.ForMember(d => d.ImageUrl, opt => opt.MapFrom(s => s.Person.ImageUrl));
 
 			CreateMap<MovieWriter, WriterViewModel>()
-				.ForMember(d => d.Id, opt => opt.MapFrom(s => s.WriterId))
-				.ForMember(d => d.Name, opt => opt.MapFrom(s => s.Writer.Name));
-
-			CreateMap<MovieActor, ActorViewModel>()
-			.ForMember(d => d.Id, opt => opt.MapFrom(s => s.Actor.Id))
-			.ForMember(d => d.Name, opt => opt.MapFrom(s => s.Actor.Name))
-			.ForMember(d => d.AsCharacter, opt => opt.MapFrom(s => s.Actor.AsCharacter))
-			.ForMember(d => d.ImageUrl, opt => opt.MapFrom(s => s.Actor.ImageUrl));
+			.ForMember(d => d.Id, opt => opt.MapFrom(s => s.Person.Id))
+			.ForMember(d => d.Name, opt => opt.MapFrom(s => s.Person.Name))
+			.ForMember(d => d.ImageUrl, opt => opt.MapFrom(s => s.Person.ImageUrl));
 
 			CreateMap<MovieCompany, CompanyViewModel>()
 			.ForMember(d => d.Id, opt => opt.MapFrom(s => s.Company.Id))

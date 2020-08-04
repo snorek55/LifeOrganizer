@@ -48,7 +48,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		public bool OnlyTop250 { get; set; }
 
-		private string suggestedTitleFilter { get; set; }
+		private string SuggestedTitleFilter { get; set; }
 
 		#endregion Filtering Properties
 
@@ -101,7 +101,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		private async Task ClearSearchAsync()
 		{
-			suggestedTitleFilter = string.Empty;
+			SuggestedTitleFilter = string.Empty;
 			var moviesResponse = await ExecuteCommandTaskAsync(() => moviesService.GetAllMoviesFromLocal(), "Loaded movies from local");
 
 			if (!moviesResponse.HasError)
@@ -131,7 +131,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 			if (suggestedTitleResponse.AlreadySearched)
 			{
-				suggestedTitleFilter = SuggestedTitle;
+				SuggestedTitleFilter = SuggestedTitle;
 				RefreshFilter();
 				return;
 			}
@@ -159,12 +159,12 @@ namespace Organizers.MovOrg.Adapters.Sections
 				conditions &= movie.IsWatched;
 			if (OnlyTop250)
 				conditions &= movie.Rank != null && movie.Rank > 0;
-			if (!string.IsNullOrEmpty(suggestedTitleFilter))
+			if (!string.IsNullOrEmpty(SuggestedTitleFilter))
 			{
-				var titleContainsFilter = movie.Title.Contains(suggestedTitleFilter);
+				var titleContainsFilter = movie.Title.Contains(SuggestedTitleFilter);
 				var descriptionContainsFilter = false;
 				if (movie.Description != null)
-					descriptionContainsFilter = movie.Description.Contains(suggestedTitleFilter);
+					descriptionContainsFilter = movie.Description.Contains(SuggestedTitleFilter);
 				conditions &= titleContainsFilter || descriptionContainsFilter;
 			}
 
@@ -228,7 +228,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 			var response = await ExecuteCommandTaskAsync(() => moviesService.GetMovieWithId(SelectedMovie.Id, forceUpdate), "");
 			if (!response.HasError)
 			{
-				MovieDetailsPanel.SelectedMovie = mapper.Map<MovieViewModel>(response.Movie);
+				MovieDetailsPanel.SelectedMovie = MapMovie(response.Movie);
 				NotifyStatus("Loaded info for movie " + SelectedMovie.Title);
 			}
 		}
@@ -255,6 +255,12 @@ namespace Organizers.MovOrg.Adapters.Sections
 		{
 			Debug.Write(errorMessage);
 			NotifyError(errorMessage);
+		}
+
+		private MovieViewModel MapMovie(Movie movie)
+		{
+			var movieVm = mapper.Map<MovieViewModel>(movie);
+			return movieVm;
 		}
 
 		#endregion Rendering

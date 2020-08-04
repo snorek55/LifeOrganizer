@@ -62,14 +62,14 @@ namespace Infrastructure.MovOrg.EFCore
 			.Include(x => x.Trailer)
 			.Include(x => x.Ratings)
 				.ThenInclude(x => x.Source)
-			.Include(x => x.ActorList)
-				.ThenInclude(x => x.Actor)
 			.Include(x => x.CompanyList)
 				.ThenInclude(x => x.Company)
+			.Include(x => x.ActorList)
+				.ThenInclude(x => x.Person)
 			.Include(x => x.DirectorList)
-				.ThenInclude(x => x.Director)
-			.Include(x => x.WriterList)
-				.ThenInclude(x => x.Writer)
+				.ThenInclude(x => x.Person)
+						.Include(x => x.WriterList)
+					.ThenInclude(x => x.Person)
 			.SingleOrDefaultAsync(x => x.Id == id);
 
 			return movie;
@@ -151,9 +151,12 @@ namespace Infrastructure.MovOrg.EFCore
 				.Include(x => x.Trailer)
 				.Include(x => x.Ratings)
 				.Include(x => x.ActorList)
-				.Include(x => x.CompanyList)
+					.ThenInclude(x => x.Person)
 				.Include(x => x.DirectorList)
+					.ThenInclude(x => x.Person)
 				.Include(x => x.WriterList)
+					.ThenInclude(x => x.Person)
+				.Include(x => x.CompanyList)
 				.SingleOrDefaultAsync(x => x.Id == movie.Id);
 
 			if (existingMovie == null) throw new RepositoryException("Movie does not exists in local. Cannot update details.");
@@ -181,9 +184,88 @@ namespace Infrastructure.MovOrg.EFCore
 
 		private void UpdateRelatedInfo(Movie movie)
 		{
-			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.DirectorList, DbContext, typeof(Movie), typeof(Director));
-			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.ActorList, DbContext, typeof(Movie), typeof(Actor));
-			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.WriterList, DbContext, typeof(Movie), typeof(Writer));
+			foreach (var moviePerson in movie.ActorList)
+			{
+				var existingLink = DbContext.MovieActors.Find(new object[] { moviePerson.MovieId, moviePerson.PersonId });
+				if (existingLink != null)
+					continue;
+
+				var existingPerson = DbContext.People.Find(new object[] { moviePerson.PersonId });
+				if (existingPerson == null)
+				{
+					DbContext.People.Add(moviePerson.Person);
+					existingPerson = DbContext.People.Find(new object[] { moviePerson.PersonId });
+				}
+
+				var existingMovie = DbContext.Movies.Find(new object[] { moviePerson.MovieId });
+				if (existingMovie == null) throw new InvalidOperationException("Se esperaba encontrar pelicula para agregar personas");
+
+				var newLink = new MovieActor
+				{
+					Movie = existingMovie,
+					MovieId = existingMovie.Id,
+					Person = existingPerson,
+					PersonId = existingPerson.Id,
+					AsCharacter = moviePerson.AsCharacter
+				};
+
+				DbContext.MovieActors.Add(newLink);
+			}
+
+			foreach (var moviePerson in movie.WriterList)
+			{
+				var existingLink = DbContext.MovieWriters.Find(new object[] { moviePerson.MovieId, moviePerson.PersonId });
+				if (existingLink != null)
+					continue;
+
+				var existingPerson = DbContext.People.Find(new object[] { moviePerson.PersonId });
+				if (existingPerson == null)
+				{
+					DbContext.People.Add(moviePerson.Person);
+					existingPerson = DbContext.People.Find(new object[] { moviePerson.PersonId });
+				}
+
+				var existingMovie = DbContext.Movies.Find(new object[] { moviePerson.MovieId });
+				if (existingMovie == null) throw new InvalidOperationException("Se esperaba encontrar pelicula para agregar personas");
+
+				var newLink = new MovieWriter
+				{
+					Movie = existingMovie,
+					MovieId = existingMovie.Id,
+					Person = existingPerson,
+					PersonId = existingPerson.Id,
+				};
+
+				DbContext.MovieWriters.Add(newLink);
+			}
+
+			foreach (var moviePerson in movie.DirectorList)
+			{
+				var existingLink = DbContext.MovieDirectors.Find(new object[] { moviePerson.MovieId, moviePerson.PersonId });
+				if (existingLink != null)
+					continue;
+
+				var existingPerson = DbContext.People.Find(new object[] { moviePerson.PersonId });
+				if (existingPerson == null)
+				{
+					DbContext.People.Add(moviePerson.Person);
+					existingPerson = DbContext.People.Find(new object[] { moviePerson.PersonId });
+				}
+
+				var existingMovie = DbContext.Movies.Find(new object[] { moviePerson.MovieId });
+				if (existingMovie == null) throw new InvalidOperationException("Se esperaba encontrar pelicula para agregar personas");
+
+				var newLink = new MovieDirector
+				{
+					Movie = existingMovie,
+					MovieId = existingMovie.Id,
+					Person = existingPerson,
+					PersonId = existingPerson.Id,
+				};
+
+				DbContext.MovieDirectors.Add(newLink);
+			}
+
 			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.CompanyList, DbContext, typeof(Movie), typeof(Company));
 		}
 
@@ -221,7 +303,7 @@ namespace Infrastructure.MovOrg.EFCore
 			existingMovie.IsWatched = isWatched;
 		}
 
-		public Task<Director> GetDirectorDetails(string id)
+		public Task<Person> GetPersonDetails(string id)
 		{
 			throw new NotImplementedException();
 		}

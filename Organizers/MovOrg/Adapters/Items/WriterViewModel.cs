@@ -1,19 +1,6 @@
-﻿using Organizers.Common.Adapters;
-
-namespace Organizers.MovOrg.Adapters.Items
+﻿namespace Organizers.MovOrg.Adapters.Items
 {
-	public class WriterViewModel : BaseViewModel
+	public class WriterViewModel : PersonViewModel
 	{
-		public string Id
-		{
-			get;
-			set;
-		}
-
-		public string Name
-		{
-			get;
-			set;
-		}
 	}
 }

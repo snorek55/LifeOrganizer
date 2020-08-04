@@ -46,22 +46,22 @@ namespace Organizers.Main.Adapters.Sections
 
 		protected void NotifyStatus(string message)
 		{
-			notificationsHandler.NotifyStatus(message);
+			NotificationsHandler.NotifyStatus(message);
 		}
 
 		protected void NotifyError(string error)
 		{
-			notificationsHandler.NotifyError(error);
+			NotificationsHandler.NotifyError(error);
 		}
 
 		protected void NotifyException(Exception ex)
 		{
-			notificationsHandler.NotifyError(ex);
+			NotifyError(ex.ToString());
 		}
 
 		protected void NotifyWait()
 		{
-			notificationsHandler.NotifyWait();
+			NotificationsHandler.NotifyWait();
 		}
 
 		protected void NotifyItemTotal(int count)

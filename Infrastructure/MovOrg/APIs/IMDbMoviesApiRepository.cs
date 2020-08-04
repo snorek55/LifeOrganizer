@@ -44,6 +44,7 @@ namespace Infrastructure.MovOrg.APIs
 			var data = await apiLib.TitleAsync(id, Language.en, true, true, true, true, true, true, true);
 			ThrowIfError(data.ErrorMessage);
 			var movie = mapper.Map<Movie>(data);
+
 			await UpdateRatings(data.Ratings, movie);
 			return movie;
 		}
@@ -59,6 +60,14 @@ namespace Infrastructure.MovOrg.APIs
 			}
 
 			return movies;
+		}
+
+		public async Task<Person> GetPersonDetails(string id)
+		{
+			Ensure.IsNotNull(id);
+			var data = await apiLib.NameAsync(id);
+			ThrowIfError(data.ErrorMessage);
+			throw new NotImplementedException();
 		}
 
 		private async Task UpdateRatings(RatingData data, Movie movie)
@@ -96,11 +105,6 @@ namespace Infrastructure.MovOrg.APIs
 		private static void ThrowIfError(string errorMessage)
 		{
 			if (!string.IsNullOrEmpty(errorMessage)) throw new RepositoryException(errorMessage);
-		}
-
-		public Task<Director> GetDirectorDetails(string id)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

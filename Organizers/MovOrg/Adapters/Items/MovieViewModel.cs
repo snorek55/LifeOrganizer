@@ -53,15 +53,15 @@ namespace Organizers.MovOrg.Adapters.Items
 
 		public TrailerViewModel Trailer { get; set; }
 
-		public List<DirectorViewModel> DirectorList { get; set; }
+		public List<DirectorViewModel> DirectorList { get; set; } = new List<DirectorViewModel>();
 
-		public List<ActorViewModel> ActorList { get; set; }
+		public List<ActorViewModel> ActorList { get; set; } = new List<ActorViewModel>();
 
-		public List<CompanyViewModel> CompanyList { get; set; }
+		public List<CompanyViewModel> CompanyList { get; set; } = new List<CompanyViewModel>();
 
-		public List<WriterViewModel> WriterList { get; set; }
+		public List<WriterViewModel> WriterList { get; set; } = new List<WriterViewModel>();
 
-		public List<RatingViewModel> Ratings { get; set; }
+		public List<RatingViewModel> Ratings { get; set; } = new List<RatingViewModel>();
 
 		#endregion Details
 

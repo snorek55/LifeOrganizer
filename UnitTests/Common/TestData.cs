@@ -28,25 +28,25 @@ namespace Tests.Common
 			Title = "TestTitle2"
 		};
 
-		protected readonly Director testDirectorSeeded = new Director
+		protected readonly Person testDirectorSeeded = new Person
 		{
 			Id = "TestDirector",
 			Name = "TestName"
 		};
 
-		protected readonly Director testDirectorNotSeeded = new Director
+		protected readonly Person testDirectorNotSeeded = new Person
 		{
 			Id = "TestDirector2",
 			Name = "TestName2"
 		};
 
-		protected readonly Actor testActorSeeded = new Actor
+		protected readonly Person testActorSeeded = new Person
 		{
 			Id = "TestActor",
 			Name = "TestName"
 		};
 
-		protected readonly Actor testActorNotSeeded = new Actor
+		protected readonly Person testActorNotSeeded = new Person
 		{
 			Id = "TestActor2",
 			Name = "TestName2"
@@ -60,16 +60,16 @@ namespace Tests.Common
 		{
 			testMovieDirectorSeeded = new MovieDirector
 			{
-				Director = testDirectorSeeded,
-				DirectorId = testDirectorSeeded.Id,
+				Person = testDirectorSeeded,
+				PersonId = testDirectorSeeded.Id,
 				Movie = testMovieSeededWithDetails,
 				MovieId = testMovieSeededWithDetails.Id
 			};
 
 			testMovieActorSeeded = new MovieActor
 			{
-				Actor = testActorSeeded,
-				ActorId = testActorSeeded.Id,
+				Person = testActorSeeded,
+				PersonId = testActorSeeded.Id,
 				Movie = testMovieSeededWithDetails,
 				MovieId = testMovieSeededWithDetails.Id
 			};

@@ -13,23 +13,25 @@ namespace Infrastructure.EFCore
 		new Microsoft.Extensions.Logging.Debug.DebugLoggerProvider()
 	});
 
+		public static readonly string ActorDiscriminator = "Actor";
+		public static readonly string DirectorDiscriminator = "Director";
+		public static readonly string WriterDiscriminator = "Writer";
 		public DbSet<Movie> Movies { get; set; }
 
 		public DbSet<BoxOffice> BoxOffices { get; set; }
 
 		public DbSet<Trailer> Trailers { get; set; }
-		public DbSet<Director> Directors { get; set; }
-
-		public DbSet<Actor> Actors { get; set; }
 
 		public DbSet<Company> Companies { get; set; }
-		public DbSet<Writer> Writers { get; set; }
+		public DbSet<MovieCompany> MovieCompanies { get; set; }
 
-		public DbSet<MovieDirector> MoviesDirectors { get; set; }
-		public DbSet<MovieActor> MoviesActors { get; set; }
-		public DbSet<MovieCompany> MoviesCompanies { get; set; }
+		public DbSet<Person> People { get; set; }
 
-		public DbSet<MovieWriter> MoviesWriters { get; set; }
+		public DbSet<MovieActor> MovieActors { get; set; }
+
+		public DbSet<MovieDirector> MovieDirectors { get; set; }
+
+		public DbSet<MovieWriter> MovieWriters { get; set; }
 
 		public DbSet<Rating> Ratings { get; set; }
 
@@ -47,17 +49,17 @@ namespace Infrastructure.EFCore
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<MovieDirector>()
-							 .HasKey(c => new { c.MovieId, c.DirectorId });
-
 			modelBuilder.Entity<MovieActor>()
-							.HasKey(c => new { c.MovieId, c.ActorId });
+				.HasKey(c => new { c.MovieId, c.PersonId });
+
+			modelBuilder.Entity<MovieDirector>()
+		.HasKey(c => new { c.MovieId, c.PersonId });
+
+			modelBuilder.Entity<MovieWriter>()
+				.HasKey(c => new { c.MovieId, c.PersonId });
 
 			modelBuilder.Entity<MovieCompany>()
 						.HasKey(c => new { c.MovieId, c.CompanyId });
-
-			modelBuilder.Entity<MovieWriter>()
-						.HasKey(c => new { c.MovieId, c.WriterId });
 
 			modelBuilder.Entity<Rating>()
 				.HasKey(c => new { c.MovieId, c.SourceId });

@@ -85,9 +85,9 @@ namespace Tests.Unit
 
 			MoviesContext.Movies.Add(testMovieSeeded);
 
-			MoviesContext.Directors.Add(testDirectorSeeded);
+			MoviesContext.People.Add(testDirectorSeeded);
 
-			MoviesContext.Actors.Add(testActorSeeded);
+			MoviesContext.People.Add(testActorSeeded);
 			MoviesContext.Movies.Add(testMovieSeededWithDetails);
 
 			context.SaveChanges();
@@ -128,14 +128,14 @@ namespace Tests.Unit
 				{
 					Movie = movieUnderTest,
 					MovieId = movieUnderTest.Id,
-					Director = testDirectorSeeded,
-					DirectorId = testDirectorSeeded.Id
+					Person = testDirectorSeeded,
+					PersonId = testDirectorSeeded.Id
 				});
 
 			await LocalRepo.UpdateMovieDetails(movieUnderTest);
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
-			var existingRelation = MoviesContext.MoviesDirectors.Find(movieUnderTest.Id, testDirectorSeeded.Id);
+			var existingRelation = MoviesContext.MovieDirectors.Find(movieUnderTest.Id, testDirectorSeeded.Id);
 			Assert.AreEqual(movieUnderTest, existingMovie);
 			Assert.IsNotNull(existingRelation);
 		}
@@ -150,14 +150,14 @@ namespace Tests.Unit
 				{
 					Movie = movieUnderTest,
 					MovieId = movieUnderTest.Id,
-					Director = testDirectorNotSeeded,
-					DirectorId = testDirectorNotSeeded.Id
+					Person = testDirectorNotSeeded,
+					PersonId = testDirectorNotSeeded.Id
 				});
 
 			await LocalRepo.UpdateMovieDetails(movieUnderTest);
 			context.SaveChanges();
-			var existingRelation = MoviesContext.MoviesDirectors.Find(movieUnderTest.Id, testDirectorNotSeeded.Id);
-			var existingDirector = MoviesContext.Directors.Find(testDirectorNotSeeded.Id);
+			var existingRelation = MoviesContext.MovieDirectors.Find(movieUnderTest.Id, testDirectorNotSeeded.Id);
+			var existingDirector = MoviesContext.People.Find(testDirectorNotSeeded.Id);
 
 			Assert.IsNotNull(existingRelation);
 			Assert.AreEqual(testDirectorNotSeeded, existingDirector);
@@ -175,15 +175,15 @@ namespace Tests.Unit
 				{
 					Movie = movieUnderTest,
 					MovieId = movieUnderTest.Id,
-					Director = testDirectorNotSeeded,
-					DirectorId = testDirectorNotSeeded.Id
+					Person = testDirectorNotSeeded,
+					PersonId = testDirectorNotSeeded.Id
 				});
 			await LocalRepo.UpdateMovieDetails(movieUnderTest);
 			context.SaveChanges();
 
-			var existingFirstRelation = MoviesContext.MoviesDirectors.Find(movieUnderTest.Id, testDirectorSeeded.Id);
-			var existingSecondRelation = MoviesContext.MoviesDirectors.Find(movieUnderTest.Id, testDirectorNotSeeded.Id);
-			var existingSecondDirector = MoviesContext.Directors.Find(testDirectorNotSeeded.Id);
+			var existingFirstRelation = MoviesContext.MovieDirectors.Find(movieUnderTest.Id, testDirectorSeeded.Id);
+			var existingSecondRelation = MoviesContext.MovieDirectors.Find(movieUnderTest.Id, testDirectorNotSeeded.Id);
+			var existingSecondDirector = MoviesContext.People.Find(testDirectorNotSeeded.Id);
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			Assert.IsNotNull(existingFirstRelation);
 			Assert.IsNotNull(existingSecondRelation);
@@ -213,15 +213,15 @@ namespace Tests.Unit
 				{
 					Movie = movieUnderTest,
 					MovieId = movieUnderTest.Id,
-					Actor = testActorNotSeeded,
-					ActorId = testActorNotSeeded.Id
+					Person = testActorNotSeeded,
+					PersonId = testActorNotSeeded.Id
 				});
 			await LocalRepo.UpdateMovieDetails(movieUnderTest);
 			context.SaveChanges();
 
-			var existingFirstRelation = MoviesContext.MoviesActors.Include(x => x.Actor).SingleOrDefault(x => x.MovieId == movieUnderTest.Id && x.ActorId == testActorSeeded.Id);
-			var existingSecondRelation = MoviesContext.MoviesActors.Include(x => x.Actor).SingleOrDefault(x => x.MovieId == movieUnderTest.Id && x.ActorId == testActorNotSeeded.Id);
-			var existingSecondActor = MoviesContext.Actors.Find(testActorNotSeeded.Id);
+			var existingFirstRelation = MoviesContext.MovieActors.Include(x => x.Person).SingleOrDefault(x => x.MovieId == movieUnderTest.Id && x.PersonId == testActorSeeded.Id);
+			var existingSecondRelation = MoviesContext.MovieActors.Include(x => x.Person).SingleOrDefault(x => x.MovieId == movieUnderTest.Id && x.PersonId == testActorNotSeeded.Id);
+			var existingSecondActor = MoviesContext.People.Find(testActorNotSeeded.Id);
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			Assert.IsNotNull(existingFirstRelation);
 			Assert.IsNotNull(existingSecondRelation);
