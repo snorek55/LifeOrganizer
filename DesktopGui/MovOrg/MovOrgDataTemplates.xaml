@@ -23,7 +23,7 @@
                 <Image.Source>
                     <BitmapImage DecodePixelHeight="100"
                                  DecodePixelWidth="100"
-                                 UriSource="{Binding Image}" />
+                                 UriSource="{Binding CoverImage}" />
                 </Image.Source>
             </Image>
             <Label>
@@ -140,5 +140,17 @@
                  Height="300">
             <Image Source="{Binding ThumbnailUrl}" />
         </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type itemsAdapters:ImageDataViewModel}">
+        <StackPanel>
+            <TextBlock Text="{Binding Title}"
+                       HorizontalAlignment="Center"
+                       FontWeight="Bold" />
+            <Image Width="200"
+                   Height="200"
+                   HorizontalAlignment="Center"
+                   Source="{Binding Image}" />
+        </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

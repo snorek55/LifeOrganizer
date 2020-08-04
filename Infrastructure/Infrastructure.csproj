@@ -1,11 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200804063035_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200804063035_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200804113412_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200804113412_InitialCreate.Designer.cs" />
     <Compile Remove="MovOrg\IMDBMoviesRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\EntryPoint\Properties\App.config" Link="Properties\App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +25,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="3.1.6" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.5" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
@@ -22,5 +34,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Organizers\Organizers.csproj" />
   </ItemGroup>
-
 </Project>

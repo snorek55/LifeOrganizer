@@ -12,7 +12,7 @@ namespace EntryPoint.Mapper.Profiles
 		{
 			CreateMap<TitleData, Movie>()
 				.IgnoreAllPropertiesWithAnInaccessibleSetter()
-				.IgnoreSourceMember(s => s.IMDbRating)
+				.IgnoreDestinationMember(d => d.Images)
 				.IgnoreDestinationMember(d => d.Description)
 				.IgnoreDestinationMember(d => d.LastUpdatedDetails)
 				.IgnoreDestinationMember(d => d.LastUpdatedTop250)
@@ -21,6 +21,7 @@ namespace EntryPoint.Mapper.Profiles
 				.IgnoreDestinationMember(d => d.IsWatched)
 				.IgnoreDestinationMember(d => d.IsMustWatch)
 				.IgnoreDestinationMember(d => d.Ratings)
+				.ForMember(d => d.CoverImage, o => o.MapFrom(s => s.Image))
 				.AfterMap((s, d) => d.BoxOffice.Movie = d)
 				.AfterMap((s, d) => d.BoxOffice.Id = d.Id)
 				.AfterMap((s, d) => d.Trailer.Id = d.Id)
@@ -49,16 +50,24 @@ namespace EntryPoint.Mapper.Profiles
 						company.Movie = d;
 						company.MovieId = d.Id;
 					}
+
+					foreach (var image in d.Images)
+					{
+						image.Movie = d;
+						image.MovieId = d.Id;
+					}
 				});
 
 			CreateMap<SearchResult, Movie>(MemberList.Source)
-				.IgnoreSourceMember(s => s.ResultType);
+				.IgnoreSourceMember(s => s.ResultType)
+				.ForMember(d => d.CoverImage, o => o.MapFrom(s => s.Image));
 
 			CreateMap<Top250DataDetail, Movie>(MemberList.Source)
 				.IgnoreSourceMember(s => s.IMDbRating)
 				.IgnoreSourceMember(s => s.FullTitle)
 				.IgnoreSourceMember(s => s.Crew)
-				.IgnoreSourceMember(s => s.IMDbRatingCount);
+				.IgnoreSourceMember(s => s.IMDbRatingCount)
+				.ForMember(d => d.CoverImage, o => o.MapFrom(s => s.Image));
 
 			CreateMap<ActorShort, MovieActor>(MemberList.None)
 				.ForMember(d => d.Person, o => o.MapFrom(s => new Person { Id = s.Id, Name = s.Name, ImageUrl = s.Image }))

@@ -27,11 +27,12 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <Image Grid.Row="0"
                        Grid.Column="0"
-                       Source="{Binding SelectedMovie.Image}">
+                       Source="{Binding SelectedMovie.CoverImage}">
                     <Image.Style>
                         <Style TargetType="Image">
                             <Setter Property="Height" Value="300" />
@@ -357,11 +358,21 @@
                     <ListView ItemsSource="{Binding SelectedMovie.ActorList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
                 </StackPanel>
 
-                <!--<Expander Header="Ratings">
-                    <ListView ItemsSource="{Binding SelectedMovie.Ratings}" />
-                </Expander>
+                <StackPanel Grid.Row="5"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2">
+                    <Border Background="Purple"
+                            BorderBrush="Black"
+                            BorderThickness="1">
+                        <TextBlock Text="Images"
+                                   HorizontalAlignment="Center"
+                                   FontFamily="Verdana"
+                                   FontSize="16" />
+                    </Border>
+                    <ListView ItemsSource="{Binding SelectedMovie.Images}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
+                </StackPanel>
 
-                <TextBlock Text="{Binding SelectedMovie.LastUpdatedDetails}" />-->
+                <TextBlock Text="{Binding SelectedMovie.LastUpdatedDetails}" />
             </Grid>
         </ScrollViewer>
     </Grid>

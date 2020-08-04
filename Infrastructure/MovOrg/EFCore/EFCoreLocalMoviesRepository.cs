@@ -1,7 +1,6 @@
 ﻿using EntityFramework.DbContextScope.Interfaces;
 
 using Infrastructure.Common;
-using Infrastructure.EFCore;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -68,8 +67,9 @@ namespace Infrastructure.MovOrg.EFCore
 				.ThenInclude(x => x.Person)
 			.Include(x => x.DirectorList)
 				.ThenInclude(x => x.Person)
-						.Include(x => x.WriterList)
-					.ThenInclude(x => x.Person)
+			.Include(x => x.WriterList)
+				.ThenInclude(x => x.Person)
+			.Include(x => x.Images)
 			.SingleOrDefaultAsync(x => x.Id == id);
 
 			return movie;
@@ -157,6 +157,7 @@ namespace Infrastructure.MovOrg.EFCore
 				.Include(x => x.WriterList)
 					.ThenInclude(x => x.Person)
 				.Include(x => x.CompanyList)
+				.Include(x => x.Images)
 				.SingleOrDefaultAsync(x => x.Id == movie.Id);
 
 			if (existingMovie == null) throw new RepositoryException("Movie does not exists in local. Cannot update details.");
@@ -176,6 +177,7 @@ namespace Infrastructure.MovOrg.EFCore
 			existingMovie.IsFavorite = fav;
 			existingMovie.BoxOffice = movie.BoxOffice;
 			existingMovie.Trailer = movie.Trailer;
+			existingMovie.Images = movie.Images;
 
 			UpdateRelatedInfo(movie);
 
@@ -184,6 +186,7 @@ namespace Infrastructure.MovOrg.EFCore
 
 		private void UpdateRelatedInfo(Movie movie)
 		{
+			//TODO: refactor this
 			foreach (var moviePerson in movie.ActorList)
 			{
 				var existingLink = DbContext.MovieActors.Find(new object[] { moviePerson.MovieId, moviePerson.PersonId });

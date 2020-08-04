@@ -7,7 +7,6 @@ using EntityFramework.DbContextScope.Interfaces;
 
 using EntryPoint.Mapper;
 
-using Infrastructure.EFCore;
 using Infrastructure.MovOrg.APIs;
 using Infrastructure.MovOrg.EFCore;
 

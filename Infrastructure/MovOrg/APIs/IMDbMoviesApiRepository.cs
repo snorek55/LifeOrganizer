@@ -45,6 +45,19 @@ namespace Infrastructure.MovOrg.APIs
 			ThrowIfError(data.ErrorMessage);
 			var movie = mapper.Map<Movie>(data);
 
+			int i = 0;
+			foreach (var image in data.Images.Items)
+			{
+				movie.Images.Add(new MovieImageData
+				{
+					Id = (i++).ToString(),
+					MovieId = data.Images.IMDbId,
+					Movie = movie,
+					Image = image.Image,
+					Title = image.Title
+				});
+			}
+
 			await UpdateRatings(data.Ratings, movie);
 			return movie;
 		}

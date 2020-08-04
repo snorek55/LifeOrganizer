@@ -13,7 +13,9 @@ namespace Organizers.MovOrg.Adapters.Items
 
 		public string Title { get; set; }
 
-		public string Image { get; set; }
+		public float? IMDbRating { get; set; }
+
+		public string CoverImage { get; set; }
 
 		public int? Rank { get; set; }
 
@@ -60,6 +62,8 @@ namespace Organizers.MovOrg.Adapters.Items
 		public List<WriterViewModel> WriterList { get; set; } = new List<WriterViewModel>();
 
 		public List<RatingViewModel> Ratings { get; set; } = new List<RatingViewModel>();
+
+		public List<ImageDataViewModel> Images { get; set; }
 
 		#endregion Details
 

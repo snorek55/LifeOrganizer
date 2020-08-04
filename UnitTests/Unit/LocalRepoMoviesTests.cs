@@ -3,7 +3,6 @@ using EntityFramework.DbContextScope.Interfaces;
 
 using EntryPoint;
 
-using Infrastructure.EFCore;
 using Infrastructure.MovOrg.EFCore;
 
 using Microsoft.Data.Sqlite;
