@@ -1,6 +1,6 @@
 ﻿using EntityFramework.DbContextScope.Interfaces;
 
-using Infrastructure.EFCore;
+using Infrastructure.MovOrg.EFCore;
 
 using Microsoft.EntityFrameworkCore;
 

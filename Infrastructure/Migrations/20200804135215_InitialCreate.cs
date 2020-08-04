@@ -26,9 +26,9 @@ namespace Infrastructure.Migrations
                     Id = table.Column<string>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Plot = table.Column<string>(nullable: true),
-                    IMDbRating = table.Column<float>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    Image = table.Column<string>(nullable: true),
+                    IMDbRating = table.Column<string>(nullable: true),
+                    CoverImage = table.Column<string>(nullable: true),
                     Year = table.Column<string>(nullable: true),
                     Tagline = table.Column<string>(nullable: true),
                     Keywords = table.Column<string>(nullable: true),
@@ -126,6 +126,26 @@ namespace Infrastructure.Migrations
                         principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MovieImageData",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    MovieId = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieImageData", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MovieImageData_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -262,6 +282,11 @@ namespace Infrastructure.Migrations
                 column: "PersonId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MovieImageData_MovieId",
+                table: "MovieImageData",
+                column: "MovieId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MovieWriters_PersonId",
                 table: "MovieWriters",
                 column: "PersonId");
@@ -285,6 +310,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "MovieDirectors");
+
+            migrationBuilder.DropTable(
+                name: "MovieImageData");
 
             migrationBuilder.DropTable(
                 name: "MovieWriters");

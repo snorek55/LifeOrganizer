@@ -11,6 +11,7 @@ namespace EntryPoint.Mapper.Profiles
 		{
 			CreateMap<Movie, MovieViewModel>();
 
+			CreateMap<MovieImageData, ImageDataViewModel>();
 			CreateMap<BoxOffice, BoxOfficeViewModel>();
 			CreateMap<Trailer, TrailerViewModel>();
 			CreateMap<MovieActor, ActorViewModel>()
