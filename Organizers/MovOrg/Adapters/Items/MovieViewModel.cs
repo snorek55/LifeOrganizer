@@ -2,6 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace Organizers.MovOrg.Adapters.Items
 {
@@ -55,7 +58,8 @@ namespace Organizers.MovOrg.Adapters.Items
 
 		public List<DirectorViewModel> DirectorList { get; set; } = new List<DirectorViewModel>();
 
-		public List<ActorViewModel> ActorList { get; set; } = new List<ActorViewModel>();
+		public ObservableCollection<ActorViewModel> ActorList { get; set; } = new ObservableCollection<ActorViewModel>();
+		private ICollectionView actorCollectionView;
 
 		public List<CompanyViewModel> CompanyList { get; set; } = new List<CompanyViewModel>();
 
@@ -75,6 +79,35 @@ namespace Organizers.MovOrg.Adapters.Items
 
 		public bool IsWatched { get; set; }
 
+		public bool ShowAllActors { get; set; }
+
 		#endregion User Preferences
+
+#pragma warning disable IDE0051 // Quitar miembros privados no utilizados
+
+		private void OnActorListChanged()
+
+		{
+			actorCollectionView = CollectionViewSource.GetDefaultView(ActorList);
+			actorCollectionView.Filter = new Predicate<object>(x => ActorFiltering(x as ActorViewModel));
+
+			RefreshFilter();
+		}
+
+		private void OnShowAllActorsChanged()
+#pragma warning restore IDE0051 // Quitar miembros privados no utilizados
+		{
+			RefreshFilter();
+		}
+
+		private bool ActorFiltering(ActorViewModel actorViewModel)
+		{
+			return actorViewModel.IsStar || ShowAllActors;
+		}
+
+		private void RefreshFilter()
+		{
+			actorCollectionView.Refresh();
+		}
 	}
 }

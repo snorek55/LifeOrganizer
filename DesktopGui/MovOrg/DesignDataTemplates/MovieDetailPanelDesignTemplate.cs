@@ -3,6 +3,7 @@ using Organizers.MovOrg.Adapters.Sections;
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DesktopGui.MovOrg.DesignDataTemplates
 {
@@ -67,7 +68,7 @@ namespace DesktopGui.MovOrg.DesignDataTemplates
 					GrossUsa = "324€"
 				};
 
-				ActorList = new List<ActorViewModel>();
+				ActorList = new ObservableCollection<ActorViewModel>();
 				for (int i = 0; i < 30; i++)
 				{
 					var actor = new ActorDesignTemplate();

@@ -73,7 +73,8 @@ namespace EntryPoint.Mapper.Profiles
 				.ForMember(d => d.Person, o => o.MapFrom(s => new Person { Id = s.Id, Name = s.Name, ImageUrl = s.Image }))
 				.ForMember(d => d.PersonId, o => o.MapFrom(s => s.Id))
 				.IgnoreDestinationMember(d => d.Movie)
-				.IgnoreDestinationMember(d => d.MovieId);
+				.IgnoreDestinationMember(d => d.MovieId)
+				.IgnoreDestinationMember(d => d.IsStar);
 
 			CreateMap<StarShort, MovieDirector>(MemberList.None)
 				.ForMember(d => d.Person, o => o.MapFrom(s => new Person { Id = s.Id, Name = s.Name }))

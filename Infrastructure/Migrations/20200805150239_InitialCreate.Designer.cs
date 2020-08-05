@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MoviesContext))]
-    [Migration("20200805144827_InitialCreate")]
+    [Migration("20200805150239_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -139,6 +139,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("AsCharacter")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsStar")
+                        .HasColumnType("bit");
 
                     b.HasKey("MovieId", "PersonId");
 
