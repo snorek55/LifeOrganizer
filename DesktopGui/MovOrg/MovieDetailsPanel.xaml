@@ -13,6 +13,15 @@
              d:DesignWidth="700"
              mc:Ignorable="d">
     <Grid x:Name="mainGrid" Background="Red">
+
+        <ContentControl Content="{Binding ImagePresenter}"
+                        Panel.ZIndex="2"
+                        Visibility="{Binding AreImagesShowing, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=hidden}" />
+        <Border Panel.ZIndex="1"
+                Background="Black"
+                Opacity="0.9"
+                Visibility="{Binding AreImagesShowing, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=hidden}" />
+
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <Grid Margin="5">
 
@@ -30,15 +39,28 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Image Grid.Row="0"
-                       Grid.Column="0"
-                       Source="{Binding SelectedMovie.CoverImage}">
-                    <Image.Style>
-                        <Style TargetType="Image">
-                            <Setter Property="Height" Value="300" />
-                        </Style>
-                    </Image.Style>
-                </Image>
+                <Grid Grid.Row="0"
+                      Grid.Column="0"
+                      Height="300">
+                    <Canvas Panel.ZIndex="1">
+
+                        <Button Canvas.Left="20"
+                                Command="{Binding ShowImagesCommand}"
+                                Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+                            <materialDesign:PackIcon Width="30"
+                                                     Height="30"
+                                                     Kind="Fullscreen" />
+                        </Button>
+                    </Canvas>
+
+                    <Image Source="{Binding SelectedMovie.CoverImage}">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Setter Property="Height" Value="300" />
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Grid>
 
                 <StackPanel Grid.Row="1"
                             Grid.Column="0"
@@ -372,7 +394,7 @@
                     <ListView ItemsSource="{Binding SelectedMovie.Images}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
                 </StackPanel>
 
-                <TextBlock Text="{Binding SelectedMovie.LastUpdatedDetails}" />
+                <!--<TextBlock Text="{Binding SelectedMovie.LastUpdatedDetails}" />-->
             </Grid>
         </ScrollViewer>
     </Grid>

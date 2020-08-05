@@ -2,6 +2,8 @@
 using Organizers.MovOrg.Adapters.Items;
 using Organizers.MovOrg.UseCases;
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -12,6 +14,10 @@ namespace Organizers.MovOrg.Adapters.Sections
 	{
 		public MovieViewModel SelectedMovie { get; set; }
 
+		public ImagePresenterViewModel ImagePresenter { get; set; } = new ImagePresenterViewModel();
+
+		public bool AreImagesShowing { get; set; }
+
 		public ICommand UpdateMovieCommand { get => new AsyncCommand(UpdateCurrentMovieAsync, parent.NotificationsHandler); }
 		public ICommand WikipediaCommand { get => new SyncCommand(GoToWikipedia); }
 		public ICommand IMDbCommand { get => new SyncCommand(GoToIMDbPage); }
@@ -19,6 +25,8 @@ namespace Organizers.MovOrg.Adapters.Sections
 		public ICommand IsFavoriteCommand { get => new SyncCommand(UpdateFavoriteStatus); }
 		public ICommand IsMustWatchCommand { get => new SyncCommand(UpdateMustWatch); }
 		public ICommand IsWatchedCommand { get => new SyncCommand(UpdateWatched); }
+
+		public ICommand ShowImagesCommand { get => new SyncCommand(ShowImages); }
 
 		private MoviesSectionViewModel parent;
 
@@ -28,6 +36,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 		{
 			this.parent = parent;
 			this.service = service;
+			ImagePresenter.RequestedExit += HideImages;
 		}
 
 		private void UpdateWatched()
@@ -70,6 +79,41 @@ namespace Organizers.MovOrg.Adapters.Sections
 		private void GoToIMDbPage()
 		{
 			Process.Start("explorer.exe", "https://www.imdb.com/title/" + SelectedMovie.Id + "/");
+		}
+
+		private void ShowImages()
+		{
+			//TODO: refactor this
+			var images = new List<ImageViewModel>();
+			foreach (var imageData in SelectedMovie.Images)
+			{
+				var image = new ImageViewModel
+				{
+					Image = imageData.Image,
+					Title = imageData.Title
+				};
+				images.Add(image);
+			}
+
+			var coverImg = new ImageViewModel
+			{
+				Image = SelectedMovie.CoverImage,
+				Title = "Cover"
+			};
+
+			ImagePresenter.Images.Clear();
+			ImagePresenter.Images.Add(coverImg);
+
+			foreach (var img in images)
+				ImagePresenter.Images.Add(img);
+
+			ImagePresenter.CurrentImage = ImagePresenter.Images[0];
+			AreImagesShowing = true;
+		}
+
+		private void HideImages(object sender, EventArgs e)
+		{
+			AreImagesShowing = false;
 		}
 
 		private async Task UpdateCurrentMovieAsync()
