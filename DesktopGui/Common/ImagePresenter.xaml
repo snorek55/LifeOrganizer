@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="DesktopGui.Common.ImagePresenter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:DesktopGui.Common"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <ScrollViewer x:Name="PART_ScrollViewer">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Canvas Height="600" Panel.ZIndex="3">
+                <Button Canvas.Right="20"
+                        Command="{Binding ExitCommand}"
+                        Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+                    <materialDesign:PackIcon Width="30"
+                                             Height="30"
+                                             Kind="ExitToApp" />
+                </Button>
+                <Button Canvas.Left="20"
+                        Canvas.Top="300"
+                        Command="{Binding PreviousImageCommand}"
+                        Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+                    <materialDesign:PackIcon Width="50"
+                                             Height="50"
+                                             Kind="ArrowLeftBoldCircle" />
+                </Button>
+                <Button Canvas.Top="300"
+                        Canvas.Right="20"
+                        Command="{Binding NextImageCommand}"
+                        Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+                    <materialDesign:PackIcon Width="50"
+                                             Height="50"
+                                             Kind="ArrowRightBoldCircle" />
+                </Button>
+            </Canvas>
+
+            <ContentPresenter Content="{Binding CurrentImage}" />
+
+            <ListView Grid.Row="1"
+                      ItemTemplate="{StaticResource PreviewImageTemplate}"
+                      ItemsSource="{Binding Images}"
+                      MouseUp="ListView_MouseUp"
+                      SelectedItem="{Binding CurrentImage}"
+                      Style="{StaticResource ExternalScrollVirtualizingPanelStyle}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="4" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListView>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
