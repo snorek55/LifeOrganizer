@@ -58,6 +58,12 @@ namespace Infrastructure.MovOrg.APIs
 				});
 			}
 
+			foreach (var actor in movie.ActorList)
+			{
+				if (data.StarList.Any(x => x.Id == actor.PersonId))
+					actor.IsStar = true;
+			}
+
 			await UpdateRatings(data.Ratings, movie);
 			return movie;
 		}

@@ -209,7 +209,8 @@ namespace Infrastructure.MovOrg.EFCore
 					MovieId = existingMovie.Id,
 					Person = existingPerson,
 					PersonId = existingPerson.Id,
-					AsCharacter = moviePerson.AsCharacter
+					AsCharacter = moviePerson.AsCharacter,
+					IsStar = moviePerson.IsStar
 				};
 
 				DbContext.MovieActors.Add(newLink);

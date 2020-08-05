@@ -9,7 +9,8 @@ namespace EntryPoint.Mapper.Profiles
 	{
 		public ViewModelsProfile()
 		{
-			CreateMap<Movie, MovieViewModel>();
+			CreateMap<Movie, MovieViewModel>()
+				.IgnoreDestinationMember(x => x.ShowAllActors);
 
 			CreateMap<MovieImageData, ImageDataViewModel>();
 			CreateMap<BoxOffice, BoxOfficeViewModel>();

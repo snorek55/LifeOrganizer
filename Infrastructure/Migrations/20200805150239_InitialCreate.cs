@@ -173,7 +173,8 @@ namespace Infrastructure.Migrations
                 {
                     MovieId = table.Column<string>(nullable: false),
                     PersonId = table.Column<string>(nullable: false),
-                    AsCharacter = table.Column<string>(nullable: true)
+                    AsCharacter = table.Column<string>(nullable: true),
+                    IsStar = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

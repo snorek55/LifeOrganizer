@@ -138,6 +138,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("AsCharacter")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsStar")
+                        .HasColumnType("bit");
+
                     b.HasKey("MovieId", "PersonId");
 
                     b.HasIndex("PersonId");

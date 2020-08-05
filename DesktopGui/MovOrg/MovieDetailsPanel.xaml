@@ -372,26 +372,17 @@
                     <Border Background="Purple"
                             BorderBrush="Black"
                             BorderThickness="1">
+
                         <TextBlock Text="Actors"
                                    HorizontalAlignment="Center"
                                    FontFamily="Verdana"
                                    FontSize="16" />
                     </Border>
+                    <CheckBox Content="Show all"
+                              FontStyle="Oblique"
+                              FontWeight="Medium"
+                              IsChecked="{Binding SelectedMovie.ShowAllActors}" />
                     <ListView ItemsSource="{Binding SelectedMovie.ActorList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="5"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2">
-                    <Border Background="Purple"
-                            BorderBrush="Black"
-                            BorderThickness="1">
-                        <TextBlock Text="Images"
-                                   HorizontalAlignment="Center"
-                                   FontFamily="Verdana"
-                                   FontSize="16" />
-                    </Border>
-                    <ListView ItemsSource="{Binding SelectedMovie.Images}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
                 </StackPanel>
 
                 <!--<TextBlock Text="{Binding SelectedMovie.LastUpdatedDetails}" />-->
