@@ -26,6 +26,8 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		public MovieDetailsPanelViewModel MovieDetailsPanel { get; private set; }
 
+		public bool AreDetailsShowing { get => SelectedMovie != null; }
+
 		#region Commands
 
 		public ICommand SearchCommand { get => new AsyncCommand(SearchMoviesWithChosenTitleAsync, NotificationsHandler); }

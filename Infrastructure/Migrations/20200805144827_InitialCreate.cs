@@ -129,23 +129,23 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MovieImageData",
+                name: "MovieImageDatas",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    MovieId = table.Column<string>(nullable: true),
+                    MovieId = table.Column<string>(nullable: false),
                     Image = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovieImageData", x => x.Id);
+                    table.PrimaryKey("PK_MovieImageDatas", x => new { x.MovieId, x.Id });
                     table.ForeignKey(
-                        name: "FK_MovieImageData_Movies_MovieId",
+                        name: "FK_MovieImageDatas_Movies_MovieId",
                         column: x => x.MovieId,
                         principalTable: "Movies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -282,11 +282,6 @@ namespace Infrastructure.Migrations
                 column: "PersonId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MovieImageData_MovieId",
-                table: "MovieImageData",
-                column: "MovieId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_MovieWriters_PersonId",
                 table: "MovieWriters",
                 column: "PersonId");
@@ -312,7 +307,7 @@ namespace Infrastructure.Migrations
                 name: "MovieDirectors");
 
             migrationBuilder.DropTable(
-                name: "MovieImageData");
+                name: "MovieImageDatas");
 
             migrationBuilder.DropTable(
                 name: "MovieWriters");

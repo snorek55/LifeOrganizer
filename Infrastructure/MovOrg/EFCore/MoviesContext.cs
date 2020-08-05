@@ -24,6 +24,7 @@ namespace Infrastructure.MovOrg.EFCore
 
 		public DbSet<Person> People { get; set; }
 
+		public DbSet<MovieImageData> MovieImageDatas { get; set; }
 		public DbSet<MovieActor> MovieActors { get; set; }
 
 		public DbSet<MovieDirector> MovieDirectors { get; set; }
@@ -60,6 +61,9 @@ namespace Infrastructure.MovOrg.EFCore
 
 			modelBuilder.Entity<Rating>()
 				.HasKey(c => new { c.MovieId, c.SourceId });
+
+			modelBuilder.Entity<MovieImageData>()
+				.HasKey(c => new { c.MovieId, c.Id });
 
 			modelBuilder.Entity<Rating>()
 				.HasOne(x => x.Movie)
