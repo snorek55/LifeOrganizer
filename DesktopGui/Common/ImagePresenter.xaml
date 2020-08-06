@@ -76,7 +76,7 @@
                     </StackPanel>
                 </Button>
 
-                <TextBlock>
+                <TextBlock VerticalAlignment="Center">
                     <Run Text="{Binding ImagesCollectionView.CurrentPage, Mode=OneWay}" />
                     <Run Text=" of " />
                     <Run Text="{Binding ImagesCollectionView.TotalPages, Mode=OneWay}" />

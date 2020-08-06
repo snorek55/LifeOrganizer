@@ -28,6 +28,9 @@ namespace Organizers.Common.Adapters
 
 		public ICollectionView CollectionView { get; }
 
+		public int MaxIndexValid { get => CurrentPage * MaxPagedItems - 1; }
+		public int MinIndexValid { get => MaxIndexValid - MaxPagedItems + 1; }
+
 		public PagedCollectionView(ObservableCollection<T> sourceCollection, int maxPagedItems)
 		{
 			SourceCollection = sourceCollection ?? throw new ArgumentNullException(nameof(sourceCollection));
@@ -59,27 +62,27 @@ namespace Organizers.Common.Adapters
 		private bool PagingFiltering(T t)
 		{
 			var index = SourceCollection.IndexOf(t);
-			var maxIndexAccepted = CurrentPage * MaxPagedItems - 1;
-			var minIndexAccepted = maxIndexAccepted - MaxPagedItems + 1;
 
-			return index <= maxIndexAccepted && index >= minIndexAccepted;
+			return index <= MaxIndexValid && index >= MinIndexValid;
 		}
 
 		public void NextPage()
 		{
 			if (CurrentPage == TotalPages)
-				return;
+				CurrentPage = 1;
+			else
+				CurrentPage++;
 
-			CurrentPage++;
 			Refresh();
 		}
 
 		public void PreviousPage()
 		{
 			if (CurrentPage == 1)//1 base index
-				return;
+				CurrentPage = TotalPages;
+			else
+				CurrentPage--;
 
-			CurrentPage--;
 			Refresh();
 		}
 

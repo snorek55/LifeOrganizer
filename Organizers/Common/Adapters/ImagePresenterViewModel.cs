@@ -16,7 +16,7 @@ namespace Organizers.Common.Adapters
 
 		public ImageViewModel CurrentImage { get; set; }
 
-		private int maxItemsShown = 4;
+		private int maxItemsShown = 8;
 		public int MaxItemsShown { get => maxItemsShown; set => SetMaxItemsShown(value); }
 
 		public ObservableCollection<ImageViewModel> Images { get; set; } = new ObservableCollection<ImageViewModel>();
@@ -56,8 +56,8 @@ namespace Organizers.Common.Adapters
 			else
 				index++;
 
-			if (index < 0) index = Images.Count - 1;
-			if (index >= Images.Count) index = 0;
+			if (index < ImagesCollectionView.MinIndexValid || index < 0) index = ImagesCollectionView.MaxIndexValid;
+			if (index > ImagesCollectionView.MaxIndexValid || index >= Images.Count) index = ImagesCollectionView.MinIndexValid;
 
 			CurrentImage = Images[index];
 		}
