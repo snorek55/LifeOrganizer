@@ -141,7 +141,5 @@ namespace Organizers.MovOrg.Domain
 		}
 
 		//public List<Movie> Similars { get; set; }
-
-		//public List<Actor> Stars { get; set; }
 	}
 }
