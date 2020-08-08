@@ -1,5 +1,9 @@
-﻿using EntityFramework.DbContextScope;
+﻿using AutoFixture;
+
+using EntityFramework.DbContextScope;
 using EntityFramework.DbContextScope.Interfaces;
+
+using FluentAssertions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -25,22 +29,30 @@ namespace Tests.Unit
 		private Mock<IApiMoviesRepository> mockApiRepo = new Mock<IApiMoviesRepository>();
 		private IDbContextScopeFactory contextScopeFactory = new DbContextScopeFactory(new TestDbContextFactory(UnitTestConfig));
 
+		private Fixture fixture;
+
 		public MovOrgTests()
 		{
 			moviesService = new MoviesService(contextScopeFactory, mockLocalRepo.Object, mockApiRepo.Object, mockConfig.Object);
 		}
 
+		[TestInitialize]
+		public void Initialize()
+		{
+			fixture = new Fixture();
+			fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+		}
+
 		[TestMethod]
 		public async Task GetMovieWithId_ShouldRetunDetailsFromApi_WhenNotAvailableInLocal()
 		{
-			var movieTestId = "MovieId";
-			var testMovie = new Movie { Id = movieTestId };
-			mockLocalRepo.Setup(x => x.AreDetailsAvailableFor(movieTestId)).ReturnsAsync(false);
-			mockApiRepo.Setup(x => x.GetMovieDetailsById(movieTestId)).ReturnsAsync(testMovie);
+			var movie = fixture.Create<Movie>();
+			mockLocalRepo.Setup(x => x.AreDetailsAvailableFor(movie.Id)).ReturnsAsync(false);
+			mockApiRepo.Setup(x => x.GetMovieDetailsById(movie.Id)).ReturnsAsync(movie);
 
-			var response = await moviesService.GetMovieWithId(movieTestId);
+			var response = await moviesService.GetMovieWithId(movie.Id);
 
-			Assert.AreEqual(testMovie.Id, response.Movie.Id);
+			response.Movie.Should().Be(movie);
 		}
 	}
 }
