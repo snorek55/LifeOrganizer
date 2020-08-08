@@ -197,6 +197,21 @@ namespace Infrastructure.Migrations
                     b.ToTable("MovieImageDatas");
                 });
 
+            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieSimilar", b =>
+                {
+                    b.Property<string>("MovieId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SimilarId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("MovieId", "SimilarId");
+
+                    b.HasIndex("SimilarId");
+
+                    b.ToTable("MovieSimilars");
+                });
+
             modelBuilder.Entity("Organizers.MovOrg.Domain.MovieWriter", b =>
                 {
                     b.Property<string>("MovieId")
@@ -358,6 +373,21 @@ namespace Infrastructure.Migrations
                     b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
                         .WithMany("Images")
                         .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieSimilar", b =>
+                {
+                    b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
+                        .WithMany("Similars")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Organizers.MovOrg.Domain.Movie", "Similar")
+                        .WithMany()
+                        .HasForeignKey("SimilarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -164,4 +164,20 @@
                    Source="{Binding Image}" />
         </StackPanel>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type itemsAdapters:SimilarMovieViewModel}">
+        <Image Width="200"
+               Height="200"
+               HorizontalAlignment="Center"
+               Source="{Binding Movie.CoverImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="SelectedSimilarStyle" DataType="{x:Type itemsAdapters:SimilarMovieViewModel}">
+        <StackPanel>
+            <Image Width="200"
+                   Height="200"
+                   HorizontalAlignment="Center"
+                   Source="{Binding Movie.CoverImage}" />
+        </StackPanel>
+    </DataTemplate>
 </ResourceDictionary>

@@ -9,7 +9,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DataContext="{d:DesignInstance designTemplates:MovieDetailPanelDesignTemplate,
                                               IsDesignTimeCreatable=True}"
-             d:DesignHeight="1200"
+             d:DesignHeight="1600"
              d:DesignWidth="700"
              mc:Ignorable="d">
     <Grid x:Name="mainGrid" Background="Red">
@@ -384,6 +384,21 @@
                               IsChecked="{Binding SelectedMovie.ShowAllActors}" />
                     <ListView ItemsSource="{Binding SelectedMovie.ActorList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
                 </StackPanel>
+
+                <Grid Grid.Row="5" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <ListView ItemsSource="{Binding SelectedMovie.Similars}"
+                              SelectedItem="{Binding SelectedMovie.SelectedSimilar}"
+                              Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
+
+                    <ContentControl Content="{Binding SelectedMovie.SelectedSimilar}"
+                                    Grid.Column="1"
+                                    ContentTemplate="{StaticResource SelectedSimilarStyle}" />
+                </Grid>
 
                 <!--<TextBlock Text="{Binding SelectedMovie.LastUpdatedDetails}" />-->
             </Grid>

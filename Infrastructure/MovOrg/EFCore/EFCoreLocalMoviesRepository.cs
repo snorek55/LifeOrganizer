@@ -70,6 +70,8 @@ namespace Infrastructure.MovOrg.EFCore
 			.Include(x => x.WriterList)
 				.ThenInclude(x => x.Person)
 			.Include(x => x.Images)
+			.Include(x => x.Similars)
+				.ThenInclude(x => x.Similar)
 			.SingleOrDefaultAsync(x => x.Id == id);
 
 			return movie;
@@ -158,6 +160,8 @@ namespace Infrastructure.MovOrg.EFCore
 					.ThenInclude(x => x.Person)
 				.Include(x => x.CompanyList)
 				.Include(x => x.Images)
+				.Include(x => x.Similars)
+					.ThenInclude(x => x.Similar)
 				.SingleOrDefaultAsync(x => x.Id == movie.Id);
 
 			if (existingMovie == null) throw new RepositoryException("Movie does not exists in local. Cannot update details.");
@@ -268,6 +272,33 @@ namespace Infrastructure.MovOrg.EFCore
 				};
 
 				DbContext.MovieDirectors.Add(newLink);
+			}
+
+			foreach (var movieSimilar in movie.Similars)
+			{
+				var existingLink = DbContext.MovieSimilars.Find(new object[] { movieSimilar.MovieId, movieSimilar.SimilarId });
+				if (existingLink != null)
+					continue;
+
+				var existingSimilar = DbContext.Movies.Find(new object[] { movieSimilar.SimilarId });
+				if (existingSimilar == null)
+				{
+					DbContext.Movies.Add(movieSimilar.Similar);
+					existingSimilar = DbContext.Movies.Find(new object[] { movieSimilar.SimilarId });
+				}
+
+				var existingMovie = DbContext.Movies.Find(new object[] { movieSimilar.MovieId });
+				if (existingMovie == null) throw new InvalidOperationException("Se esperaba encontrar pelicula para agregar personas");
+
+				var newLink = new MovieSimilar
+				{
+					Movie = existingMovie,
+					MovieId = existingMovie.Id,
+					Similar = existingSimilar,
+					SimilarId = existingSimilar.Id,
+				};
+
+				DbContext.MovieSimilars.Add(newLink);
 			}
 
 			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.CompanyList, DbContext, typeof(Movie), typeof(Company));

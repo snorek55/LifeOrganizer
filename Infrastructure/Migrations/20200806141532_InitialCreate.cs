@@ -149,6 +149,29 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MovieSimilars",
+                columns: table => new
+                {
+                    SimilarId = table.Column<string>(nullable: false),
+                    MovieId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieSimilars", x => new { x.MovieId, x.SimilarId });
+                    table.ForeignKey(
+                        name: "FK_MovieSimilars_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_MovieSimilars_Movies_SimilarId",
+                        column: x => x.SimilarId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Trailers",
                 columns: table => new
                 {
@@ -283,6 +306,11 @@ namespace Infrastructure.Migrations
                 column: "PersonId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MovieSimilars_SimilarId",
+                table: "MovieSimilars",
+                column: "SimilarId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MovieWriters_PersonId",
                 table: "MovieWriters",
                 column: "PersonId");
@@ -309,6 +337,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "MovieImageDatas");
+
+            migrationBuilder.DropTable(
+                name: "MovieSimilars");
 
             migrationBuilder.DropTable(
                 name: "MovieWriters");

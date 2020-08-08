@@ -69,7 +69,7 @@ namespace DesktopGui.MovOrg.DesignDataTemplates
 				};
 
 				ActorList = new ObservableCollection<ActorViewModel>();
-				for (int i = 0; i < 30; i++)
+				for (int i = 0; i < 6; i++)
 				{
 					var actor = new ActorDesignTemplate();
 					ActorList.Add(actor);

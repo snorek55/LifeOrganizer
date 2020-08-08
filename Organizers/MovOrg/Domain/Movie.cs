@@ -53,6 +53,8 @@ namespace Organizers.MovOrg.Domain
 
 		public List<MovieImageData> Images { get; set; } = new List<MovieImageData>();
 
+		public List<MovieSimilar> Similars { get; set; }
+
 		#endregion Related data
 
 		#region User Data
@@ -139,7 +141,5 @@ namespace Organizers.MovOrg.Domain
 			hash.Add(IsMustWatch);
 			return hash.ToHashCode();
 		}
-
-		//public List<Movie> Similars { get; set; }
 	}
 }
