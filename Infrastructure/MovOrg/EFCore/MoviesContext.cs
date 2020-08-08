@@ -31,6 +31,8 @@ namespace Infrastructure.MovOrg.EFCore
 
 		public DbSet<MovieWriter> MovieWriters { get; set; }
 
+		public DbSet<MovieSimilar> MovieSimilars { get; set; }
+
 		public DbSet<Rating> Ratings { get; set; }
 
 		public DbSet<RatingSource> RatingSources { get; set; }
@@ -58,6 +60,9 @@ namespace Infrastructure.MovOrg.EFCore
 
 			modelBuilder.Entity<MovieCompany>()
 				.HasKey(c => new { c.MovieId, c.CompanyId });
+
+			modelBuilder.Entity<MovieSimilar>()
+				.HasKey(c => new { c.MovieId, c.SimilarId });
 
 			modelBuilder.Entity<Rating>()
 				.HasKey(c => new { c.MovieId, c.SourceId });
@@ -89,6 +94,11 @@ namespace Infrastructure.MovOrg.EFCore
 				.HasMany(x => x.Images)
 				.WithOne(x => x.Movie)
 				.HasForeignKey(x => x.MovieId);
+
+			modelBuilder.Entity<Movie>()
+				.HasMany(x => x.Similars)
+				.WithOne(x => x.Movie)
+				.HasForeignKey(x => x.MovieId).OnDelete(DeleteBehavior.NoAction);
 		}
 	}
 }

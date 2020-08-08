@@ -10,7 +10,8 @@ namespace EntryPoint.Mapper.Profiles
 		public ViewModelsProfile()
 		{
 			CreateMap<Movie, MovieViewModel>()
-				.IgnoreDestinationMember(x => x.ShowAllActors);
+				.IgnoreDestinationMember(x => x.ShowAllActors)
+				.IgnoreDestinationMember(x => x.SelectedSimilar);
 
 			CreateMap<MovieImageData, ImageDataViewModel>();
 			CreateMap<BoxOffice, BoxOfficeViewModel>();
@@ -36,6 +37,9 @@ namespace EntryPoint.Mapper.Profiles
 
 			CreateMap<Rating, RatingViewModel>()
 			.ForMember(d => d.Score, opt => opt.MapFrom(y => (y.Score != null) ? y.Score.ToString() : "N/A"));
+
+			CreateMap<MovieSimilar, SimilarMovieViewModel>(MemberList.None)
+				.ForMember(d => d.Movie, o => o.MapFrom(s => s.Similar));
 		}
 	}
 }

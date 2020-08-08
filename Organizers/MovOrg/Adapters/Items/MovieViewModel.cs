@@ -67,7 +67,10 @@ namespace Organizers.MovOrg.Adapters.Items
 
 		public List<RatingViewModel> Ratings { get; set; } = new List<RatingViewModel>();
 
-		public List<ImageDataViewModel> Images { get; set; }
+		public List<ImageDataViewModel> Images { get; set; } = new List<ImageDataViewModel>();
+
+		public List<SimilarMovieViewModel> Similars { get; set; } = new List<SimilarMovieViewModel>();
+		public SimilarMovieViewModel SelectedSimilar { get; set; }
 
 		#endregion Details
 

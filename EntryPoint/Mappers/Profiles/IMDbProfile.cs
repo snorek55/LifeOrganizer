@@ -28,6 +28,7 @@ namespace EntryPoint.Mapper.Profiles
 				.AfterMap((s, d) => d.Trailer.Movie = d)
 				.AfterMap((s, d) =>
 				{
+					//TODO: refactor this
 					foreach (var actor in d.ActorList)
 					{
 						actor.Movie = d;
@@ -55,6 +56,12 @@ namespace EntryPoint.Mapper.Profiles
 					{
 						image.Movie = d;
 						image.MovieId = d.Id;
+					}
+
+					foreach (var similar in d.Similars)
+					{
+						similar.Movie = d;
+						similar.MovieId = d.Id;
 					}
 				});
 
@@ -100,6 +107,12 @@ namespace EntryPoint.Mapper.Profiles
 			CreateMap<BoxOfficeShort, BoxOffice>()
 				.IgnoreDestinationMember(d => d.Movie)
 				.IgnoreDestinationMember(d => d.Id);
+
+			CreateMap<SimilarShort, MovieSimilar>()
+				.ForMember(d => d.Similar, o => o.MapFrom(s => new Movie { Id = s.Id, CoverImage = s.Image }))
+				.ForMember(d => d.SimilarId, o => o.MapFrom(s => s.Id))
+				.IgnoreDestinationMember(d => d.Movie)
+				.IgnoreDestinationMember(d => d.MovieId);
 		}
 	}
 }
