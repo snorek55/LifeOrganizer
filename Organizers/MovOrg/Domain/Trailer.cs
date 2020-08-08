@@ -19,14 +19,13 @@ namespace Organizers.MovOrg.Domain
 		{
 			return other != null &&
 				   Id == other.Id &&
-				   Movie.Id == other.Movie.Id &&
 				   ThumbnailUrl == other.ThumbnailUrl &&
 				   LinkEmbed == other.LinkEmbed;
 		}
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Movie.Id, ThumbnailUrl, LinkEmbed);
+			return HashCode.Combine(Id, ThumbnailUrl, LinkEmbed);
 		}
 	}
 }

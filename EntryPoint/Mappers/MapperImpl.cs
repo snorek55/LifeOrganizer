@@ -39,7 +39,15 @@ namespace EntryPoint.Mapper
 
 		public TDestination Map<TDestination>(object source)
 		{
-			return mapper.Map<TDestination>(source);
+			try
+			{
+				return mapper.Map<TDestination>(source);
+			}
+			catch (AutoMapperMappingException ex)
+			{
+				Debug.WriteLine(ex.ToString());
+				throw;
+			}
 		}
 	}
 }

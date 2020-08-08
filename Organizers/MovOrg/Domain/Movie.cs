@@ -13,7 +13,9 @@ namespace Organizers.MovOrg.Domain
 		public string Plot { get; set; }
 		public string Description { get; set; }
 
-		public string IMDbRating { get; set; }
+		//TODO: changed type make sure db still works
+		public float? IMDbRating { get; set; }
+
 		public string CoverImage { get; set; }
 		public string Year { get; set; }
 		public string Tagline { get; set; }
@@ -53,7 +55,7 @@ namespace Organizers.MovOrg.Domain
 
 		public List<MovieImageData> Images { get; set; } = new List<MovieImageData>();
 
-		public List<MovieSimilar> Similars { get; set; }
+		public List<MovieSimilar> Similars { get; set; } = new List<MovieSimilar>();
 
 		#endregion Related data
 

@@ -22,10 +22,16 @@ namespace EntryPoint.Mapper.Profiles
 				.IgnoreDestinationMember(d => d.IsMustWatch)
 				.IgnoreDestinationMember(d => d.Ratings)
 				.ForMember(d => d.CoverImage, o => o.MapFrom(s => s.Image))
-				.AfterMap((s, d) => d.BoxOffice.Movie = d)
-				.AfterMap((s, d) => d.BoxOffice.Id = d.Id)
-				.AfterMap((s, d) => d.Trailer.Id = d.Id)
-				.AfterMap((s, d) => d.Trailer.Movie = d)
+				.AfterMap((s, d) =>
+				{
+					d.BoxOffice.Movie = d;
+					d.BoxOffice.Id = d.Id;
+				})
+				.AfterMap((s, d) =>
+				{
+					d.Trailer.Id = d.Id;
+					d.Trailer.Movie = d;
+				})
 				.AfterMap((s, d) =>
 				{
 					//TODO: refactor this

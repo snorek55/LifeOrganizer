@@ -8,7 +8,7 @@ namespace Organizers.MovOrg.UseCases.Responses
 {
 	public class GetSuggestedTitleMoviesResponse : ResponseBase
 	{
-		public IEnumerable<Movie> Movies { get; private set; }
+		public IEnumerable<Movie> Movies { get; set; }
 
 		public bool AlreadySearched { get; set; }
 
