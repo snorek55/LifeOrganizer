@@ -2,7 +2,7 @@
 
 namespace Organizers.MovOrg.Domain
 {
-	public class MovieCompany : IEquatable<MovieCompany>
+	public class MovieCompany
 	{
 		public string MovieId { get; set; }
 
@@ -11,22 +11,5 @@ namespace Organizers.MovOrg.Domain
 		public string CompanyId { get; set; }
 
 		public Company Company { get; set; }
-
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as MovieCompany);
-		}
-
-		public bool Equals(MovieCompany other)
-		{
-			return other != null &&
-				   MovieId == other.MovieId &&
-				   CompanyId == other.CompanyId;
-		}
-
-		public override int GetHashCode()
-		{
-			return HashCode.Combine(MovieId, CompanyId);
-		}
 	}
 }

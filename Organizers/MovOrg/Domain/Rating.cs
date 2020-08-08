@@ -4,7 +4,7 @@ using System;
 
 namespace Organizers.MovOrg.Domain
 {
-	public class Rating : Entity, IEquatable<Rating>
+	public class Rating : Entity
 	{
 		public float? Score { get; set; }
 
@@ -13,23 +13,5 @@ namespace Organizers.MovOrg.Domain
 
 		public string SourceId { get; set; }
 		public RatingSource Source { get; set; }
-
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as Rating);
-		}
-
-		public bool Equals(Rating other)
-		{
-			return other != null &&
-				   Score == other.Score &&
-				   Movie.Id == other.Movie.Id &&
-				   SourceId == other.SourceId;
-		}
-
-		public override int GetHashCode()
-		{
-			return HashCode.Combine(Score, Movie.Id, SourceId);
-		}
 	}
 }
