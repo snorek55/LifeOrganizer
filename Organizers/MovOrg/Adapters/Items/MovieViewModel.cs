@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace Organizers.MovOrg.Adapters.Items
 {
-	public class MovieViewModel : BaseViewModel, IEquatable<MovieViewModel>
+	public class MovieViewModel : BaseViewModel
 	{
 		#region General Info
 
@@ -112,80 +112,6 @@ namespace Organizers.MovOrg.Adapters.Items
 		private void RefreshFilter()
 		{
 			actorCollectionView.Refresh();
-		}
-
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as MovieViewModel);
-		}
-
-		public bool Equals(MovieViewModel other)
-		{
-			return other != null &&
-				   Id == other.Id &&
-				   Title == other.Title &&
-				   IMDbRating == other.IMDbRating &&
-				   CoverImage == other.CoverImage &&
-				   Rank == other.Rank &&
-				   Plot == other.Plot &&
-				   Description == other.Description &&
-				   Year == other.Year &&
-				   Tagline == other.Tagline &&
-				   Keywords == other.Keywords &&
-				   RuntimeStr == other.RuntimeStr &&
-				   Awards == other.Awards &&
-				   Genres == other.Genres &&
-				   Countries == other.Countries &&
-				   Languages == other.Languages &&
-				   WikipediaUrl == other.WikipediaUrl &&
-				   ReleaseDate == other.ReleaseDate &&
-				   //EqualityComparer<BoxOfficeViewModel>.Default.Equals(BoxOffice, other.BoxOffice) &&
-				   //EqualityComparer<TrailerViewModel>.Default.Equals(Trailer, other.Trailer) &&
-				   //EqualityComparer<List<DirectorViewModel>>.Default.Equals(DirectorList, other.DirectorList) &&
-				   //EqualityComparer<ObservableCollection<ActorViewModel>>.Default.Equals(ActorList, other.ActorList) &&
-				   //EqualityComparer<List<CompanyViewModel>>.Default.Equals(CompanyList, other.CompanyList) &&
-				   //EqualityComparer<List<WriterViewModel>>.Default.Equals(WriterList, other.WriterList) &&
-				   //EqualityComparer<List<RatingViewModel>>.Default.Equals(Ratings, other.Ratings) &&
-				   //EqualityComparer<List<ImageDataViewModel>>.Default.Equals(Images, other.Images) &&
-				   //EqualityComparer<List<SimilarMovieViewModel>>.Default.Equals(Similars, other.Similars) &&
-				   IsFavorite == other.IsFavorite &&
-				   IsMustWatch == other.IsMustWatch &&
-				   IsWatched == other.IsWatched;
-		}
-
-		public override int GetHashCode()
-		{
-			var hash = new HashCode();
-			hash.Add(Id);
-			hash.Add(Title);
-			hash.Add(IMDbRating);
-			hash.Add(CoverImage);
-			hash.Add(Rank);
-			hash.Add(Plot);
-			hash.Add(Description);
-			hash.Add(Year);
-			hash.Add(Tagline);
-			hash.Add(Keywords);
-			hash.Add(RuntimeStr);
-			hash.Add(Awards);
-			hash.Add(Genres);
-			hash.Add(Countries);
-			hash.Add(Languages);
-			hash.Add(WikipediaUrl);
-			hash.Add(ReleaseDate);
-			//hash.Add(BoxOffice);
-			//hash.Add(Trailer);
-			//hash.Add(DirectorList);
-			//hash.Add(ActorList);
-			//hash.Add(CompanyList);
-			//hash.Add(WriterList);
-			//hash.Add(Ratings);
-			//hash.Add(Images);
-			//hash.Add(Similars);
-			hash.Add(IsFavorite);
-			hash.Add(IsMustWatch);
-			hash.Add(IsWatched);
-			return hash.ToHashCode();
 		}
 	}
 }
