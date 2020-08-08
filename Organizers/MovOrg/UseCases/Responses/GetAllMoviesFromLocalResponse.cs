@@ -7,7 +7,7 @@ namespace Organizers.MovOrg.UseCases.Responses
 {
 	public class GetAllMoviesFromLocalResponse : ResponseBase
 	{
-		public IEnumerable<Movie> Movies { get; internal set; }
+		public IEnumerable<Movie> Movies { get; set; }
 
 		public GetAllMoviesFromLocalResponse()
 		{

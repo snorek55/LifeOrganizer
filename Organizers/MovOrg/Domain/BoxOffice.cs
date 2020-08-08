@@ -7,7 +7,6 @@ namespace Organizers.MovOrg.Domain
 	public class BoxOffice : Entity, IEquatable<BoxOffice>
 	{
 		public Movie Movie { get; set; }
-
 		public string Budget { get; set; }
 		public string OpeningWeekendUSA { get; set; }
 		public string GrossUSA { get; set; }
@@ -22,7 +21,6 @@ namespace Organizers.MovOrg.Domain
 		{
 			return other != null &&
 				   Id == other.Id &&
-				   Movie.Id == other.Movie.Id &&
 				   Budget == other.Budget &&
 				   OpeningWeekendUSA == other.OpeningWeekendUSA &&
 				   GrossUSA == other.GrossUSA &&
@@ -31,7 +29,7 @@ namespace Organizers.MovOrg.Domain
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Movie.Id, Budget, OpeningWeekendUSA, GrossUSA, CumulativeWorldwideGross);
+			return HashCode.Combine(Id, Budget, OpeningWeekendUSA, GrossUSA, CumulativeWorldwideGross);
 		}
 	}
 }

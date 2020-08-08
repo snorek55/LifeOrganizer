@@ -25,7 +25,7 @@ namespace DesktopGui.MovOrg.DesignDataTemplates
 
 				Tagline = "Lorem ipsum dolor sit amet";
 
-				ReleaseDate = DateTime.Now;
+				ReleaseDate = DateTime.Now.ToString();
 				RuntimeStr = "228 min.";
 
 				Keywords = "Lorem,ipsum,dolor,sit,amet";

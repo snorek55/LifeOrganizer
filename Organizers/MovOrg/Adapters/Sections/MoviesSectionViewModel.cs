@@ -243,10 +243,13 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		private void ResetAndUpdateMovies(IEnumerable<Movie> movies)
 		{
+			Movies.Clear();
+			if (movies == null) return;
+
 			movies = movies.OrderByDescending(x => x.Rank != null).ThenBy(x => x.Rank);
 
 			var moviesVm = mapper.Map<IEnumerable<MovieViewModel>>(movies);
-			Movies.Clear();
+
 			foreach (var item in moviesVm)
 			{
 				Movies.Add(item);
