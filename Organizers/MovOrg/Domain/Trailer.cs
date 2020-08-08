@@ -4,28 +4,10 @@ using System;
 
 namespace Organizers.MovOrg.Domain
 {
-	public class Trailer : Entity, IEquatable<Trailer>
+	public class Trailer : Entity
 	{
 		public Movie Movie { get; set; }
 		public string ThumbnailUrl { get; set; }
 		public string LinkEmbed { get; set; }
-
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as Trailer);
-		}
-
-		public bool Equals(Trailer other)
-		{
-			return other != null &&
-				   Id == other.Id &&
-				   ThumbnailUrl == other.ThumbnailUrl &&
-				   LinkEmbed == other.LinkEmbed;
-		}
-
-		public override int GetHashCode()
-		{
-			return HashCode.Combine(Id, ThumbnailUrl, LinkEmbed);
-		}
 	}
 }

@@ -48,7 +48,9 @@ namespace Tests.Unit
 		{
 			fixture = new Fixture();
 			fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-			response = fixture.Create<GetAllMoviesFromLocalResponse>();
+			var movies = fixture.CreateMany<Movie>().ToList();
+			movies[0].Rank = 0;
+			response = new GetAllMoviesFromLocalResponse(movies);
 			moviesInLocal = response.Movies.ToList();
 			mockMoviesService.Setup(x => x.GetAllMoviesFromLocal()).ReturnsAsync(response);
 			moviesSectionViewModel = new MoviesSectionViewModel(mockMoviesService.Object, autoMapper, mockDispatcher.Object);

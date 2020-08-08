@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Organizers.MovOrg.Domain
 {
-	public class Movie : Entity, IEquatable<Movie>
+	public class Movie : Entity
 	{
 		#region Basic Data
 
@@ -66,82 +66,5 @@ namespace Organizers.MovOrg.Domain
 		public bool IsMustWatch { get; set; }
 
 		#endregion User Data
-
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as Movie);
-		}
-
-		public bool Equals(Movie other)
-		{
-			return other != null &&
-				   Id == other.Id &&
-				   Title == other.Title &&
-				   Plot == other.Plot &&
-				   Description == other.Description &&
-				   CoverImage == other.CoverImage &&
-				   Year == other.Year &&
-				   Tagline == other.Tagline &&
-				   Keywords == other.Keywords &&
-				   RuntimeStr == other.RuntimeStr &&
-				   Awards == other.Awards &&
-				   Genres == other.Genres &&
-				   Countries == other.Countries &&
-				   Languages == other.Languages &&
-				   LastUpdatedTop250 == other.LastUpdatedTop250 &&
-				   IsTop250 == other.IsTop250 &&
-				   AreDetailsAvailable == other.AreDetailsAvailable &&
-				   ReleaseDate == other.ReleaseDate &&
-				   Rank == other.Rank &&
-				   EqualityComparer<Trailer>.Default.Equals(Trailer, other.Trailer) &&
-				   EqualityComparer<BoxOffice>.Default.Equals(BoxOffice, other.BoxOffice) &&
-				   WikipediaUrl == other.WikipediaUrl &&
-				   //TODO: create equality comparers for these
-				   //EqualityComparer<List<MovieActor>>.Default.Equals(ActorList, other.ActorList) &&
-				   //EqualityComparer<List<MovieDirector>>.Default.Equals(DirectorList, other.DirectorList) &&
-				   //EqualityComparer<List<MovieWriter>>.Default.Equals(WriterList, other.WriterList) &&
-				   //EqualityComparer<List<MovieCompany>>.Default.Equals(CompanyList, other.CompanyList) &&
-				   //EqualityComparer<List<Rating>>.Default.Equals(Ratings, other.Ratings) &&
-				   //EqualityComparer<List<MovieImageData>>.Default.Equals(Images, other.Images) &&
-				   IsFavorite == other.IsFavorite &&
-				   IsWatched == other.IsWatched &&
-				   IsMustWatch == other.IsMustWatch;
-		}
-
-		public override int GetHashCode()
-		{
-			var hash = new HashCode();
-			hash.Add(Id);
-			hash.Add(Title);
-			hash.Add(Plot);
-			hash.Add(Description);
-			hash.Add(CoverImage);
-			hash.Add(Year);
-			hash.Add(Tagline);
-			hash.Add(Keywords);
-			hash.Add(RuntimeStr);
-			hash.Add(Awards);
-			hash.Add(Genres);
-			hash.Add(Countries);
-			hash.Add(Languages);
-			hash.Add(LastUpdatedTop250);
-			hash.Add(IsTop250);
-			hash.Add(AreDetailsAvailable);
-			hash.Add(ReleaseDate);
-			hash.Add(Rank);
-			hash.Add(Trailer);
-			hash.Add(BoxOffice);
-			hash.Add(WikipediaUrl);
-			hash.Add(ActorList);
-			hash.Add(DirectorList);
-			hash.Add(WriterList);
-			hash.Add(CompanyList);
-			hash.Add(Ratings);
-			hash.Add(Images);
-			hash.Add(IsFavorite);
-			hash.Add(IsWatched);
-			hash.Add(IsMustWatch);
-			return hash.ToHashCode();
-		}
 	}
 }
