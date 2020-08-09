@@ -20,7 +20,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 {
 	public class MoviesSectionViewModel : SectionViewModel
 	{
-		public ObservableCollection<MovieViewModel> Movies { get; set; } = new ObservableCollection<MovieViewModel>();
+		public ObservableCollection<MovieViewModel> Movies { get; } = new ObservableCollection<MovieViewModel>();
 
 		public MovieViewModel SelectedMovie { get; set; }
 
@@ -72,20 +72,20 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		#endregion Private Fields
 
-		public MoviesSectionViewModel(IMoviesService moviesService, IAutoMapper autoMapper, IDispatcher dispatcher)
+		public MoviesSectionViewModel()
 		{
-			this.mapper = autoMapper;
-			this.dispatcher = dispatcher;
 			SectionName = "Movies";
-			this.moviesService = moviesService;
-
-			MovieDetailsPanel = new MovieDetailsPanelViewModel(moviesService, this);
-
 			moviesCollectionView = CollectionViewSource.GetDefaultView(Movies);
 			moviesCollectionView.Filter = new Predicate<object>(x => MovieFiltering(x as MovieViewModel));
-
 			Movies.CollectionChanged += Movies_CollectionChanged;
+		}
 
+		public MoviesSectionViewModel(IMoviesService moviesService, IAutoMapper autoMapper, IDispatcher dispatcher) : this()
+		{
+			mapper = autoMapper;
+			this.dispatcher = dispatcher;
+			this.moviesService = moviesService;
+			MovieDetailsPanel = new MovieDetailsPanelViewModel(moviesService, this);
 			GetAllMoviesFromLocalOnStartup();
 		}
 
