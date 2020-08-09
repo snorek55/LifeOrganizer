@@ -74,8 +74,8 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Genres")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IMDbRating")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float?>("IMDbRating")
+                        .HasColumnType("real");
 
                     b.Property<bool>("IsFavorite")
                         .HasColumnType("bit");

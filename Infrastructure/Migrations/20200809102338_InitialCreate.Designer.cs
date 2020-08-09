@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MoviesContext))]
-    [Migration("20200806141532_InitialCreate")]
+    [Migration("20200809102338_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,8 +76,8 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Genres")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IMDbRating")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float?>("IMDbRating")
+                        .HasColumnType("real");
 
                     b.Property<bool>("IsFavorite")
                         .HasColumnType("bit");
