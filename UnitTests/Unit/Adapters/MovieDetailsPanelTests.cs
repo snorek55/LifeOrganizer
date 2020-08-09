@@ -78,11 +78,7 @@ namespace Tests.Unit.Adapters
 			movieDetailsPanel.ShowImagesCommand.Execute("");
 
 			var expectedImages = movieDetailsPanel.SelectedMovie.Images;
-			expectedImages.Add(new ImageDataViewModel
-			{
-				Image = movieDetailsPanel.SelectedMovie.CoverImage,
-				Title = "Cover"
-			});
+			expectedImages.Add(movieDetailsPanel.SelectedMovie.CoverImage);
 
 			movieDetailsPanel.ImagePresenter.Images.Should().BeEquivalentTo(expectedImages);
 			movieDetailsPanel.AreImagesShowing.Should().BeTrue();

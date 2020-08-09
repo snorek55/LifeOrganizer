@@ -18,7 +18,7 @@ namespace Organizers.MovOrg.Adapters.Items
 
 		public float? IMDbRating { get; set; }
 
-		public string CoverImage { get; set; }
+		public ImageViewModel CoverImage { get; set; }
 
 		public int? Rank { get; set; }
 
@@ -68,7 +68,7 @@ namespace Organizers.MovOrg.Adapters.Items
 
 		public List<RatingViewModel> Ratings { get; set; } = new List<RatingViewModel>();
 
-		public List<ImageDataViewModel> Images { get; set; } = new List<ImageDataViewModel>();
+		public List<ImageViewModel> Images { get; set; } = new List<ImageViewModel>();
 
 		public List<SimilarMovieViewModel> Similars { get; set; } = new List<SimilarMovieViewModel>();
 		public SimilarMovieViewModel SelectedSimilar { get; set; }

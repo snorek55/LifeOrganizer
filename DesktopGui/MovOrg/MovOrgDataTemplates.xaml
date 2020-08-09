@@ -23,7 +23,7 @@
                 <Image.Source>
                     <BitmapImage DecodePixelHeight="100"
                                  DecodePixelWidth="100"
-                                 UriSource="{Binding CoverImage}" />
+                                 UriSource="{Binding CoverImage.Image}" />
                 </Image.Source>
             </Image>
             <Label>
@@ -152,24 +152,11 @@
         </Viewbox>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type itemsAdapters:ImageDataViewModel}">
-        <StackPanel>
-            <TextBlock Text="{Binding Title}"
-                       HorizontalAlignment="Center"
-                       FontWeight="Bold"
-                       TextWrapping="Wrap" />
-            <Image Width="200"
-                   Height="200"
-                   HorizontalAlignment="Center"
-                   Source="{Binding Image}" />
-        </StackPanel>
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type itemsAdapters:SimilarMovieViewModel}">
         <Image Width="200"
                Height="200"
                HorizontalAlignment="Center"
-               Source="{Binding Movie.CoverImage}" />
+               Source="{Binding Movie.CoverImage.Image}" />
     </DataTemplate>
 
     <DataTemplate x:Key="SelectedSimilarStyle" DataType="{x:Type itemsAdapters:SimilarMovieViewModel}">
@@ -177,7 +164,7 @@
             <Image Width="200"
                    Height="200"
                    HorizontalAlignment="Center"
-                   Source="{Binding Movie.CoverImage}" />
+                   Source="{Binding Movie.CoverImage.Image}" />
         </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

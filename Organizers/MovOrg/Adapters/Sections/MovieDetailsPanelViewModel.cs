@@ -1,10 +1,11 @@
-﻿using Organizers.Common.Adapters;
+﻿using Organizers.Common;
+using Organizers.Common.Adapters;
 using Organizers.MovOrg.Adapters.Items;
 using Organizers.MovOrg.UseCases;
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -83,31 +84,10 @@ namespace Organizers.MovOrg.Adapters.Sections
 
 		private void ShowImages()
 		{
-			//TODO: refactor this
-			var images = new List<ImageViewModel>();
-			foreach (var imageData in SelectedMovie.Images)
-			{
-				var image = new ImageViewModel
-				{
-					Image = imageData.Image,
-					Title = imageData.Title
-				};
-				images.Add(image);
-			}
-
-			var coverImg = new ImageViewModel
-			{
-				Image = SelectedMovie.CoverImage,
-				Title = "Cover"
-			};
-
 			ImagePresenter.Images.Clear();
-			ImagePresenter.Images.Add(coverImg);
-
-			foreach (var img in images)
-				ImagePresenter.Images.Add(img);
-
-			ImagePresenter.CurrentImage = ImagePresenter.Images[0];
+			ImagePresenter.Images.AddRange(SelectedMovie.Images);
+			ImagePresenter.Images.Add(SelectedMovie.CoverImage);
+			ImagePresenter.CurrentImage = ImagePresenter.Images.First();
 			AreImagesShowing = true;
 		}
 
