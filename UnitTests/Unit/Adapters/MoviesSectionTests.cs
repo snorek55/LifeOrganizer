@@ -3,6 +3,7 @@
 using EntryPoint.Mapper;
 
 using FluentAssertions;
+using FluentAssertions.Common;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -21,10 +22,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Data;
 
-namespace Tests.Unit
+namespace Tests.Unit.Adapters
 {
 	[TestClass]
-	public class AdaptersTests
+	public class MoviesSectionTests
 	{
 		private MoviesSectionViewModel moviesSectionViewModel;
 		private Mock<IMoviesService> mockMoviesService = new Mock<IMoviesService>();
@@ -37,8 +38,7 @@ namespace Tests.Unit
 
 		private GetAllMoviesFromLocalResponse response;
 
-		//Must setup for constructor in MoviesSection
-		public AdaptersTests()
+		public MoviesSectionTests()
 		{
 			mockDispatcher.Setup(x => x.BeginInvoke(It.IsAny<Action>())).Callback<Action>(a => a.Invoke());
 		}
@@ -50,6 +50,13 @@ namespace Tests.Unit
 			fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 			var movies = fixture.CreateMany<Movie>().ToList();
 			movies[0].Rank = 0;
+			foreach (var movie in movies)
+			{
+				movie.IsMustWatch = false;
+				movie.IsFavorite = false;
+				movie.IsWatched = false;
+			}
+
 			response = new GetAllMoviesFromLocalResponse(movies);
 			moviesInLocal = response.Movies.ToList();
 			mockMoviesService.Setup(x => x.GetAllMoviesFromLocal()).ReturnsAsync(response);
@@ -151,5 +158,74 @@ namespace Tests.Unit
 		}
 
 		#endregion Top250CommandTests
+
+		[TestMethod]
+		public void WhenSelectingMovie_InfoIsShownInMoveDetails()
+		{
+			var movies = fixture.CreateMany<MovieViewModel>();
+			moviesSectionViewModel.Movies.Clear();
+			moviesSectionViewModel.Movies.AddRange(movies);
+
+			moviesSectionViewModel.SelectedMovie = moviesSectionViewModel.Movies[0];
+
+			moviesSectionViewModel.MovieDetailsPanel.SelectedMovie.IsSameOrEqualTo(moviesSectionViewModel.Movies[0]);
+		}
+
+		[TestMethod]
+		public void WhenSortingAlphabetically_SortsOK()
+		{
+			moviesSectionViewModel.Movies[0].Title = "zzzz";
+			var expectedCollection = moviesSectionViewModel.Movies.OrderBy(x => x.Title);
+
+			moviesSectionViewModel.SortAlphabeticallyCommand.Execute("");
+
+			var collectionView = CollectionViewSource.GetDefaultView(moviesSectionViewModel.Movies);
+			var actualCollection = collectionView.GetFilteredData<MovieViewModel>();
+
+			actualCollection.Should().HaveSameCount(expectedCollection);
+			actualCollection.Should().BeInAscendingOrder(x => x.Title);
+		}
+
+		[TestMethod]
+		public void WhenMarkedMustWatchOnly_OnlyMustWatchMoviesAreShown()
+		{
+			moviesSectionViewModel.Movies[0].IsMustWatch = true;
+
+			moviesSectionViewModel.OnlyMustWatch = true;
+
+			var collectionView = CollectionViewSource.GetDefaultView(moviesSectionViewModel.Movies);
+			var actualCollection = collectionView.GetFilteredData<MovieViewModel>();
+
+			actualCollection.Should().HaveCount(1);
+			actualCollection.Should().Contain(moviesSectionViewModel.Movies[0]);
+		}
+
+		[TestMethod]
+		public void WhenMarkedFavoritesOnly_OnlyFavoritesMoviesAreShown()
+		{
+			moviesSectionViewModel.Movies[0].IsFavorite = true;
+
+			moviesSectionViewModel.OnlyFavorites = true;
+
+			var collectionView = CollectionViewSource.GetDefaultView(moviesSectionViewModel.Movies);
+			var actualCollection = collectionView.GetFilteredData<MovieViewModel>();
+
+			actualCollection.Should().HaveCount(1);
+			actualCollection.Should().Contain(moviesSectionViewModel.Movies[0]);
+		}
+
+		[TestMethod]
+		public void WhenMarkedWatchedOnly_OnlyWatchedMoviesAreShown()
+		{
+			moviesSectionViewModel.Movies[0].IsWatched = true;
+
+			moviesSectionViewModel.OnlyWatched = true;
+
+			var collectionView = CollectionViewSource.GetDefaultView(moviesSectionViewModel.Movies);
+			var actualCollection = collectionView.GetFilteredData<MovieViewModel>();
+
+			actualCollection.Should().HaveCount(1);
+			actualCollection.Should().Contain(moviesSectionViewModel.Movies[0]);
+		}
 	}
 }

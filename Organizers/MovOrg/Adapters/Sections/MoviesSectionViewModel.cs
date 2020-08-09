@@ -184,7 +184,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 		private void RefreshFilter()
 		{
 			moviesCollectionView.Refresh();
-			NotifyStatus("Filtered movies: " + moviesCollectionView.Cast<object>().Count());
+			NotifyStatus("Filtered movies: " + moviesCollectionView.Count());
 		}
 
 		#endregion Filtering and Sorting Methods
