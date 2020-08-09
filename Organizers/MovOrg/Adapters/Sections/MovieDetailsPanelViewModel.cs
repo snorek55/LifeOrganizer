@@ -14,7 +14,7 @@ namespace Organizers.MovOrg.Adapters.Sections
 	{
 		public MovieViewModel SelectedMovie { get; set; }
 
-		public ImagePresenterViewModel ImagePresenter { get; set; } = new ImagePresenterViewModel();
+		public ImagePresenterViewModel ImagePresenter { get; } = new ImagePresenterViewModel();
 
 		public bool AreImagesShowing { get; set; }
 

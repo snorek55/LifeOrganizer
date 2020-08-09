@@ -43,7 +43,7 @@ namespace Organizers.Common.Adapters
 			maxItemsShown = value;
 		}
 
-		private void Exit()
+		public void Exit()
 		{
 			RequestedExit?.Invoke(null, new EventArgs());
 		}
