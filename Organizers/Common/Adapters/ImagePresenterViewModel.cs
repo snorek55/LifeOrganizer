@@ -19,8 +19,8 @@ namespace Organizers.Common.Adapters
 		private int maxItemsShown = 8;
 		public int MaxItemsShown { get => maxItemsShown; set => SetMaxItemsShown(value); }
 
-		public ObservableCollection<ImageViewModel> Images { get; set; } = new ObservableCollection<ImageViewModel>();
-		public PagedCollectionView<ImageViewModel> ImagesCollectionView { get; private set; }
+		public ObservableCollection<ImageViewModel> Images { get; } = new ObservableCollection<ImageViewModel>();
+		public PagedCollectionView<ImageViewModel> ImagesCollectionView { get; }
 
 		public ICommand PreviousImageCommand { get => new SyncCommand(() => ChangeImage(Direction.Previous)); }
 

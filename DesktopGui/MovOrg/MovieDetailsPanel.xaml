@@ -53,7 +53,7 @@
                         </Button>
                     </Canvas>
 
-                    <Image Source="{Binding SelectedMovie.CoverImage}">
+                    <Image Source="{Binding SelectedMovie.CoverImage.Image}">
                         <Image.Style>
                             <Style TargetType="Image">
                                 <Setter Property="Height" Value="300" />

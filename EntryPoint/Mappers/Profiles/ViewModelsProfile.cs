@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 
+using Organizers.Common.Adapters;
 using Organizers.MovOrg.Adapters.Items;
 using Organizers.MovOrg.Domain;
 
@@ -9,11 +10,19 @@ namespace EntryPoint.Mapper.Profiles
 	{
 		public ViewModelsProfile()
 		{
+			//TODO: extension mapfrom
 			CreateMap<Movie, MovieViewModel>()
 				.IgnoreDestinationMember(x => x.ShowAllActors)
-				.IgnoreDestinationMember(x => x.SelectedSimilar);
+				.IgnoreDestinationMember(x => x.SelectedSimilar)
+				.ForMember(d => d.CoverImage, opt => opt.MapFrom(s =>
+					new ImageViewModel
+					{
+						Image = s.CoverImage,
+						Title = "Cover"
+					}
+				));
 
-			CreateMap<MovieImageData, ImageDataViewModel>();
+			CreateMap<MovieImageData, ImageViewModel>();
 			CreateMap<BoxOffice, BoxOfficeViewModel>();
 			CreateMap<Trailer, TrailerViewModel>();
 			CreateMap<MovieActor, ActorViewModel>()

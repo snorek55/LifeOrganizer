@@ -1,4 +1,5 @@
-﻿using Organizers.MovOrg.Adapters.Items;
+﻿using Organizers.Common.Adapters;
+using Organizers.MovOrg.Adapters.Items;
 using Organizers.MovOrg.Adapters.Sections;
 
 using System;
@@ -20,7 +21,11 @@ namespace DesktopGui.MovOrg.DesignDataTemplates
 			{
 				Title = "Title template";
 				Year = "9999";
-				CoverImage = "https://imdb-api.com/images/original/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_Ratio0.6791_AL_.jpg";
+				CoverImage = new ImageViewModel
+				{
+					Image = "https://imdb-api.com/images/original/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_Ratio0.6791_AL_.jpg",
+					Title = "Cover"
+				};
 				Plot = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
 
 				Tagline = "Lorem ipsum dolor sit amet";
