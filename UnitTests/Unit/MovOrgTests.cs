@@ -29,8 +29,6 @@ namespace Tests.Unit
 		private Mock<IApiMoviesRepository> mockApiRepo = new Mock<IApiMoviesRepository>();
 		private IDbContextScopeFactory contextScopeFactory = new DbContextScopeFactory(new TestDbContextFactory(UnitTestConfig));
 
-		private Fixture fixture;
-
 		public MovOrgTests()
 		{
 			moviesService = new MoviesService(contextScopeFactory, mockLocalRepo.Object, mockApiRepo.Object, mockConfig.Object);

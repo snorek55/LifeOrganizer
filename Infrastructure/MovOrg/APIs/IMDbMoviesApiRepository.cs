@@ -99,10 +99,9 @@ namespace Infrastructure.MovOrg.APIs
 				var property = data.GetType().GetProperties().ToList().Single(x => x.Name.Equals(source.Name, StringComparison.OrdinalIgnoreCase));
 				var score = (string)property.GetValue(data);
 				float? floatScore = null;
+
 				if (!string.IsNullOrEmpty(score))
-				{
 					floatScore = float.Parse(score);
-				}
 
 				var rating = new Rating
 				{
