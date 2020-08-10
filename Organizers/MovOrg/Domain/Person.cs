@@ -21,9 +21,9 @@ namespace Organizers.MovOrg.Domain
 
 		public string ImageUrl { get; set; }
 
-		public List<MovieActor> ActedIn { get; set; }
+		//public List<MovieActor> ActedIn { get; set; }
 
-		public List<MovieDirector> DirectorOf { get; set; }
+		//public List<MovieDirector> DirectorOf { get; set; }
 
 		//	public List<MovieWriter> WriterOf { get; set; }
 	}
