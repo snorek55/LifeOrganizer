@@ -6,11 +6,8 @@ using System.Windows.Data;
 
 namespace Organizers.Common.Adapters
 {
-	public class PagedCollectionView<T> : INotifyPropertyChanged where T : class
+	public class PagedCollectionView<T> : NotifyPropertyChangedImpl where T : class
 	{
-		//TODO: create a base class for propertyChanged
-		public event PropertyChangedEventHandler PropertyChanged;
-
 		private int maxPagedItems;
 
 		public int MaxPagedItems { get => maxPagedItems; set => SetMaxPagedItems(value); }
