@@ -5,7 +5,6 @@ using Organizers.Common.Config;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,37 +13,27 @@ namespace EntryPoint
 {
 	public class Config : IConfig
 	{
-		private string recentMoviesSearchesPath;
-		private string recentMoviesSearchesFile = ConfigurationManager.AppSettings["RecentMoviesSearchesPath"];
-
-		public Config()
+		private string RecentMoviesSearchesPath
 		{
-			CreateRecentMoviesSearchesIfNotExists();
+			get
+			{
+				var path = AppDomain.CurrentDomain.BaseDirectory + RecentMoviesSearchesPathFromAppSettings;
+				if (!File.Exists(path))
+					File.Create(path);
+				return path;
+			}
 		}
 
-		private void CreateRecentMoviesSearchesIfNotExists()
-		{
-			if (recentMoviesSearchesFile == null)
-			{
-				Debug.WriteLine($"Returned invalid path for movies searches file. {recentMoviesSearchesPath}. Will use default.");
-				recentMoviesSearchesPath = AppDomain.CurrentDomain.BaseDirectory + "RecentMoviesSeaches.txt";
-			}
-			else
-			{
-				recentMoviesSearchesPath = AppDomain.CurrentDomain.BaseDirectory + recentMoviesSearchesFile;
-			}
-
-			if (!File.Exists(recentMoviesSearchesPath))
-				File.Create(recentMoviesSearchesPath);
-		}
+		private string RecentMoviesSearchesPathFromAppSettings => Configuration.AppSettings.Settings["RecentMoviesSearchesPath"].Value;
+		protected Configuration Configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
 		public async Task AddSearchedTitleAsync(string suggestedTitle)
 		{
-			var lines = await File.ReadAllLinesAsync(recentMoviesSearchesPath);
+			var lines = await File.ReadAllLinesAsync(RecentMoviesSearchesPath);
 			if (!lines.Contains(suggestedTitle))
 			{
-				await File.AppendAllLinesAsync(recentMoviesSearchesPath, new List<string> { suggestedTitle });
-				File.ReadAllLines(recentMoviesSearchesPath);
+				await File.AppendAllLinesAsync(RecentMoviesSearchesPath, new List<string> { suggestedTitle });
+				File.ReadAllLines(RecentMoviesSearchesPath);
 			}
 		}
 
@@ -61,19 +50,19 @@ namespace EntryPoint
 
 		public virtual string GetIMDbApiKey()
 		{
-			return ConfigurationManager.AppSettings["IMDbApiKey"];
+			return Configuration.AppSettings.Settings["IMDbApiKey"].Value;
 		}
 
 		public async Task<bool> WasAlreadySearched(string term)
 		{
-			var lines = await File.ReadAllLinesAsync(recentMoviesSearchesPath);
+			var lines = await File.ReadAllLinesAsync(RecentMoviesSearchesPath);
 			return lines.ToList().Any(x => x.Equals(term, StringComparison.OrdinalIgnoreCase));
 		}
 
 		public virtual string GetRatingSourceLogoUrl(string ratingSourceName)
 		{
 			var logoKeyName = ratingSourceName + "Logo";
-			return ConfigurationManager.AppSettings[logoKeyName];
+			return Configuration.AppSettings.Settings[logoKeyName].Value;
 		}
 	}
 }
