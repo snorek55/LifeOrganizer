@@ -9,14 +9,17 @@ namespace EntryPoint.Mapper
 	{
 		public static IMappingExpression<TSource, TDestination> IgnoreDestinationMember<TSource, TDestination>(this IMappingExpression<TSource, TDestination> map, Expression<Func<TDestination, object>> selector)
 		{
-			map.ForMember(selector, config => config.Ignore());
-			return map;
+			return map.ForMember(selector, config => config.Ignore()); ;
 		}
 
 		public static IMappingExpression<TSource, TDestination> IgnoreSourceMember<TSource, TDestination>(this IMappingExpression<TSource, TDestination> map, Expression<Func<TSource, object>> selector)
 		{
-			map.ForSourceMember(selector, config => config.DoNotValidate());
-			return map;
+			return map.ForSourceMember(selector, config => config.DoNotValidate()); ;
+		}
+
+		public static IMappingExpression<TSource, TDestination> MapFrom<TSource, TDestination, TMember, TSourceMember>(this IMappingExpression<TSource, TDestination> map, Expression<Func<TDestination, TMember>> destinationMember, Expression<Func<TSource, TSourceMember>> mapExpression)
+		{
+			return map.ForMember(destinationMember, opt => opt.MapFrom(mapExpression));
 		}
 	}
 }

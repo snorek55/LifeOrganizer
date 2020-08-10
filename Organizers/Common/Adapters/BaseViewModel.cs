@@ -1,13 +1,6 @@
-﻿using System.ComponentModel;
-
-namespace Organizers.Common.Adapters
+﻿namespace Organizers.Common.Adapters
 {
-	public class BaseViewModel : INotifyPropertyChanged
+	public class BaseViewModel : NotifyPropertyChangedImpl
 	{
-#pragma warning disable 67
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-#pragma warning restore 67
 	}
 }

@@ -21,7 +21,7 @@ namespace EntryPoint.Mapper.Profiles
 				.IgnoreDestinationMember(d => d.IsWatched)
 				.IgnoreDestinationMember(d => d.IsMustWatch)
 				.IgnoreDestinationMember(d => d.Ratings)
-				.ForMember(d => d.CoverImage, o => o.MapFrom(s => s.Image))
+				.MapFrom(d => d.CoverImage, s => s.Image)
 				.AfterMap((s, d) =>
 				{
 					d.BoxOffice.Movie = d;
@@ -73,36 +73,36 @@ namespace EntryPoint.Mapper.Profiles
 
 			CreateMap<SearchResult, Movie>(MemberList.Source)
 				.IgnoreSourceMember(s => s.ResultType)
-				.ForMember(d => d.CoverImage, o => o.MapFrom(s => s.Image));
+				.MapFrom(d => d.CoverImage, s => s.Image);
 
 			CreateMap<Top250DataDetail, Movie>(MemberList.Source)
 				.IgnoreSourceMember(s => s.IMDbRating)
 				.IgnoreSourceMember(s => s.FullTitle)
 				.IgnoreSourceMember(s => s.Crew)
 				.IgnoreSourceMember(s => s.IMDbRatingCount)
-				.ForMember(d => d.CoverImage, o => o.MapFrom(s => s.Image));
+				.MapFrom(d => d.CoverImage, s => s.Image);
 
 			CreateMap<ActorShort, MovieActor>(MemberList.None)
-				.ForMember(d => d.Person, o => o.MapFrom(s => new Person { Id = s.Id, Name = s.Name, ImageUrl = s.Image }))
-				.ForMember(d => d.PersonId, o => o.MapFrom(s => s.Id))
+				.MapFrom(d => d.Person, s => new Person { Id = s.Id, Name = s.Name, ImageUrl = s.Image })
+				.MapFrom(d => d.PersonId, s => s.Id)
 				.IgnoreDestinationMember(d => d.Movie)
 				.IgnoreDestinationMember(d => d.MovieId)
 				.IgnoreDestinationMember(d => d.IsStar);
 
 			CreateMap<StarShort, MovieDirector>(MemberList.None)
-				.ForMember(d => d.Person, o => o.MapFrom(s => new Person { Id = s.Id, Name = s.Name }))
-				.ForMember(d => d.PersonId, o => o.MapFrom(s => s.Id))
+				.MapFrom(d => d.Person, s => new Person { Id = s.Id, Name = s.Name })
+				.MapFrom(d => d.PersonId, s => s.Id)
 				.IgnoreDestinationMember(d => d.Movie);
 
 			CreateMap<StarShort, MovieWriter>(MemberList.None)
-				.ForMember(d => d.Person, o => o.MapFrom(s => new Person { Id = s.Id, Name = s.Name }))
-				.ForMember(d => d.PersonId, o => o.MapFrom(s => s.Id))
+				.MapFrom(d => d.Person, s => new Person { Id = s.Id, Name = s.Name })
+				.MapFrom(d => d.PersonId, s => s.Id)
 				.IgnoreDestinationMember(d => d.Movie)
 				.IgnoreDestinationMember(d => d.MovieId);
 
 			CreateMap<CompanyShort, MovieCompany>(MemberList.None)
-				.ForMember(d => d.Company, o => o.MapFrom(s => new Company { Id = s.Id, Name = s.Name }))
-				.ForMember(d => d.CompanyId, o => o.MapFrom(s => s.Id))
+				.MapFrom(d => d.Company, s => new Company { Id = s.Id, Name = s.Name })
+				.MapFrom(d => d.CompanyId, s => s.Id)
 				.IgnoreDestinationMember(d => d.Movie)
 				.IgnoreDestinationMember(d => d.MovieId);
 
@@ -115,8 +115,8 @@ namespace EntryPoint.Mapper.Profiles
 				.IgnoreDestinationMember(d => d.Id);
 
 			CreateMap<SimilarShort, MovieSimilar>()
-				.ForMember(d => d.Similar, o => o.MapFrom(s => new Movie { Id = s.Id, CoverImage = s.Image }))
-				.ForMember(d => d.SimilarId, o => o.MapFrom(s => s.Id))
+				.MapFrom(d => d.Similar, s => new Movie { Id = s.Id, CoverImage = s.Image })
+				.MapFrom(d => d.SimilarId, s => s.Id)
 				.IgnoreDestinationMember(d => d.Movie)
 				.IgnoreDestinationMember(d => d.MovieId);
 		}
