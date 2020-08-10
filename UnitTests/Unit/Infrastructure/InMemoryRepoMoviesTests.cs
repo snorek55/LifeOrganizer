@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests.Unit
+namespace Tests.Unit.Infrastructure
 {
 	[TestClass]
 	public class InMemoryRepoMoviesTests : LocalRepoMoviesTests

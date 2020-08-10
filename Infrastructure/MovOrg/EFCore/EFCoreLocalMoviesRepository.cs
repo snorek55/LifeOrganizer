@@ -81,8 +81,14 @@ namespace Infrastructure.MovOrg.EFCore
 		{
 			await UpdateMovie(movie);
 			var persistentMovie = await GetMovieDetailsById(movie.Id);
-			persistentMovie.LastUpdatedDetails = DateTime.Now;
-			movie.LastUpdatedDetails = DateTime.Now;
+			persistentMovie.LastUpdatedDetails = RoundToSecond(DateTime.Now);
+			movie.LastUpdatedDetails = RoundToSecond(DateTime.Now);
+		}
+
+		private DateTime RoundToSecond(DateTime dateTime)
+		{
+			var stringDateTime = dateTime.ToString("dd/MM/yy HH:mm:ss");
+			return DateTime.Parse(stringDateTime);
 		}
 
 		public async Task UpdateSuggestedTitleMovies(IEnumerable<Movie> movies)
@@ -308,10 +314,21 @@ namespace Infrastructure.MovOrg.EFCore
 		{
 			foreach (var rating in movie.Ratings)
 			{
-				Rating existingRating = DbContext.Ratings.Find(rating.MovieId, rating.SourceId);
+				var existingRating = DbContext.Ratings.Find(rating.MovieId, rating.SourceId);
+				var existingSource = DbContext.RatingSources.Find(rating.SourceId);
+
+				if (existingSource == null)
+				{
+					DbContext.RatingSources.Add(rating.Source);
+					existingSource = DbContext.RatingSources.Find(rating.SourceId);
+				}
+
 				if (existingRating == null)
 				{
 					rating.Movie = existingMovie;
+					rating.MovieId = existingMovie.Id;
+					rating.Source = existingSource;
+					rating.SourceId = existingSource.Id;
 					DbContext.Ratings.Add(rating);
 					existingRating = DbContext.Ratings.Find(rating.MovieId, rating.SourceId);
 				}
