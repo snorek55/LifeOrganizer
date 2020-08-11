@@ -1,5 +1,5 @@
-﻿using Common.Config;
-using Common.Infrastructure;
+﻿using Common.Infrastructure;
+using Common.Setup;
 using Common.UseCases;
 
 using EntityFramework.DbContextScope.Interfaces;

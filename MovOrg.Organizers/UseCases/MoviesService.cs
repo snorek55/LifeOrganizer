@@ -1,4 +1,4 @@
-﻿using Common.Config;
+﻿using Common.Setup;
 using Common.UseCases;
 
 using EntityFramework.DbContextScope.Interfaces;

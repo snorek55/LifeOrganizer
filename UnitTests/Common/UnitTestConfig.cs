@@ -1,4 +1,4 @@
-﻿using EntryPoint;
+﻿using Common.Setup;
 
 namespace Tests.Common
 {

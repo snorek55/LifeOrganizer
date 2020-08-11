@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
 
 using Common.Adapters;
+using Common.Extensions;
 
 using MovOrg.Organizers.Adapters.Items;
 using MovOrg.Organizers.Domain;
 
-namespace EntryPoint.Mapper.Profiles
+namespace MovOrg.Organizers.Setup
 {
-	public class ViewModelsProfile : Profile
+	public class MovOrgViewModelsProfile : Profile
 	{
-		public ViewModelsProfile()
+		public MovOrgViewModelsProfile()
 		{
 			CreateMap<Movie, MovieViewModel>()
 				.IgnoreDestinationMember(x => x.ShowAllActors)

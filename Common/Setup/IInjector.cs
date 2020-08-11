@@ -1,4 +1,4 @@
-﻿namespace Common.DI
+﻿namespace Common.Setup
 {
 	public interface IInjector
 	{

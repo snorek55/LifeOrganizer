@@ -1,6 +1,6 @@
 ﻿using Common.Adapters;
-using Common.Config;
 using Common.Extensions;
+using Common.Setup;
 
 using MovOrg.Organizers.Adapters.Items;
 using MovOrg.Organizers.Domain;

@@ -1,8 +1,8 @@
 ﻿using AutoFixture;
 
 using Common.Adapters;
-using Common.Config;
 using Common.Extensions;
+using Common.Setup;
 
 using EntryPoint.Mapper;
 

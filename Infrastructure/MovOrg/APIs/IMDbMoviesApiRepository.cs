@@ -1,5 +1,5 @@
 ﻿using Common;
-using Common.Config;
+using Common.Setup;
 using Common.UseCases;
 
 using IMDbApiLib;

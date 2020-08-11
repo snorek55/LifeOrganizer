@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
 
+using Common.Extensions;
+
 using IMDbApiLib.Models;
 
 using MovOrg.Organizers.Domain;
 
-namespace EntryPoint.Mapper.Profiles
+namespace Infrastructure.Setup
 {
-	public class IMDbProfile : Profile
+	public class MovOrgIMDbProfile : Profile
 	{
-		public IMDbProfile()
+		public MovOrgIMDbProfile()
 		{
 			CreateMap<TitleData, Movie>()
 				.IgnoreAllPropertiesWithAnInaccessibleSetter()

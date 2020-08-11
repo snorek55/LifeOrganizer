@@ -1,4 +1,6 @@
-﻿using EntryPoint;
+﻿using Common.Setup;
+
+using EntryPoint;
 
 using System.Configuration;
 

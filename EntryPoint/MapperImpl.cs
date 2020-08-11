@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 
-using Common.Config;
+using Common.Setup;
 
-using EntryPoint.Mapper.Profiles;
+using Infrastructure.Setup;
+
+using MovOrg.Organizers.Setup;
 
 using System.Diagnostics;
 
@@ -16,8 +18,8 @@ namespace EntryPoint.Mapper
 		{
 			var config = new MapperConfiguration(cfg =>
 			{
-				cfg.AddProfile<IMDbProfile>();
-				cfg.AddProfile<ViewModelsProfile>();
+				cfg.AddProfile<MovOrgIMDbProfile>();
+				cfg.AddProfile<MovOrgViewModelsProfile>();
 			});
 
 			try
