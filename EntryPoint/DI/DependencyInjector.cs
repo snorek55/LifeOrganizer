@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Adapters;
 using Common.Config;
 using Common.WPF;
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common.Adapters;
+
+using System;
 using System.Windows;
 using System.Windows.Threading;
 
