@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Organizers.Common.UseCases
+namespace Common.UseCases
 {
 	public class RepositoryException : Exception
 	{

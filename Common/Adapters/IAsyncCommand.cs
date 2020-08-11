@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Organizers.Common.Adapters
+namespace Common.Adapters
 {
 	internal interface IAsyncCommand : ICommand
 	{

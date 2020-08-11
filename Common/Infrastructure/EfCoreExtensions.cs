@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Infrastructure.Common
+namespace Common.Infrastructure
 {
 	internal static class EFCoreExtensions
 	{

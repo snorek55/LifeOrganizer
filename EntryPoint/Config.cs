@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Common.Config;
 
-using Organizers.Common.Config;
+using Microsoft.Extensions.Configuration;
 
 using System;
 using System.Collections.Generic;

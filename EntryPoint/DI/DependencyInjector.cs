@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Config;
 using Common.WPF;
 
 using DesktopGui;
@@ -15,8 +16,6 @@ using Infrastructure.MovOrg.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-using Organizers.Common;
-using Organizers.Common.Config;
 using Organizers.Main.Adapters;
 using Organizers.Main.Adapters.MainMenu;
 using Organizers.Main.Adapters.Sections;

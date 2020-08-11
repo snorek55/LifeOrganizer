@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Organizers.Common.Adapters
+namespace Common.Adapters
 {
 	public class ImagePresenterViewModel : BaseViewModel
 	{

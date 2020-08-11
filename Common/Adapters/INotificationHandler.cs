@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Organizers.Common.Adapters
+namespace Common.Adapters
 {
 	public interface INotificationHandler
 	{

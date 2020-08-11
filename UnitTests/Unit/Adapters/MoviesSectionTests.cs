@@ -1,5 +1,8 @@
 ﻿using AutoFixture;
 
+using Common;
+using Common.Config;
+
 using EntryPoint.Mapper;
 
 using FluentAssertions;
@@ -9,8 +12,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-using Organizers.Common;
-using Organizers.Common.Config;
 using Organizers.MovOrg.Adapters.Items;
 using Organizers.MovOrg.Adapters.Sections;
 using Organizers.MovOrg.Domain;

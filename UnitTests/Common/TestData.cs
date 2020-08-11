@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 
-using Organizers.Common.Config;
+using Common.Config;
+
 using Organizers.MovOrg.Domain;
 
 using System;

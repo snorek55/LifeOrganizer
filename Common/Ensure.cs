@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace Organizers.Common
+namespace Common
 {
 	public static class Ensure
 	{

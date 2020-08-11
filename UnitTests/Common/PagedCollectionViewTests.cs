@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Common.Adapters;
 
-using Organizers.Common.Adapters;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Collections.ObjectModel;
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Organizers.Common.Adapters
+namespace Common.Adapters
 {
-	internal class BaseErrorHandler : INotificationHandler
+	public class BaseErrorHandler : INotificationHandler
 	{
 		public void ClearAllInfo()
 		{

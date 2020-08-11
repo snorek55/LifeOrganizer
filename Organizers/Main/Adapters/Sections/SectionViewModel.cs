@@ -1,5 +1,5 @@
-﻿using Organizers.Common.Adapters;
-using Organizers.Common.UseCases;
+﻿using Common.Adapters;
+using Common.UseCases;
 
 using System;
 using System.Threading.Tasks;

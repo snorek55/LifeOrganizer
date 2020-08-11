@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Organizers.Common
+namespace Common
 {
 	public interface IDispatcher
 	{

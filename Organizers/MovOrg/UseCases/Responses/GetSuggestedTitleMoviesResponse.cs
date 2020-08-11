@@ -1,4 +1,5 @@
-﻿using Organizers.Common.UseCases;
+﻿using Common.UseCases;
+
 using Organizers.MovOrg.Domain;
 
 using System;

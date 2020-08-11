@@ -1,5 +1,8 @@
 ﻿using AutoFixture;
 
+using Common.Config;
+using Common.UseCases;
+
 using EntityFramework.DbContextScope;
 using EntityFramework.DbContextScope.Interfaces;
 
@@ -11,8 +14,6 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Organizers.Common.Config;
-using Organizers.Common.UseCases;
 using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases.Repositories;
 

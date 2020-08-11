@@ -1,5 +1,7 @@
 ﻿using AutoFixture;
 
+using Common.Config;
+
 using EntityFramework.DbContextScope;
 using EntityFramework.DbContextScope.Interfaces;
 
@@ -9,7 +11,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-using Organizers.Common.Config;
 using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases;
 using Organizers.MovOrg.UseCases.Repositories;

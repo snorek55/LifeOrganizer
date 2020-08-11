@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Organizers.Common.Adapters
+namespace Common.Adapters
 {
 	//https://johnthiriet.com/removing-async-void/
-	internal class AsyncCommand : IAsyncCommand
+	public class AsyncCommand : IAsyncCommand
 	{
 		public event EventHandler CanExecuteChanged
 		{
@@ -19,7 +19,7 @@ namespace Organizers.Common.Adapters
 		private readonly Func<bool> _canExecute;
 		private readonly INotificationHandler _errorHandler;
 
-		internal AsyncCommand(
+		public AsyncCommand(
 			Func<Task> execute,
 			INotificationHandler errorHandler = null,
 				Func<bool> canExecute = null)
@@ -65,7 +65,7 @@ namespace Organizers.Common.Adapters
 		#endregion Explicit implementations
 	}
 
-	internal class AsyncCommand<T> : IAsyncCommand<T>
+	public class AsyncCommand<T> : IAsyncCommand<T>
 	{
 		public event EventHandler CanExecuteChanged
 		{
@@ -79,7 +79,7 @@ namespace Organizers.Common.Adapters
 		private readonly Func<T, bool> _canExecute;
 		private readonly INotificationHandler _errorHandler;
 
-		internal AsyncCommand(Func<T, Task> execute, INotificationHandler errorHandler = null, Func<T, bool> canExecute = null)
+		public AsyncCommand(Func<T, Task> execute, INotificationHandler errorHandler = null, Func<T, bool> canExecute = null)
 		{
 			_execute = execute;
 			_canExecute = canExecute;

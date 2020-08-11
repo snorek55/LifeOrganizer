@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Organizers.Common
+namespace Common
 {
 	public static class ObservableCollectionExtensions
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Organizers.Common.Config
+namespace Common.Config
 {
 	public interface IConfig
 	{
