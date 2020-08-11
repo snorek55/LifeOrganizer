@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntryPoint", "EntryPoint\EntryPoint.csproj", "{6871055A-E7DB-4D4F-92B9-58ED1374B3F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{7758C40B-38A2-473F-95BB-DE025B7DA4C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{6871055A-E7DB-4D4F-92B9-58ED1374B3F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6871055A-E7DB-4D4F-92B9-58ED1374B3F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6871055A-E7DB-4D4F-92B9-58ED1374B3F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7758C40B-38A2-473F-95BB-DE025B7DA4C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7758C40B-38A2-473F-95BB-DE025B7DA4C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7758C40B-38A2-473F-95BB-DE025B7DA4C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7758C40B-38A2-473F-95BB-DE025B7DA4C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

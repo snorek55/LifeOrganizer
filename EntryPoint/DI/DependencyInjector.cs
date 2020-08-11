@@ -1,5 +1,7 @@
-﻿using DesktopGui;
-using DesktopGui.Common;
+﻿using Common;
+using Common.WPF;
+
+using DesktopGui;
 using DesktopGui.Main;
 
 using EntityFramework.DbContextScope;
