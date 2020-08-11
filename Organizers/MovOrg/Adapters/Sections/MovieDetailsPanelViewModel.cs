@@ -1,5 +1,6 @@
 ﻿using Common;
 using Common.Adapters;
+using Common.Extensions;
 
 using Organizers.MovOrg.Adapters.Items;
 using Organizers.MovOrg.UseCases;

@@ -1,6 +1,7 @@
 ﻿using Common;
 using Common.Adapters;
 using Common.Config;
+using Common.Extensions;
 
 using Organizers.Main.Adapters.Sections;
 using Organizers.MovOrg.Adapters.Items;

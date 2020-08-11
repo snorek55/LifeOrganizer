@@ -1,4 +1,5 @@
 ﻿using Common.Domain;
+using Common.Extensions;
 using Common.UseCases;
 
 using Microsoft.EntityFrameworkCore;

@@ -1,7 +1,9 @@
 ﻿using AutoFixture;
 
 using Common;
+using Common.Adapters;
 using Common.Config;
+using Common.Extensions;
 
 using EntryPoint.Mapper;
 

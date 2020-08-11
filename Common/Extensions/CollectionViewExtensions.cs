@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 
-namespace Common
+namespace Common.Extensions
 {
 	public static class CollectionViewExtensions
 	{
