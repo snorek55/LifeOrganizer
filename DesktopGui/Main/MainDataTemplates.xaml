@@ -4,7 +4,7 @@
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                     xmlns:mainConverters="clr-namespace:DesktopGui.Main.Converters"
                     xmlns:moviesAdapters="clr-namespace:Common.Adapters;assembly=Common"
-                    xmlns:sections="clr-namespace:Organizers.Main.Adapters.Sections;assembly=Organizers">
+                    xmlns:sections="clr-namespace:Common.Adapters;assembly=Common">
 
     <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mah:HamburgerMenuIconItem}">
         <Grid>
@@ -32,7 +32,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type sections:OrganizerContainerViewModel}">
+    <DataTemplate DataType="{x:Type sections:BaseOrganizerContainerViewModel}">
         <local:MainContainer />
     </DataTemplate>
 </ResourceDictionary>

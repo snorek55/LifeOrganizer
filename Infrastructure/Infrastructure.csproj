@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\MovOrg.Organizers\MovOrg.Organizers.csproj" />
     <ProjectReference Include="..\Organizers\Organizers.csproj" />
   </ItemGroup>
 </Project>

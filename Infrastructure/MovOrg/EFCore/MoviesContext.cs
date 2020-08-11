@@ -3,7 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-using Organizers.MovOrg.Domain;
+using MovOrg.Organizers.Domain;
 
 namespace Infrastructure.MovOrg.EFCore
 {

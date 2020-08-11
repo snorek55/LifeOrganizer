@@ -6,8 +6,8 @@ using EntityFramework.DbContextScope.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
-using Organizers.MovOrg.Domain;
-using Organizers.MovOrg.UseCases.Repositories;
+using MovOrg.Organizers.Domain;
+using MovOrg.Organizers.UseCases.Repositories;
 
 using System;
 using System.Collections.Generic;

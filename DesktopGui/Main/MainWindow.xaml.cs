@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 
+using Organizers;
 using Organizers.Main.Adapters;
 
 namespace DesktopGui.Main

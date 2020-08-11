@@ -22,6 +22,7 @@
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\DesktopGui\DesktopGui.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\MovOrg.Organizers\MovOrg.Organizers.csproj" />
     <ProjectReference Include="..\Organizers\Organizers.csproj" />
   </ItemGroup>
 
