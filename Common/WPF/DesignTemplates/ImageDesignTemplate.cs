@@ -1,6 +1,6 @@
 ﻿using Organizers.Common.Adapters;
 
-namespace DesktopGui.Common.DesignTemplates
+namespace Common.WPF.DesignTemplates
 {
 	public class ImageDesignTemplate : ImageViewModel
 	{

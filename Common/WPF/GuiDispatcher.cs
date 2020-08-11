@@ -4,7 +4,7 @@ using System;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace DesktopGui.Common
+namespace Common.WPF
 {
 	public class GuiDispatcher : IDispatcher
 	{

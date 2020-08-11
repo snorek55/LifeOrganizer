@@ -2,7 +2,7 @@
 
 using System.Linq;
 
-namespace DesktopGui.Common.DesignTemplates
+namespace Common.WPF.DesignTemplates
 {
 	public class ImagePresenterDesignTemplate : ImagePresenterViewModel
 	{

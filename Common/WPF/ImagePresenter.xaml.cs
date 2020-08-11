@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DesktopGui.Common
+namespace Common.WPF
 {
 	/// <summary>
 	/// Lógica de interacción para ImagePresenter.xaml
