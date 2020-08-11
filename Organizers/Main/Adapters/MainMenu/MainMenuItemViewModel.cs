@@ -1,4 +1,5 @@
-﻿using Organizers.Common.Adapters;
+﻿using Common.Adapters;
+
 using Organizers.Main.Adapters.Sections;
 
 namespace Organizers.Main.Adapters.MainMenu

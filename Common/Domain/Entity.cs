@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Organizers.Common.Domain
+namespace Common.Domain
 {
 	public abstract class Entity : IEquatable<Entity>
 	{

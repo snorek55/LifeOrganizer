@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 
-using EntryPoint.Mapper.Profiles;
+using Common.Config;
 
-using Organizers.Common.Config;
+using EntryPoint.Mapper.Profiles;
 
 using System.Diagnostics;
 

@@ -1,6 +1,4 @@
-﻿using Organizers.Common.Domain;
-
-using System;
+﻿using Common.Domain;
 
 namespace Organizers.MovOrg.Domain
 {

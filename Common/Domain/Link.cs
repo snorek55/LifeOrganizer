@@ -1,4 +1,4 @@
-﻿namespace Organizers.Common.Domain
+﻿namespace Common.Domain
 {
 	public abstract class Link
 	{

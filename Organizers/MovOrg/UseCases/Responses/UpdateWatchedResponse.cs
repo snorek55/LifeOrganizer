@@ -1,4 +1,4 @@
-﻿using Organizers.Common.UseCases;
+﻿using Common.UseCases;
 
 namespace Organizers.MovOrg.UseCases.Responses
 {

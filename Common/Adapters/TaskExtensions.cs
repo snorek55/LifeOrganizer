@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Organizers.Common.Adapters
+namespace Common.Adapters
 {
-	public static class TaskUtilities
+	public static class TaskExtensions
 	{
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
 
-		internal static async void FireAndForgetSafeAsync(this Task task, INotificationHandler handler = null)
+		public static async void FireAndForgetSafeAsync(this Task task, INotificationHandler handler = null)
 #pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
 		{
 			try

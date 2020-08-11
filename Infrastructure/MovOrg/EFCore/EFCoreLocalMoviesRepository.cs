@@ -1,11 +1,11 @@
-﻿using EntityFramework.DbContextScope.Interfaces;
+﻿using Common.Config;
+using Common.Infrastructure;
+using Common.UseCases;
 
-using Infrastructure.Common;
+using EntityFramework.DbContextScope.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
-using Organizers.Common.Config;
-using Organizers.Common.UseCases;
 using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases.Repositories;
 

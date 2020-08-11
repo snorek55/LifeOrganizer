@@ -1,9 +1,9 @@
-﻿namespace Organizers.Common.UseCases
+﻿namespace Common.UseCases
 {
 	public class ResponseBase : IResponse
 	{
 		public bool HasError { get => !string.IsNullOrEmpty(Error); }
-		public string Error { get; internal set; }
+		public string Error { get; set; }
 
 		public ResponseBase()
 		{

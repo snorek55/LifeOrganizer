@@ -1,6 +1,7 @@
-﻿using Organizers.Common;
-using Organizers.Common.Adapters;
-using Organizers.Common.Config;
+﻿using Common;
+using Common.Adapters;
+using Common.Config;
+
 using Organizers.Main.Adapters.Sections;
 using Organizers.MovOrg.Adapters.Items;
 using Organizers.MovOrg.Domain;

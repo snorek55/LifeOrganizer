@@ -1,4 +1,5 @@
-﻿using Organizers.Common.Adapters;
+﻿using Common.Adapters;
+
 using Organizers.MovOrg.Adapters.Sections;
 
 using System.Collections.Generic;

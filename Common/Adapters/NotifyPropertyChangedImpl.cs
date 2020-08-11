@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Organizers.Common.Adapters
+namespace Common.Adapters
 {
 	public class NotifyPropertyChangedImpl : INotifyPropertyChanged
 	{

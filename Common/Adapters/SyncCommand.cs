@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Organizers.Common.Adapters
+namespace Common.Adapters
 {
-	internal class SyncCommand : ICommand
+	public class SyncCommand : ICommand
 	{
 		public event EventHandler CanExecuteChanged
 		{

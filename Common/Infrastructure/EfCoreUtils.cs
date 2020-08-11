@@ -1,15 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common.Domain;
+using Common.UseCases;
 
-using Organizers.Common.Domain;
-using Organizers.Common.UseCases;
+using Microsoft.EntityFrameworkCore;
 
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Infrastructure.Common
+namespace Common.Infrastructure
 {
-	internal static class EfCoreUtils
+	public static class EfCoreUtils
 	{
 		private struct LinkPropsInfo
 		{

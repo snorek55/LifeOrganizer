@@ -1,4 +1,4 @@
-﻿namespace Organizers.Common.Adapters
+﻿namespace Common.Adapters
 {
 	public class BaseViewModel : NotifyPropertyChangedImpl
 	{

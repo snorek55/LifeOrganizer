@@ -1,10 +1,10 @@
-﻿using EntityFramework.DbContextScope.Interfaces;
+﻿using Common.Config;
+
+using EntityFramework.DbContextScope.Interfaces;
 
 using Infrastructure.MovOrg.EFCore;
 
 using Microsoft.EntityFrameworkCore;
-
-using Organizers.Common.Config;
 
 using System;
 

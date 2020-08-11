@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 
-namespace Organizers.Common.Adapters
+namespace Common.Adapters
 {
 	public class PagedCollectionView<T> : NotifyPropertyChangedImpl where T : class
 	{

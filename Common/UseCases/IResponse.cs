@@ -1,4 +1,4 @@
-﻿namespace Organizers.Common.UseCases
+﻿namespace Common.UseCases
 {
 	public interface IResponse
 	{

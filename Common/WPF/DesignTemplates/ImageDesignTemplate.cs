@@ -1,4 +1,4 @@
-﻿using Organizers.Common.Adapters;
+﻿using Common.Adapters;
 
 namespace Common.WPF.DesignTemplates
 {

@@ -1,9 +1,10 @@
-﻿using IMDbApiLib;
+﻿using Common;
+using Common.Config;
+using Common.UseCases;
+
+using IMDbApiLib;
 using IMDbApiLib.Models;
 
-using Organizers.Common;
-using Organizers.Common.Config;
-using Organizers.Common.UseCases;
 using Organizers.MovOrg.Domain;
 using Organizers.MovOrg.UseCases.Repositories;
 

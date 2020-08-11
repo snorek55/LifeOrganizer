@@ -1,6 +1,4 @@
-﻿using Organizers.Common;
-
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Threading;
 

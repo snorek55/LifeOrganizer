@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Organizers.Common
+namespace Common
 {
 	public static class ReflectionUtils
 	{

@@ -1,4 +1,4 @@
-﻿using Organizers.Common.Domain;
+﻿using Common.Domain;
 
 using System;
 using System.Collections.Generic;
