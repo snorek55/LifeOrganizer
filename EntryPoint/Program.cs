@@ -5,7 +5,6 @@ using EntryPoint.DI;
 using MovOrg.Organizers.Adapters.Container;
 
 using Organizers;
-using Organizers.Main.Adapters.MainMenu;
 
 using System;
 using System.Linq;
@@ -24,9 +23,7 @@ namespace WinFormsUI
 
 			var mainVM = injector.Get<MainWindowViewModel>();
 
-			var movOrgMainMenuItem = new MainMenuItemViewModel("Movies", MainMenuIconType.Movies, injector.Get<MovOrgContainerViewModel>());
-
-			mainVM.MainMenuItems.Add(movOrgMainMenuItem);
+			mainVM.MainMenuItems.Add(injector.Get<MovOrgMainMenuItemViewModel>());
 
 			mainVM.SelectedItem = mainVM.MainMenuItems.FirstOrDefault();
 

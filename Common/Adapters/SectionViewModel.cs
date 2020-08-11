@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common.Adapters
 {
-	public class SectionViewModel : BaseViewModel, ISectionViewModel
+	public abstract class SectionViewModel : BaseViewModel, ISectionViewModel
 	{
 		public string SectionName { get; set; }
 

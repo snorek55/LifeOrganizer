@@ -1,4 +1,4 @@
-﻿namespace EntryPoint.DI
+﻿namespace Common.DI
 {
 	public interface IInjector
 	{

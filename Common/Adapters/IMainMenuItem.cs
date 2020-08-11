@@ -4,8 +4,8 @@ namespace Common.Adapters
 {
 	public interface IMainMenuItem
 	{
-		string Label { get; set; }
-		MainMenuIconType Icon { get; set; }
-		BaseOrganizerContainerViewModel OrganizerContainer { get; set; }
+		string Label { get; }
+		MainMenuIconType Icon { get; }
+		BaseOrganizerContainerViewModel OrganizerContainer { get; }
 	}
 }
