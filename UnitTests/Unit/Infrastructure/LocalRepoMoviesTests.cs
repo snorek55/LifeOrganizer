@@ -14,8 +14,8 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Organizers.MovOrg.Domain;
-using Organizers.MovOrg.UseCases.Repositories;
+using MovOrg.Organizers.Domain;
+using MovOrg.Organizers.UseCases.Repositories;
 
 using System;
 using System.Collections.Generic;

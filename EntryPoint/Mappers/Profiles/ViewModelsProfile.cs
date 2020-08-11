@@ -2,8 +2,8 @@
 
 using Common.Adapters;
 
-using Organizers.MovOrg.Adapters.Items;
-using Organizers.MovOrg.Domain;
+using MovOrg.Organizers.Adapters.Items;
+using MovOrg.Organizers.Domain;
 
 namespace EntryPoint.Mapper.Profiles
 {

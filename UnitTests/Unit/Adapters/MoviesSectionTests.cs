@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
 
-using Common;
 using Common.Adapters;
 using Common.Config;
 using Common.Extensions;
@@ -14,11 +13,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-using Organizers.MovOrg.Adapters.Items;
-using Organizers.MovOrg.Adapters.Sections;
-using Organizers.MovOrg.Domain;
-using Organizers.MovOrg.UseCases;
-using Organizers.MovOrg.UseCases.Responses;
+using MovOrg.Organizers.Adapters.Items;
+using MovOrg.Organizers.Adapters.Sections;
+using MovOrg.Organizers.Domain;
+using MovOrg.Organizers.UseCases;
+using MovOrg.Organizers.UseCases.Responses;
 
 using System;
 using System.Collections.Generic;
@@ -71,7 +70,10 @@ namespace Tests.Unit.Adapters
 		[TestMethod]
 		public void SearchCommand_ShouldAddMoviesWithSameTitle_WhenTheyHaveNotBeenAlreadySearched()
 		{
-			var response = fixture.Build<GetSuggestedTitleMoviesResponse>().With(x => x.AlreadySearched, false).Create();
+			var response = fixture.Build<GetSuggestedTitleMoviesResponse>()
+				.With(x => x.AlreadySearched, false)
+				.With(x => x.Error, string.Empty)
+				.Create();
 
 			var searchWord = fixture.Create<string>();
 			mockMoviesService.Setup(x => x.GetMoviesFromSuggestedTitleAsync(searchWord, false)).ReturnsAsync(response);

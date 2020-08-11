@@ -10,7 +10,7 @@ using Infrastructure.MovOrg.EFCore;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Organizers.MovOrg.UseCases.Repositories;
+using MovOrg.Organizers.UseCases.Repositories;
 
 using System.Threading.Tasks;
 

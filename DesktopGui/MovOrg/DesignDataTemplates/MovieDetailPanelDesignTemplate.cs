@@ -1,7 +1,7 @@
 ﻿using Common.Adapters;
 
-using Organizers.MovOrg.Adapters.Items;
-using Organizers.MovOrg.Adapters.Sections;
+using MovOrg.Organizers.Adapters.Items;
+using MovOrg.Organizers.Adapters.Sections;
 
 using System;
 using System.Collections.Generic;

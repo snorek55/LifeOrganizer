@@ -1,5 +1,4 @@
-﻿using Common;
-using Common.Adapters;
+﻿using Common.Adapters;
 using Common.Config;
 using Common.WPF;
 
@@ -17,13 +16,14 @@ using Infrastructure.MovOrg.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
+using MovOrg.Organizers.Adapters.Container;
+using MovOrg.Organizers.Adapters.Sections;
+using MovOrg.Organizers.UseCases;
+using MovOrg.Organizers.UseCases.Repositories;
+
+using Organizers;
 using Organizers.Main.Adapters;
 using Organizers.Main.Adapters.MainMenu;
-using Organizers.Main.Adapters.Sections;
-using Organizers.MovOrg.Adapters.Container;
-using Organizers.MovOrg.Adapters.Sections;
-using Organizers.MovOrg.UseCases;
-using Organizers.MovOrg.UseCases.Repositories;
 
 namespace EntryPoint.DI
 {
@@ -84,9 +84,7 @@ namespace EntryPoint.DI
 
 		public void LoadAdapters(ServiceCollection services)
 		{
-			services.AddSingleton<IMainMenuItemFactory, MainMenuItemFactory>();
-			services.AddSingleton<ISectionsFactory, SectionsFactory>();
-
+			services.AddSingleton<ISectionsFactory, MovOrgSectionsFactory>();
 			services.AddSingleton<MovOrgContainerViewModel>();
 			services.AddSingleton<MainWindowViewModel>();
 			services.AddSingleton<MoviesSectionViewModel>();

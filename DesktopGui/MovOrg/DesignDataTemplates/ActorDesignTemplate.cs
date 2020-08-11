@@ -1,4 +1,4 @@
-﻿using Organizers.MovOrg.Adapters.Items;
+﻿using MovOrg.Organizers.Adapters.Items;
 
 namespace DesktopGui.MovOrg.DesignDataTemplates
 {

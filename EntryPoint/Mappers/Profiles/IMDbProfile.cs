@@ -2,7 +2,7 @@
 
 using IMDbApiLib.Models;
 
-using Organizers.MovOrg.Domain;
+using MovOrg.Organizers.Domain;
 
 namespace EntryPoint.Mapper.Profiles
 {

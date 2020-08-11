@@ -1,10 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:itemsAdapters="clr-namespace:Organizers.MovOrg.Adapters.Items;assembly=Organizers"
+                    xmlns:itemsAdapters="clr-namespace:MovOrg.Organizers.Adapters.Items;assembly=MovOrg.Organizers"
                     xmlns:local="clr-namespace:DesktopGui.MovOrg"
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-                    xmlns:sectionAdapters="clr-namespace:Organizers.MovOrg.Adapters.Sections;assembly=Organizers">
+                    xmlns:sectionAdapters="clr-namespace:MovOrg.Organizers.Adapters.Sections;assembly=MovOrg.Organizers">
 
     <DataTemplate DataType="{x:Type sectionAdapters:MoviesSectionViewModel}">
         <local:MoviesSection />
