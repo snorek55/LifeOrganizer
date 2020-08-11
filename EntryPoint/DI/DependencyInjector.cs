@@ -1,36 +1,26 @@
 ﻿using Common.Adapters;
 using Common.Config;
+using Common.DI;
 using Common.WPF;
 
 using DesktopGui;
 using DesktopGui.Main;
 
-using EntityFramework.DbContextScope;
-using EntityFramework.DbContextScope.Interfaces;
-
 using EntryPoint.Mapper;
 
-using Infrastructure.MovOrg.APIs;
-using Infrastructure.MovOrg.EFCore;
+using Infrastructure.DI;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-using MovOrg.Organizers.Adapters.Container;
-using MovOrg.Organizers.Adapters.Sections;
-using MovOrg.Organizers.UseCases;
-using MovOrg.Organizers.UseCases.Repositories;
+using MovOrg.Organizers.DI;
 
 using Organizers;
-using Organizers.Main.Adapters;
-using Organizers.Main.Adapters.MainMenu;
 
 namespace EntryPoint.DI
 {
 	internal class DependencyInjector : IInjector
 	{
 		private ServiceProvider provider;
-		private IConfig config = new Config();
 		public App App = new App();
 
 		public DependencyInjector()
@@ -42,9 +32,14 @@ namespace EntryPoint.DI
 
 		private void ConfigureServices(ServiceCollection services)
 		{
-			LoadRepositories(services);
-			LoadApplication(services);
-			LoadAdapters(services);
+			services.AddSingleton<IConfig, Config>();
+			services.AddSingleton<IAutoMapper, MapperImpl>();
+			LoadMain(services);
+
+			var infraServices = new MovOrgInfrastructureDependencyResolver();
+			var movServices = new MovOrgOrganizerDependencyResolver();
+			infraServices.Setup(services);
+			movServices.Setup(services);
 		}
 
 		public T Get<T>()
@@ -52,48 +47,12 @@ namespace EntryPoint.DI
 			return provider.GetService<T>();
 		}
 
-		private void LoadRepositories(ServiceCollection services)
+		public void LoadMain(ServiceCollection services)
 		{
-			services.AddSingleton<IApiMoviesRepository, IMDbMoviesApiRepository>();
-			services.AddSingleton<ILocalMoviesRepository, EFCoreLocalMoviesRepository>();
-
-			services.AddSingleton(config);
-			services.AddSingleton<IAmbientDbContextLocator, AmbientDbContextLocator>();
-		}
-
-		private void LoadApplication(ServiceCollection services)
-		{
-			services.AddSingleton<IAutoMapper, MapperImpl>();
-			services.AddSingleton<IMoviesService, MoviesService>();
-			services.AddDbContext<MoviesContext>();
-
-			services.AddSingleton<DbContextFactory>();
-			services.AddSingleton<IDbContextScopeFactory, DbContextScopeFactory>();
-
-			services.AddSingleton<IDbContextScopeFactory>(provider =>
-			{
-				var dependency = provider.GetRequiredService<IConfig>();
-				var dbOptions = new DbContextOptionsBuilder<MoviesContext>().UseSqlServer(dependency.GetConnectionString())
-						.EnableSensitiveDataLogging();
-
-				var dbContextFactory = new DbContextFactory(dbOptions);
-
-				return new DbContextScopeFactory(dbContextFactory);
-			});
-		}
-
-		public void LoadAdapters(ServiceCollection services)
-		{
-			services.AddSingleton<ISectionsFactory, MovOrgSectionsFactory>();
-			services.AddSingleton<MovOrgContainerViewModel>();
 			services.AddSingleton<MainWindowViewModel>();
-			services.AddSingleton<MoviesSectionViewModel>();
-			services.AddSingleton<ActorsSectionViewModel>();
-
 			services.AddSingleton<MainWindow>();
 			services.AddSingleton(App);
-
-			services.AddSingleton<IDispatcher>(new GuiDispatcher());
+			services.AddSingleton<IDispatcher, GuiDispatcher>();
 		}
 	}
 }

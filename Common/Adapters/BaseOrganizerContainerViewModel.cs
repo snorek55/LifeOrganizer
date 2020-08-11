@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Common.Adapters
 {
-	public class BaseOrganizerContainerViewModel : BaseViewModel, INotificationHandler
+	public abstract class BaseOrganizerContainerViewModel : BaseViewModel, INotificationHandler
 	{
 		public ObservableCollection<ISectionViewModel> Sections { get; protected set; } = new ObservableCollection<ISectionViewModel>();
 		public ISectionViewModel SelectedSection { get; set; }
