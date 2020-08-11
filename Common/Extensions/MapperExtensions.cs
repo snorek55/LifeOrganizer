@@ -3,7 +3,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace EntryPoint.Mapper
+namespace Common.Extensions
 {
 	public static class MapperExtensions
 	{

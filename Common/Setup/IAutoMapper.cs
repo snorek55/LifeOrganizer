@@ -1,4 +1,4 @@
-﻿namespace Common.Config
+﻿namespace Common.Setup
 {
 	public interface IAutoMapper
 	{

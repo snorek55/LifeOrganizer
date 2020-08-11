@@ -1,5 +1,4 @@
-﻿using Common.Config;
-using Common.DI;
+﻿using Common.Setup;
 
 using EntityFramework.DbContextScope;
 using EntityFramework.DbContextScope.Interfaces;
@@ -12,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using MovOrg.Organizers.UseCases.Repositories;
 
-namespace Infrastructure.DI
+namespace Infrastructure.Setup
 {
 	public class MovOrgInfrastructureDependencyResolver : IDependencyResolver
 	{

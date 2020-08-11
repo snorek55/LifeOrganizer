@@ -1,4 +1,4 @@
-﻿using Common.Config;
+﻿using Common.Setup;
 
 using Microsoft.Extensions.Configuration;
 
@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EntryPoint
+namespace Common.Setup
 {
 	public class Config : IConfig
 	{

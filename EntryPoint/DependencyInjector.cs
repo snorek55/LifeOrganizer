@@ -1,6 +1,5 @@
 ﻿using Common.Adapters;
-using Common.Config;
-using Common.DI;
+using Common.Setup;
 using Common.WPF;
 
 using DesktopGui;
@@ -8,15 +7,15 @@ using DesktopGui.Main;
 
 using EntryPoint.Mapper;
 
-using Infrastructure.DI;
+using Infrastructure.Setup;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using MovOrg.Organizers.DI;
+using MovOrg.Organizers.Setup;
 
 using Organizers;
 
-namespace EntryPoint.DI
+namespace EntryPoint.Setup
 {
 	internal class DependencyInjector : IInjector
 	{

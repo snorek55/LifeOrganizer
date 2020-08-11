@@ -1,6 +1,6 @@
 ﻿using AutoFixture;
 
-using Common.Config;
+using Common.Setup;
 
 using EntityFramework.DbContextScope;
 using EntityFramework.DbContextScope.Interfaces;

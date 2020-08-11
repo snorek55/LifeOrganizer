@@ -1,6 +1,6 @@
 using DesktopGui.Main;
 
-using EntryPoint.DI;
+using EntryPoint.Setup;
 
 using MovOrg.Organizers.Adapters.Container;
 

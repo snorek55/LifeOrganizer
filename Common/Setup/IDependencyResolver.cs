@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Common.DI
+namespace Common.Setup
 {
 	public interface IDependencyResolver
 	{

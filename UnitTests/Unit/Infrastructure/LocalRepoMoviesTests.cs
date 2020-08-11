@@ -1,6 +1,6 @@
 ﻿using AutoFixture;
 
-using Common.Config;
+using Common.Setup;
 using Common.UseCases;
 
 using EntityFramework.DbContextScope;
@@ -120,7 +120,7 @@ namespace Tests.Unit.Infrastructure
 			await LocalRepo.UpdateMovieDetails(movieUnderTest);
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(TestMovieSeededWithoutRelatedInfo.Id);
-			existingMovie.LastUpdatedDetails.Value.Should().BeCloseTo(DateTime.Now, 1000);
+			existingMovie.LastUpdatedDetails.Value.ToString("dd/MM/yy HH:mm:ss").Should().Be(DateTime.Now.ToString("dd/MM/yy HH:mm:ss"));
 			existingMovie.AreDetailsAvailable.Should().BeTrue();
 		}
 

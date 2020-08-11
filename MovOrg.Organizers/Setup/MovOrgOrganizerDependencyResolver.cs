@@ -1,5 +1,5 @@
 ﻿using Common.Adapters;
-using Common.DI;
+using Common.Setup;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,7 +7,7 @@ using MovOrg.Organizers.Adapters.Container;
 using MovOrg.Organizers.Adapters.Sections;
 using MovOrg.Organizers.UseCases;
 
-namespace MovOrg.Organizers.DI
+namespace MovOrg.Organizers.Setup
 {
 	public class MovOrgOrganizerDependencyResolver : IDependencyResolver
 	{

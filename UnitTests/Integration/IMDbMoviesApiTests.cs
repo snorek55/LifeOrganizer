@@ -1,6 +1,7 @@
-﻿using EntityFramework.DbContextScope;
+﻿using Common.Setup;
 
-using EntryPoint;
+using EntityFramework.DbContextScope;
+
 using EntryPoint.Mapper;
 
 using FluentAssertions;

@@ -13,15 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\EntryPoint\Properties\App.config" Link="Properties\App.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\EntryPoint\Properties\private.config" Link="Properties\private.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="IMDbApiLib" Version="1.4.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
