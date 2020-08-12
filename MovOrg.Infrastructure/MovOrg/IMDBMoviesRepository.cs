@@ -1,15 +1,17 @@
-﻿using Domain;
+﻿using Common;
+using Common.Setup;
+using Common.UseCases;
 
 using IMDbApiLib;
 using IMDbApiLib.Models;
 
-using Organizers.Common;
-using Organizers.Common.UseCases;
-using Organizers.MovOrg.UseCases.Repositories;
+using MovOrg.Organizers.Domain;
+using MovOrg.Organizers.UseCases.Repositories;
 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.MovOrg
@@ -60,11 +62,6 @@ namespace Infrastructure.MovOrg
 			return movies;
 		}
 
-		public Task<Director> GetDirectorDetails(string id)
-		{
-			throw new NotImplementedException();
-		}
-
 		private async Task UpdateRatings(RatingData data, Movie movie)
 		{
 			var ratings = new List<Rating>();
@@ -81,8 +78,8 @@ namespace Infrastructure.MovOrg
 
 				var rating = new Rating
 				{
-					RatingSource = source,
-					RatingSourceId = Convert.ToInt32(source.Id),
+					Source = source,
+					SourceId = source.Id,
 					Movie = movie,
 					Id = movie.Id,
 					Score = floatScore
