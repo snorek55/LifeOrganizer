@@ -8,9 +8,9 @@ using MovOrg.Organizers.Domain;
 
 namespace Infrastructure.Setup
 {
-	public class MovOrgIMDbProfile : Profile
+	public class IMDbProfile : Profile
 	{
-		public MovOrgIMDbProfile()
+		public IMDbProfile()
 		{
 			CreateMap<TitleData, Movie>()
 				.IgnoreAllPropertiesWithAnInaccessibleSetter()
