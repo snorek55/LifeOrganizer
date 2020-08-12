@@ -1,3 +1,7 @@
+using AutoMapper.Configuration;
+
+using Common.Setup;
+
 using DesktopGui.Main;
 
 using EntryPoint.Setup;
@@ -21,11 +25,22 @@ namespace WinFormsUI
 		private static void Main()
 		{
 			var injector = new DependencyInjector();
-			injector.App.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri(@"pack://application:,,,/MovOrg.GUI;component/MovOrgDataTemplates.xaml") });
+			var autoMapper = injector.Get<IAutoMapper>();
+
+			var infrastructureProfileData = new MovOrg.Infrastructure.Setup.ProfilePluginData();
+			var movOrgProfileData = new MovOrg.Organizer.Setup.ProfilePluginData();
+			var movOrgContainerData = injector.Get<ContainerPluginData>();
+
+			var configExpression = new MapperConfigurationExpression();
+			configExpression.AddProfiles(movOrgProfileData.Profiles);
+			configExpression.AddProfiles(infrastructureProfileData.Profiles);
+			autoMapper.CreateMapper(configExpression);
 
 			var mainVM = injector.Get<MainWindowViewModel>();
+			var mainMenuItem = injector.Get<ContainerPluginData>();
+			injector.App.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = movOrgContainerData.ResourceDictionaryUri });
 
-			mainVM.MainMenuItems.Add(injector.Get<MovOrgMainMenuItemViewModel>());
+			mainVM.MainMenuItems.Add(mainMenuItem);
 
 			mainVM.SelectedItem = mainVM.MainMenuItems.FirstOrDefault();
 
