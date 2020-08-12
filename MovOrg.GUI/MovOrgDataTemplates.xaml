@@ -5,6 +5,9 @@
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:sectionAdapters="clr-namespace:MovOrg.Organizers.Adapters.Sections;assembly=MovOrg.Organizer">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Common;component/WPF/CommonResources.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate DataType="{x:Type sectionAdapters:MoviesSectionViewModel}">
         <local:MoviesSection />

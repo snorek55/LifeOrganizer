@@ -8,6 +8,7 @@ using Organizers;
 
 using System;
 using System.Linq;
+using System.Windows;
 
 namespace WinFormsUI
 {
@@ -20,6 +21,7 @@ namespace WinFormsUI
 		private static void Main()
 		{
 			var injector = new DependencyInjector();
+			injector.App.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri(@"pack://application:,,,/MovOrg.GUI;component/MovOrgDataTemplates.xaml") });
 
 			var mainVM = injector.Get<MainWindowViewModel>();
 
