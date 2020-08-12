@@ -22,7 +22,6 @@
 
                 <!--  Propios  -->
                 <ResourceDictionary Source="Main/MainDataTemplates.xaml" />
-                <ResourceDictionary Source="MovOrg/MovOrgDataTemplates.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Common;component/WPF/CommonResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!--  MahApps Brushes  -->
