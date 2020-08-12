@@ -7,11 +7,7 @@ using DesktopGui.Main;
 
 using EntryPoint.Mapper;
 
-using Infrastructure.Setup;
-
 using Microsoft.Extensions.DependencyInjection;
-
-using MovOrg.Organizers.Setup;
 
 using Organizers;
 
@@ -35,15 +31,10 @@ namespace EntryPoint.Setup
 			services.AddSingleton<IAutoMapper, MapperImpl>();
 			LoadMain(services);
 
-			var infraServices = new MovOrgInfrastructureDependencyResolver();
-			var movServices = new MovOrgOrganizerDependencyResolver();
+			var infraServices = new Infrastructure.Setup.DependencyResolver();
+			var movServices = new MovOrg.Organizers.Setup.DependencyResolver();
 			infraServices.Setup(services);
 			movServices.Setup(services);
-		}
-
-		public T Get<T>()
-		{
-			return provider.GetService<T>();
 		}
 
 		public void LoadMain(ServiceCollection services)
@@ -52,6 +43,11 @@ namespace EntryPoint.Setup
 			services.AddSingleton<MainWindow>();
 			services.AddSingleton(App);
 			services.AddSingleton<IDispatcher, GuiDispatcher>();
+		}
+
+		public T Get<T>()
+		{
+			return provider.GetService<T>();
 		}
 	}
 }

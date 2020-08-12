@@ -8,9 +8,9 @@ using MovOrg.Organizers.Domain;
 
 namespace MovOrg.Organizers.Setup
 {
-	public class MovOrgViewModelsProfile : Profile
+	public class ViewModelsProfile : Profile
 	{
-		public MovOrgViewModelsProfile()
+		public ViewModelsProfile()
 		{
 			CreateMap<Movie, MovieViewModel>()
 				.IgnoreDestinationMember(x => x.ShowAllActors)
