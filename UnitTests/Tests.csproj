@@ -22,8 +22,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EntryPoint\EntryPoint.csproj" />
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\Organizers\Organizers.csproj" />
+    <ProjectReference Include="..\Main.Organizer\Main.Organizer.csproj" />
+    <ProjectReference Include="..\MovOrg.Infrastructure\MovOrg.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
