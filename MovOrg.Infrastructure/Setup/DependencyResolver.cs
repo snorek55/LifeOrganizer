@@ -9,14 +9,16 @@ using Infrastructure.MovOrg.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
+using MovOrg.Infrastructure.Setup;
 using MovOrg.Organizers.UseCases.Repositories;
 
 namespace Infrastructure.Setup
 {
-	public class MovOrgInfrastructureDependencyResolver : IDependencyResolver
+	public class DependencyResolver : IDependencyResolver
 	{
 		public void Setup(IServiceCollection services)
 		{
+			services.AddSingleton<IProfilePluginData, ProfilePluginData>();
 			services.AddSingleton<IApiMoviesRepository, IMDbMoviesApiRepository>();
 			services.AddSingleton<ILocalMoviesRepository, EFCoreLocalMoviesRepository>();
 			services.AddSingleton<IAmbientDbContextLocator, AmbientDbContextLocator>();

@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration;
 
 using Common.Setup;
-
-using Infrastructure.Setup;
-
-using MovOrg.Organizers.Setup;
 
 using System.Diagnostics;
 
@@ -14,14 +11,9 @@ namespace EntryPoint.Mapper
 	{
 		private IMapper mapper;
 
-		public MapperImpl()
+		public void CreateMapper(MapperConfigurationExpression configExpression)
 		{
-			var config = new MapperConfiguration(cfg =>
-			{
-				cfg.AddProfile<MovOrgIMDbProfile>();
-				cfg.AddProfile<MovOrgViewModelsProfile>();
-			});
-
+			var config = new MapperConfiguration(configExpression);
 			try
 			{
 				config.AssertConfigurationIsValid();
