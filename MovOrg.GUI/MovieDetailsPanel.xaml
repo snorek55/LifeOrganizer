@@ -12,6 +12,15 @@
              d:DesignHeight="1600"
              d:DesignWidth="700"
              mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="MovOrgDataTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid x:Name="mainGrid" Background="Red">
 
         <ContentControl Content="{Binding ImagePresenter}"
