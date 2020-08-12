@@ -26,12 +26,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Main.Organizer\Main.Organizer.csproj" />
-    <ProjectReference Include="..\MovOrg.Organizer\MovOrg.Organizer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="MovOrg\MovOrgDataTemplates.xaml">
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 </Project>
