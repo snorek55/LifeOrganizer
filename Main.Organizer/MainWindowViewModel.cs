@@ -6,13 +6,13 @@ namespace Organizers
 {
 	public class MainWindowViewModel : BaseViewModel
 	{
-		public ObservableCollection<IMainMenuItem> MainMenuItems { get; } = new ObservableCollection<IMainMenuItem>();
-		public ObservableCollection<IMainMenuItem> MainMenuOptionsItems { get; } = new ObservableCollection<IMainMenuItem>();
+		public ObservableCollection<IContainerPluginData> MainMenuItems { get; } = new ObservableCollection<IContainerPluginData>();
+		public ObservableCollection<IContainerPluginData> MainMenuOptionsItems { get; } = new ObservableCollection<IContainerPluginData>();
 
-		public IMainMenuItem SelectedItem { get; set; }
+		public IContainerPluginData SelectedItem { get; set; }
 		public BaseOrganizerContainerViewModel CurrentOrganizerContainer { get; set; }
 
-		public void AddMainMenuItem(IMainMenuItem mainMenuItem)
+		public void AddMainMenuItem(IContainerPluginData mainMenuItem)
 		{
 			MainMenuItems.Add(mainMenuItem);
 		}
