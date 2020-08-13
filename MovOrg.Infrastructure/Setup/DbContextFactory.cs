@@ -2,10 +2,11 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 
 using System;
+using System.Configuration;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace Infrastructure.MovOrg.EFCore
 {
@@ -13,6 +14,7 @@ namespace Infrastructure.MovOrg.EFCore
 	{
 		private DbContextOptionsBuilder<MoviesContext> optionsBuilderMoviesContext;
 
+		//TODO: still works if private?
 		public DbContextFactory()
 		{
 			Debug.WriteLine("Default constructor was used on DbContextFactory. This is only allowed for Migrations.");
@@ -25,14 +27,12 @@ namespace Infrastructure.MovOrg.EFCore
 			this.optionsBuilderMoviesContext = optionsBuilderMoviesContext;
 		}
 
+		//TODO: this must be merged with config
 		private static string GetConnectionString()
 		{
-			//Workaround for Migrations because ConfigurationManager returns null
-			var configuration = new ConfigurationBuilder()
-			 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-			 .AddXmlFile(@"Properties/App.config")
-			 .Build();
-			var connString = configuration.GetValue<string>("connectionStrings:add:SqlServerConnectionString:connectionString");
+			var conf = ConfigurationManager.OpenExeConfiguration(AppDomain.CurrentDomain.BaseDirectory + Assembly.GetCallingAssembly().GetName().Name + ".dll");
+
+			var connString = conf.ConnectionStrings.ConnectionStrings["SqlServerConnectionString"].ConnectionString;
 			return connString;
 		}
 
