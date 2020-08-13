@@ -11,33 +11,41 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Organizers;
 
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+
 namespace EntryPoint.Setup
 {
 	internal class DependencyInjector : IInjector
 	{
 		private ServiceProvider provider;
 		public App App = new App();
+		public PluginManager PluginManager = new PluginManager();
 
 		public DependencyInjector()
 		{
-			ServiceCollection services = new ServiceCollection();
+			var services = new ServiceCollection();
 			ConfigureServices(services);
 			provider = services.BuildServiceProvider();
 		}
 
-		private void ConfigureServices(ServiceCollection services)
+		private void ConfigureServices(IServiceCollection services)
 		{
 			services.AddSingleton<IConfig, Config>();
 			services.AddSingleton<IAutoMapper, MapperImpl>();
 			LoadMain(services);
-
-			var infraServices = new Infrastructure.Setup.DependencyResolver();
-			var movServices = new MovOrg.Organizers.Setup.DependencyResolver();
-			infraServices.Setup(services);
-			movServices.Setup(services);
+			LoadPlugins(services);
 		}
 
-		public void LoadMain(ServiceCollection services)
+		private void LoadPlugins(IServiceCollection services)
+		{
+			PluginManager.LoadPlugins(services, ConfigurationManager.AppSettings["MovOrgInfrastructurePath"], ConfigurationManager.AppSettings["MovOrgInfrastructureFile"]);
+			PluginManager.LoadPlugins(services, ConfigurationManager.AppSettings["MovOrgOrganizerPath"], ConfigurationManager.AppSettings["MovOrgOrganizerFile"]);
+		}
+
+		public void LoadMain(IServiceCollection services)
 		{
 			services.AddSingleton<MainWindowViewModel>();
 			services.AddSingleton<MainWindow>();
@@ -47,7 +55,19 @@ namespace EntryPoint.Setup
 
 		public T Get<T>()
 		{
-			return provider.GetService<T>();
+			var service = provider.GetService<T>();
+			if (service == null)
+				throw new ArgumentException($"Service {nameof(T)} not found.");
+			return service;
+		}
+
+		public IEnumerable<T> GetMany<T>()
+		{
+			var services = provider.GetServices<T>();
+			if (services.Count() == 0)
+				throw new ArgumentException($"There are no {nameof(T)} loaded.");
+
+			return services;
 		}
 	}
 }
