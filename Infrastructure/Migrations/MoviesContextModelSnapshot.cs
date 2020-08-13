@@ -177,23 +177,21 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Organizers.MovOrg.Domain.MovieImageData", b =>
                 {
+                    b.Property<string>("MovieId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MovieId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MovieId", "Id");
 
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("MovieImageData");
+                    b.ToTable("MovieImageDatas");
                 });
 
             modelBuilder.Entity("Organizers.MovOrg.Domain.MovieWriter", b =>
@@ -356,7 +354,9 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
                         .WithMany("Images")
-                        .HasForeignKey("MovieId");
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Organizers.MovOrg.Domain.MovieWriter", b =>
