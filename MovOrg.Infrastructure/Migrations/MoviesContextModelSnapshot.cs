@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Infrastructure.Migrations
+namespace MovOrg.Infrastructure.Migrations
 {
     [DbContext(typeof(MoviesContext))]
     partial class MoviesContextModelSnapshot : ModelSnapshot
@@ -15,11 +15,11 @@ namespace Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.5")
+                .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.BoxOffice", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.BoxOffice", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -41,7 +41,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("BoxOffices");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.Company", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.Company", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -54,7 +54,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.Movie", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.Movie", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -127,7 +127,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieActor", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.MovieActor", b =>
                 {
                     b.Property<string>("MovieId")
                         .HasColumnType("nvarchar(450)");
@@ -148,7 +148,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("MovieActors");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieCompany", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.MovieCompany", b =>
                 {
                     b.Property<string>("MovieId")
                         .HasColumnType("nvarchar(450)");
@@ -163,7 +163,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("MovieCompanies");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieDirector", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.MovieDirector", b =>
                 {
                     b.Property<string>("MovieId")
                         .HasColumnType("nvarchar(450)");
@@ -178,7 +178,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("MovieDirectors");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieImageData", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.MovieImageData", b =>
                 {
                     b.Property<string>("MovieId")
                         .HasColumnType("nvarchar(450)");
@@ -197,7 +197,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("MovieImageDatas");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieSimilar", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.MovieSimilar", b =>
                 {
                     b.Property<string>("MovieId")
                         .HasColumnType("nvarchar(450)");
@@ -212,7 +212,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("MovieSimilars");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieWriter", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.MovieWriter", b =>
                 {
                     b.Property<string>("MovieId")
                         .HasColumnType("nvarchar(450)");
@@ -227,7 +227,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("MovieWriters");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.Person", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.Person", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -261,7 +261,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("People");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.Rating", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.Rating", b =>
                 {
                     b.Property<string>("MovieId")
                         .HasColumnType("nvarchar(450)");
@@ -282,7 +282,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("Ratings");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.RatingSource", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.RatingSource", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -298,7 +298,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("RatingSources");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.Trailer", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.Trailer", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -314,119 +314,119 @@ namespace Infrastructure.Migrations
                     b.ToTable("Trailers");
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.BoxOffice", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.BoxOffice", b =>
                 {
-                    b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
+                    b.HasOne("MovOrg.Organizers.Domain.Movie", "Movie")
                         .WithOne("BoxOffice")
-                        .HasForeignKey("Organizers.MovOrg.Domain.BoxOffice", "Id")
+                        .HasForeignKey("MovOrg.Organizers.Domain.BoxOffice", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieActor", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.MovieActor", b =>
                 {
-                    b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
+                    b.HasOne("MovOrg.Organizers.Domain.Movie", "Movie")
                         .WithMany("ActorList")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Organizers.MovOrg.Domain.Person", "Person")
-                        .WithMany("ActedIn")
+                    b.HasOne("MovOrg.Organizers.Domain.Person", "Person")
+                        .WithMany()
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieCompany", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.MovieCompany", b =>
                 {
-                    b.HasOne("Organizers.MovOrg.Domain.Company", "Company")
+                    b.HasOne("MovOrg.Organizers.Domain.Company", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
+                    b.HasOne("MovOrg.Organizers.Domain.Movie", "Movie")
                         .WithMany("CompanyList")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieDirector", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.MovieDirector", b =>
                 {
-                    b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
+                    b.HasOne("MovOrg.Organizers.Domain.Movie", "Movie")
                         .WithMany("DirectorList")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Organizers.MovOrg.Domain.Person", "Person")
-                        .WithMany("DirectorOf")
+                    b.HasOne("MovOrg.Organizers.Domain.Person", "Person")
+                        .WithMany()
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieImageData", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.MovieImageData", b =>
                 {
-                    b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
+                    b.HasOne("MovOrg.Organizers.Domain.Movie", "Movie")
                         .WithMany("Images")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieSimilar", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.MovieSimilar", b =>
                 {
-                    b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
+                    b.HasOne("MovOrg.Organizers.Domain.Movie", "Movie")
                         .WithMany("Similars")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Organizers.MovOrg.Domain.Movie", "Similar")
+                    b.HasOne("MovOrg.Organizers.Domain.Movie", "Similar")
                         .WithMany()
                         .HasForeignKey("SimilarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.MovieWriter", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.MovieWriter", b =>
                 {
-                    b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
+                    b.HasOne("MovOrg.Organizers.Domain.Movie", "Movie")
                         .WithMany("WriterList")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Organizers.MovOrg.Domain.Person", "Person")
+                    b.HasOne("MovOrg.Organizers.Domain.Person", "Person")
                         .WithMany()
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.Rating", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.Rating", b =>
                 {
-                    b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
+                    b.HasOne("MovOrg.Organizers.Domain.Movie", "Movie")
                         .WithMany("Ratings")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Organizers.MovOrg.Domain.RatingSource", "Source")
+                    b.HasOne("MovOrg.Organizers.Domain.RatingSource", "Source")
                         .WithMany("Ratings")
                         .HasForeignKey("SourceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Organizers.MovOrg.Domain.Trailer", b =>
+            modelBuilder.Entity("MovOrg.Organizers.Domain.Trailer", b =>
                 {
-                    b.HasOne("Organizers.MovOrg.Domain.Movie", "Movie")
+                    b.HasOne("MovOrg.Organizers.Domain.Movie", "Movie")
                         .WithOne("Trailer")
-                        .HasForeignKey("Organizers.MovOrg.Domain.Trailer", "Id")
+                        .HasForeignKey("MovOrg.Organizers.Domain.Trailer", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
