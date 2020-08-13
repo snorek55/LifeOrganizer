@@ -12,8 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 using MovOrg.Infrastructure.Setup;
 using MovOrg.Organizers.UseCases.Repositories;
 
+using System.ComponentModel.Composition;
+
 namespace Infrastructure.Setup
 {
+	[Export(typeof(IDependencyResolver))]
 	public class DependencyResolver : IDependencyResolver
 	{
 		public void Setup(IServiceCollection services)
@@ -23,8 +26,6 @@ namespace Infrastructure.Setup
 			services.AddSingleton<ILocalMoviesRepository, EFCoreLocalMoviesRepository>();
 			services.AddSingleton<IAmbientDbContextLocator, AmbientDbContextLocator>();
 			services.AddDbContext<MoviesContext>();
-			services.AddSingleton<DbContextFactory>();
-			services.AddSingleton<IDbContextScopeFactory, DbContextScopeFactory>();
 
 			services.AddSingleton<IDbContextScopeFactory>(provider =>
 			{
