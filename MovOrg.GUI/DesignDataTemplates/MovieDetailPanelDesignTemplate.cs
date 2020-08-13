@@ -1,5 +1,7 @@
 ﻿using Common.Adapters;
 
+using DesktopGui.MovOrg.DesignDataTemplates;
+
 using MovOrg.Organizers.Adapters.Items;
 using MovOrg.Organizers.Adapters.Sections;
 
@@ -7,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace DesktopGui.MovOrg.DesignDataTemplates
+namespace DesktopGui.MovOrg
 {
 	internal class MovieDetailPanelDesignTemplate : MovieDetailsPanelViewModel
 	{

@@ -1,8 +1,4 @@
-﻿using Common.Setup;
-
-using Microsoft.Extensions.Configuration;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -40,11 +36,12 @@ namespace Common.Setup
 		public virtual string GetConnectionString()
 		{
 			//Workaround for Migrations because ConfigurationManager returns null
-			var configuration = new ConfigurationBuilder()
-			 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-			 .AddXmlFile(@"Properties/App.config")
-			 .Build();
-			var connString = configuration.GetValue<string>("connectionStrings:add:SqlServerConnectionString:connectionString");
+			//var configuration = new ConfigurationBuilder()
+			// .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+			// .Add(@"Properties/App.config")
+			// .Build();
+
+			var connString = Configuration.ConnectionStrings.ConnectionStrings["SqlServerConnectionString"].ConnectionString;//.GetValue<string>("connectionStrings:add:SqlServerConnectionString:connectionString");
 			return connString;
 		}
 
