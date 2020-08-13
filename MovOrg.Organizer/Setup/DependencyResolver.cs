@@ -8,8 +8,11 @@ using MovOrg.Organizers.Adapters.Container;
 using MovOrg.Organizers.Adapters.Sections;
 using MovOrg.Organizers.UseCases;
 
+using System.ComponentModel.Composition;
+
 namespace MovOrg.Organizers.Setup
 {
+	[Export(typeof(IDependencyResolver))]
 	public class DependencyResolver : IDependencyResolver
 	{
 		public void Setup(IServiceCollection services)
