@@ -21,12 +21,7 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
-
-- task: MSBuild@1
-  inputs:
-    solution: '$(project)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
