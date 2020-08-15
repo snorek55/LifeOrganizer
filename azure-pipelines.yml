@@ -30,3 +30,4 @@ steps:
 - task: VSTest@2
   inputs:
     configuration: '$(buildConfiguration)'
+    testFiltercriteria: : "FullyQualifiedName~Unit" 
