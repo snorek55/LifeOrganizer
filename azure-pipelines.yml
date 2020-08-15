@@ -30,7 +30,7 @@ steps:
 - task: VSTest@2
   inputs:
     configuration: '$(buildConfiguration)'
-    testAssemblyVer2: '**/*/bin/$(buildConfiguration)/**/*/Tests.dll'
+    testAssemblyVer2: '**/*/bin/$(buildConfiguration)/**/*/*Tests.dll'
     diagnosticsEnabled: true
     codeCoverageEnabled: true
     minimumExpectedTests: 30
