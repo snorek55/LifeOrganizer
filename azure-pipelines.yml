@@ -30,4 +30,5 @@ steps:
 - task: VSTest@2
   inputs:
     configuration: '$(buildConfiguration)'
-    testFiltercriteria: "Unit" 
+    testFiltercriteria: 'Unit' 
+    platform: '$(buildPlatform)'
