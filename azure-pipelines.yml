@@ -32,3 +32,8 @@ steps:
     configuration: '$(buildConfiguration)'
     testFiltercriteria: 'Unit' 
     platform: '$(buildPlatform)'
+    otherConsoleOptions: '/Framework:framework45'
+    diagnosticsEnabled: true
+    codeCoverageEnabled: true
+    minimumExpectedTests: 30
+    failOnMinTestsNotRun: true
