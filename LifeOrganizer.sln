@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopGui", "DesktopGui\DesktopGui.csproj", "{ABC51310-CD05-48BC-B4F2-DD959307C6DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main.GUI", "DesktopGui\Main.GUI.csproj", "{ABC51310-CD05-48BC-B4F2-DD959307C6DB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "UnitTests\Tests.csproj", "{5C47E758-8096-46BA-9E5A-945BDE9E06DB}"
 EndProject
@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntryPoint", "EntryPoint\En
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{7758C40B-38A2-473F-95BB-DE025B7DA4C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovOrg.Organizer", "MovOrg.Organizer\MovOrg.Organizer.csproj", "{D9ED9D49-8445-4091-BAEA-61AC25E0C6C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovOrg.Organizer", "MovOrg.Organizer\MovOrg.Organizer.csproj", "{D9ED9D49-8445-4091-BAEA-61AC25E0C6C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main.Organizer", "Main.Organizer\Main.Organizer.csproj", "{266AE1DA-A8E5-4BB4-860E-6DDC55C1C73B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main.Organizer", "Main.Organizer\Main.Organizer.csproj", "{266AE1DA-A8E5-4BB4-860E-6DDC55C1C73B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovOrg.Infrastructure", "MovOrg.Infrastructure\MovOrg.Infrastructure.csproj", "{CA629F97-CD18-4836-BA0B-E1EA1F78ECE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovOrg.Infrastructure", "MovOrg.Infrastructure\MovOrg.Infrastructure.csproj", "{CA629F97-CD18-4836-BA0B-E1EA1F78ECE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovOrg.GUI", "MovOrg.GUI\MovOrg.GUI.csproj", "{0C5B9B03-FA19-4E6D-A9FE-01F6DDA429BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovOrg.GUI", "MovOrg.GUI\MovOrg.GUI.csproj", "{0C5B9B03-FA19-4E6D-A9FE-01F6DDA429BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

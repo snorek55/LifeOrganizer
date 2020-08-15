@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
-    <ProjectReference Include="..\DesktopGui\DesktopGui.csproj" />
+    <ProjectReference Include="..\DesktopGui\Main.GUI.csproj" />
     <ProjectReference Include="..\Main.Organizer\Main.Organizer.csproj" />
   </ItemGroup>
 
