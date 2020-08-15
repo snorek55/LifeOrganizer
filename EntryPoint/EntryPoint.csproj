@@ -18,7 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Main.GUI\Main.GUI.csproj" />
-    <ProjectReference Include="..\Main.Organizer\Main.Organizer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

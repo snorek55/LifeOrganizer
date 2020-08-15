@@ -4,7 +4,7 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-                 xmlns:mainAdapters="clr-namespace:Main.Organizer;assembly=Main.Organizer"
+                 xmlns:mainAdapters="clr-namespace:Main.GUI.ViewModels"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  Title="Life Organizer"
                  Width="800"

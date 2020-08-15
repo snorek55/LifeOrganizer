@@ -4,7 +4,7 @@ using Common.Adapters;
 using Common.Setup;
 
 using Main.GUI;
-using Main.Organizer;
+using Main.GUI.ViewModels;
 
 using System;
 using System.IO;
@@ -61,9 +61,9 @@ namespace EntryPoint
 			foreach (var containerData in injector.GetMany<IContainerPluginData>())
 			{
 				injector.App.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = containerData.ResourceDictionaryUri });
-				mainVM.MainMenuItems.Add(containerData);
+				mainVM.MainMenuContainers.Add(containerData);
 			}
-			mainVM.SelectedItem = mainVM.MainMenuItems.FirstOrDefault();
+			mainVM.SelectedItem = mainVM.MainMenuContainers.FirstOrDefault();
 		}
 
 		private static void InitializeMapper(DependencyInjector injector)

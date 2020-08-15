@@ -1,6 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 
-using Main.Organizer;
+using Main.GUI.ViewModels;
 
 namespace Main.GUI
 {

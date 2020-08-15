@@ -2,19 +2,19 @@
 
 using System.Collections.ObjectModel;
 
-namespace Main.Organizer
+namespace Main.GUI.ViewModels
 {
 	public class MainWindowViewModel : BaseViewModel
 	{
-		public ObservableCollection<IContainerPluginData> MainMenuItems { get; } = new ObservableCollection<IContainerPluginData>();
-		public ObservableCollection<IContainerPluginData> MainMenuOptionsItems { get; } = new ObservableCollection<IContainerPluginData>();
+		public ObservableCollection<IContainerPluginData> MainMenuContainers { get; } = new ObservableCollection<IContainerPluginData>();
+		public ObservableCollection<IContainerPluginData> MainMenuOptionsContainers { get; } = new ObservableCollection<IContainerPluginData>();
 
 		public IContainerPluginData SelectedItem { get; set; }
 		public BaseOrganizerContainerViewModel CurrentOrganizerContainer { get; set; }
 
 		public void AddMainMenuItem(IContainerPluginData mainMenuItem)
 		{
-			MainMenuItems.Add(mainMenuItem);
+			MainMenuContainers.Add(mainMenuItem);
 		}
 
 #pragma warning disable IDE0051 // Quitar miembros privados no utilizados

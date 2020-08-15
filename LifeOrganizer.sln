@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovOrg.Organizer", "MovOrg.Organizer\MovOrg.Organizer.csproj", "{D9ED9D49-8445-4091-BAEA-61AC25E0C6C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main.Organizer", "Main.Organizer\Main.Organizer.csproj", "{266AE1DA-A8E5-4BB4-860E-6DDC55C1C73B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovOrg.Infrastructure", "MovOrg.Infrastructure\MovOrg.Infrastructure.csproj", "{CA629F97-CD18-4836-BA0B-E1EA1F78ECE2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovOrg.GUI", "MovOrg.GUI\MovOrg.GUI.csproj", "{0C5B9B03-FA19-4E6D-A9FE-01F6DDA429BB}"
@@ -45,10 +43,6 @@ Global
 		{D9ED9D49-8445-4091-BAEA-61AC25E0C6C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9ED9D49-8445-4091-BAEA-61AC25E0C6C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9ED9D49-8445-4091-BAEA-61AC25E0C6C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{266AE1DA-A8E5-4BB4-860E-6DDC55C1C73B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{266AE1DA-A8E5-4BB4-860E-6DDC55C1C73B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{266AE1DA-A8E5-4BB4-860E-6DDC55C1C73B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{266AE1DA-A8E5-4BB4-860E-6DDC55C1C73B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA629F97-CD18-4836-BA0B-E1EA1F78ECE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA629F97-CD18-4836-BA0B-E1EA1F78ECE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA629F97-CD18-4836-BA0B-E1EA1F78ECE2}.Release|Any CPU.ActiveCfg = Release|Any CPU

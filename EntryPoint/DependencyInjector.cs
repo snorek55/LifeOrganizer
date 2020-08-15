@@ -3,7 +3,7 @@ using Common.Setup;
 using Common.WPF;
 
 using Main.GUI;
-using Main.Organizer;
+using Main.GUI.ViewModels;
 
 using Microsoft.Extensions.DependencyInjection;
 
