@@ -30,7 +30,7 @@ steps:
 - task: VSTest@2
   inputs:
     configuration: '$(buildConfiguration)'
-    otherConsoleOptions: '/Framework:.NETCoreApp,Version=v3.1'
+    testAssemblyVer2: '**/*/UnitTests.dll'
     diagnosticsEnabled: true
     codeCoverageEnabled: true
     minimumExpectedTests: 30
