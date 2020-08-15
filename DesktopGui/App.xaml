@@ -21,7 +21,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Flyout.xaml" />
 
                 <!--  Propios  -->
-                <ResourceDictionary Source="Main/MainDataTemplates.xaml" />
+                <ResourceDictionary Source="MainDataTemplates.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Common;component/WPF/CommonResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!--  MahApps Brushes  -->
