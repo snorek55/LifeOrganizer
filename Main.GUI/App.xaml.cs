@@ -1,14 +1,7 @@
-﻿using AutoMapper.Configuration;
-
-using Common.Adapters;
-using Common.Setup;
-
-using Main.GUI.Setup;
-using Main.GUI.ViewModels;
+﻿using Main.GUI.Setup;
 
 using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Windows;
 
@@ -27,15 +20,10 @@ namespace Main.GUI
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
-
-			var injector = new DependencyInjector();
-
-			InitializeMapper(injector);
-
 			AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
-			InitializeContainers(injector);
 
-			this.MainWindow = injector.Get<MainWindow>();
+			var injector = new DependencyInjector(this);
+			MainWindow = injector.Get<MainWindow>();
 			MainWindow.Show();
 		}
 
@@ -59,31 +47,6 @@ namespace Main.GUI
 
 			// nothing found
 			return null;
-		}
-
-		private void InitializeContainers(DependencyInjector injector)
-		{
-			var mainVM = injector.Get<MainWindowViewModel>();
-
-			foreach (var containerData in injector.GetMany<IContainerPluginData>())
-			{
-				this.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = containerData.ResourceDictionaryUri });
-				mainVM.MainMenuContainers.Add(containerData);
-			}
-			mainVM.SelectedItem = mainVM.MainMenuContainers.FirstOrDefault();
-		}
-
-		private void InitializeMapper(DependencyInjector injector)
-		{
-			var autoMapper = injector.Get<IAutoMapper>();
-			var configExpression = new MapperConfigurationExpression();
-
-			foreach (var profileData in injector.GetMany<IProfilePluginData>())
-			{
-				configExpression.AddProfiles(profileData.Profiles);
-			}
-
-			autoMapper.CreateMapper(configExpression);
 		}
 	}
 }

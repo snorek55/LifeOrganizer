@@ -35,13 +35,7 @@ namespace Common.Setup
 
 		public virtual string GetConnectionString()
 		{
-			//Workaround for Migrations because ConfigurationManager returns null
-			//var configuration = new ConfigurationBuilder()
-			// .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-			// .Add(@"Properties/App.config")
-			// .Build();
-
-			var connString = Configuration.ConnectionStrings.ConnectionStrings["SqlServerConnectionString"].ConnectionString;//.GetValue<string>("connectionStrings:add:SqlServerConnectionString:connectionString");
+			var connString = Configuration.ConnectionStrings.ConnectionStrings["SqlServerConnectionString"].ConnectionString;
 			return connString;
 		}
 

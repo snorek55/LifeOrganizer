@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:itemsAdapters="clr-namespace:MovOrg.Organizer.Adapters.Items;assembly=MovOrg.Organizer"
                     xmlns:local="clr-namespace:MovOrg.GUI"
-                    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:sectionAdapters="clr-namespace:MovOrg.Organizer.Adapters.Sections;assembly=MovOrg.Organizer">
     <ResourceDictionary.MergedDictionaries>

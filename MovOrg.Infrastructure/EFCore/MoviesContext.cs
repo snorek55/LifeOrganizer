@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 using MovOrg.Organizer.Domain;
 
-namespace MovOrg.Infrastructure.MovOrg.EFCore
+namespace MovOrg.Infrastructure.EFCore
 {
 	public class MoviesContext : DbContext, IDbContext
 	{

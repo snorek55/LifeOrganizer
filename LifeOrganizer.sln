@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovOrg.Infrastructure", "Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovOrg.GUI", "MovOrg.GUI\MovOrg.GUI.csproj", "{0C5B9B03-FA19-4E6D-A9FE-01F6DDA429BB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MovOrg Addin", "MovOrg Addin", "{B71303CB-0756-4496-9243-5C16E1A8EC50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovOrg.Tests", "MovOrg.Tests\MovOrg.Tests.csproj", "{657661B6-2E21-49EA-B5C9-BC29CD112A01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,9 +49,19 @@ Global
 		{0C5B9B03-FA19-4E6D-A9FE-01F6DDA429BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C5B9B03-FA19-4E6D-A9FE-01F6DDA429BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C5B9B03-FA19-4E6D-A9FE-01F6DDA429BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{657661B6-2E21-49EA-B5C9-BC29CD112A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{657661B6-2E21-49EA-B5C9-BC29CD112A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{657661B6-2E21-49EA-B5C9-BC29CD112A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{657661B6-2E21-49EA-B5C9-BC29CD112A01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D9ED9D49-8445-4091-BAEA-61AC25E0C6C8} = {B71303CB-0756-4496-9243-5C16E1A8EC50}
+		{CA629F97-CD18-4836-BA0B-E1EA1F78ECE2} = {B71303CB-0756-4496-9243-5C16E1A8EC50}
+		{0C5B9B03-FA19-4E6D-A9FE-01F6DDA429BB} = {B71303CB-0756-4496-9243-5C16E1A8EC50}
+		{657661B6-2E21-49EA-B5C9-BC29CD112A01} = {B71303CB-0756-4496-9243-5C16E1A8EC50}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {07FD4B00-B7EE-4042-9E6A-781A91C74D3B}

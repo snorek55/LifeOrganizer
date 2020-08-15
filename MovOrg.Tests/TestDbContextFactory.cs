@@ -4,7 +4,7 @@ using EntityFramework.DbContextScope.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
-using MovOrg.Infrastructure.MovOrg.EFCore;
+using MovOrg.Infrastructure.EFCore;
 
 using System;
 

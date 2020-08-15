@@ -3,7 +3,6 @@
                     xmlns:local="clr-namespace:Main.GUI"
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                     xmlns:mainConverters="clr-namespace:Main.GUI.Converters"
-                    xmlns:moviesAdapters="clr-namespace:Common.Adapters;assembly=Common"
                     xmlns:sections="clr-namespace:Common.Adapters;assembly=Common">
 
     <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mah:HamburgerMenuIconItem}">

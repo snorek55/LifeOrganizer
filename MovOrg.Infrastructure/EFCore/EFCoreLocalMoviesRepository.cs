@@ -11,10 +11,11 @@ using MovOrg.Organizer.UseCases.Repositories;
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovOrg.Infrastructure.MovOrg.EFCore
+namespace MovOrg.Infrastructure.EFCore
 {
 	public class EFCoreLocalMoviesRepository : ILocalMoviesRepository
 	{
@@ -88,7 +89,7 @@ namespace MovOrg.Infrastructure.MovOrg.EFCore
 		private DateTime RoundToSecond(DateTime dateTime)
 		{
 			var stringDateTime = dateTime.ToString("dd/MM/yy HH:mm:ss");
-			return DateTime.Parse(stringDateTime);
+			return DateTime.Parse(stringDateTime, new CultureInfo("es-es"));
 		}
 
 		public async Task UpdateSuggestedTitleMovies(IEnumerable<Movie> movies)

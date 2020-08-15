@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-using MovOrg.Infrastructure.MovOrg.EFCore;
+using MovOrg.Infrastructure.EFCore;
 
 using System;
 

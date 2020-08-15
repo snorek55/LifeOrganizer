@@ -1,17 +1,28 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration;
 
-using Common.Setup;
-
+using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Main.GUI.Setup
+namespace Common.Setup
 {
 	public class MapperImpl : IAutoMapper
 	{
 		private IMapper mapper;
 
-		public void CreateMapper(MapperConfigurationExpression configExpression)
+		public MapperImpl(MapperConfigurationExpression configExpression)
+		{
+			CreateMapper(configExpression);
+		}
+
+		public MapperImpl(List<Profile> profiles)
+		{
+			var configExpression = new MapperConfigurationExpression();
+			configExpression.AddProfiles(profiles);
+			CreateMapper(configExpression);
+		}
+
+		private void CreateMapper(MapperConfigurationExpression configExpression)
 		{
 			var config = new MapperConfiguration(configExpression);
 			try

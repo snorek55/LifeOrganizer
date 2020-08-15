@@ -1,22 +1,24 @@
-﻿using Common.Setup;
+﻿using AutoMapper;
+
+using Common.Setup;
 
 using EntityFramework.DbContextScope;
 
 using FluentAssertions;
 
-using Main.GUI.Setup;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using MovOrg.Infrastructure.MovOrg.APIs;
-using MovOrg.Infrastructure.MovOrg.EFCore;
+using MovOrg.Infrastructure.APIs;
+using MovOrg.Infrastructure.EFCore;
+using MovOrg.Infrastructure.Setup;
 using MovOrg.Organizer.UseCases.Repositories;
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Tests.Common;
 
-namespace Tests.Integration
+namespace MovOrg.Tests.Integration
 {
 	[TestClass]
 	public class IMDbMoviesApiTests
@@ -30,7 +32,7 @@ namespace Tests.Integration
 			config = new IntegrationTestConfig();
 			var AmbientDbContextLocator = new AmbientDbContextLocator();
 			sqlServerTestRepository = new EFCoreLocalMoviesRepository(AmbientDbContextLocator, config);
-			imdbApiRepository = new IMDbMoviesApiRepository(new MapperImpl(), sqlServerTestRepository, config);
+			imdbApiRepository = new IMDbMoviesApiRepository(new MapperImpl(new List<Profile> { new IMDbProfile() }), sqlServerTestRepository, config);
 		}
 
 		[TestMethod]

@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 using Tests.Common;
 
-namespace Tests.Unit
+namespace MovOrg.Tests.Unit
 {
 	[TestClass]
 	public class MovOrgTests : TestData

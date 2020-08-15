@@ -1,9 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Tests.Unit;
-using Tests.Unit.Infrastructure;
+using MovOrg.Tests.Unit.Infrastructure;
 
-namespace Tests.Integration
+namespace MovOrg.Tests.Integration
 {
 	[TestClass]
 	public class SqlServerMoviesTests : LocalRepoMoviesTests

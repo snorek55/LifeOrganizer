@@ -6,8 +6,8 @@ using EntityFramework.DbContextScope.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-using MovOrg.Infrastructure.MovOrg.APIs;
-using MovOrg.Infrastructure.MovOrg.EFCore;
+using MovOrg.Infrastructure.APIs;
+using MovOrg.Infrastructure.EFCore;
 using MovOrg.Organizer.UseCases.Repositories;
 
 using System.ComponentModel.Composition;

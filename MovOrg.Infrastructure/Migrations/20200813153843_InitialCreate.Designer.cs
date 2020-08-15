@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-using MovOrg.Infrastructure.MovOrg.EFCore;
+using MovOrg.Infrastructure.EFCore;
 
 using System;
 

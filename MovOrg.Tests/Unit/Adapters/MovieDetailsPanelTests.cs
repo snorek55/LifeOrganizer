@@ -11,7 +11,7 @@ using MovOrg.Organizer.Adapters.Sections;
 using MovOrg.Organizer.UseCases;
 using MovOrg.Organizer.UseCases.Responses;
 
-namespace Tests.Unit.Adapters
+namespace MovOrg.Tests.Unit.Adapters
 {
 	[TestClass]
 	public class MovieDetailsPanelTests

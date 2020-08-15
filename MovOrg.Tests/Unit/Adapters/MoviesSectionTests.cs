@@ -1,13 +1,13 @@
 ﻿using AutoFixture;
 
+using AutoMapper;
+
 using Common.Adapters;
 using Common.Extensions;
 using Common.Setup;
 
 using FluentAssertions;
 using FluentAssertions.Common;
-
-using Main.GUI.Setup;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,6 +16,7 @@ using Moq;
 using MovOrg.Organizer.Adapters.Items;
 using MovOrg.Organizer.Adapters.Sections;
 using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.Setup;
 using MovOrg.Organizer.UseCases;
 using MovOrg.Organizer.UseCases.Responses;
 
@@ -24,7 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Data;
 
-namespace Tests.Unit.Adapters
+namespace MovOrg.Tests.Unit.Adapters
 {
 	[TestClass]
 	public class MoviesSectionTests
@@ -32,7 +33,7 @@ namespace Tests.Unit.Adapters
 		private MoviesSectionViewModel moviesSectionViewModel;
 		private Mock<IMoviesService> mockMoviesService = new Mock<IMoviesService>();
 		private Mock<IDispatcher> mockDispatcher = new Mock<IDispatcher>();
-		private IAutoMapper autoMapper = new MapperImpl();
+		private IAutoMapper autoMapper = new MapperImpl(new List<Profile> { new ViewModelsProfile() });
 		private Fixture fixture = new Fixture();
 
 		private List<Movie> moviesInLocal;

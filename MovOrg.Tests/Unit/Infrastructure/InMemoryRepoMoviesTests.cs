@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests.Unit.Infrastructure
+namespace MovOrg.Tests.Unit.Infrastructure
 {
 	[TestClass]
 	public class InMemoryRepoMoviesTests : LocalRepoMoviesTests

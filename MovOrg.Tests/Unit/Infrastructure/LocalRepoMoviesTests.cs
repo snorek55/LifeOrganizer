@@ -12,7 +12,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using MovOrg.Infrastructure.MovOrg.EFCore;
+using MovOrg.Infrastructure.EFCore;
 using MovOrg.Infrastructure.Setup;
 using MovOrg.Organizer.Domain;
 using MovOrg.Organizer.UseCases.Repositories;
@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 
 using Tests.Common;
 
-namespace Tests.Unit.Infrastructure
+namespace MovOrg.Tests.Unit.Infrastructure
 {
 	public abstract class LocalRepoMoviesTests : TestData
 	{
@@ -120,7 +120,7 @@ namespace Tests.Unit.Infrastructure
 			await LocalRepo.UpdateMovieDetails(movieUnderTest);
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(TestMovieSeededWithoutRelatedInfo.Id);
-			existingMovie.LastUpdatedDetails.Value.ToString("dd/MM/yy HH:mm:ss").Should().Be(DateTime.Now.ToString("dd/MM/yy HH:mm:ss"));
+			existingMovie.LastUpdatedDetails.Value.Should().BeCloseTo(DateTime.Now, 2000);
 			existingMovie.AreDetailsAvailable.Should().BeTrue();
 		}
 

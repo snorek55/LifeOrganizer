@@ -1,6 +1,7 @@
 ﻿using Common.Setup;
 
 using System.Configuration;
+using System.Reflection;
 
 namespace Tests.Common
 {
@@ -8,7 +9,7 @@ namespace Tests.Common
 	{
 		public IntegrationTestConfig()
 		{
-			Configuration = ConfigurationManager.OpenExeConfiguration(@"Main.GUI.dll");
+			Configuration = ConfigurationManager.OpenExeConfiguration(Assembly.GetCallingAssembly().GetName().Name + ".dll");
 		}
 
 		public override string GetConnectionString()

@@ -3,7 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-using MovOrg.Infrastructure.MovOrg.EFCore;
+using MovOrg.Infrastructure.EFCore;
 
 using System;
 using System.Configuration;

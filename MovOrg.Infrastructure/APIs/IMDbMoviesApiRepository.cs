@@ -14,7 +14,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovOrg.Infrastructure.MovOrg.APIs
+namespace MovOrg.Infrastructure.APIs
 {
 	public class IMDbMoviesApiRepository : IApiMoviesRepository
 	{
