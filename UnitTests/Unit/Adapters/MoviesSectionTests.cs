@@ -4,10 +4,10 @@ using Common.Adapters;
 using Common.Extensions;
 using Common.Setup;
 
-using EntryPoint;
-
 using FluentAssertions;
 using FluentAssertions.Common;
+
+using Main.GUI.Setup;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

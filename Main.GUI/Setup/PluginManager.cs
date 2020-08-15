@@ -9,7 +9,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Reflection;
 using System.Text;
 
-namespace EntryPoint
+namespace Main.GUI.Setup
 {
 	public class PluginManager
 	{

@@ -2,9 +2,9 @@
 
 using EntityFramework.DbContextScope;
 
-using EntryPoint;
-
 using FluentAssertions;
+
+using Main.GUI.Setup;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -2,7 +2,6 @@
 using Common.Setup;
 using Common.WPF;
 
-using Main.GUI;
 using Main.GUI.ViewModels;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -12,12 +11,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 
-namespace EntryPoint
+namespace Main.GUI.Setup
 {
-	internal class DependencyInjector : IInjector
+	public class DependencyInjector : IInjector
 	{
 		private ServiceProvider provider;
-		public App App = new App();
 		public PluginManager PluginManager = new PluginManager();
 
 		public DependencyInjector()
@@ -41,11 +39,10 @@ namespace EntryPoint
 			PluginManager.LoadPlugins(services, ConfigurationManager.AppSettings["MovOrgOrganizerPath"], ConfigurationManager.AppSettings["MovOrgOrganizerFile"]);
 		}
 
-		public void LoadMain(IServiceCollection services)
+		private void LoadMain(IServiceCollection services)
 		{
 			services.AddSingleton<MainWindowViewModel>();
 			services.AddSingleton<MainWindow>();
-			services.AddSingleton(App);
 			services.AddSingleton<IDispatcher, GuiDispatcher>();
 		}
 

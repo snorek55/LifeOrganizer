@@ -1,7 +1,5 @@
 ﻿using Common.Setup;
 
-using EntryPoint;
-
 using System.Configuration;
 
 namespace Tests.Common
@@ -10,7 +8,7 @@ namespace Tests.Common
 	{
 		public IntegrationTestConfig()
 		{
-			Configuration = ConfigurationManager.OpenExeConfiguration(@"EntryPoint.dll");
+			Configuration = ConfigurationManager.OpenExeConfiguration(@"Main.GUI.dll");
 		}
 
 		public override string GetConnectionString()

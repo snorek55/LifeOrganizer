@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EntryPoint\EntryPoint.csproj" />
+    <ProjectReference Include="..\Main.GUI\Main.GUI.csproj" />
     <ProjectReference Include="..\MovOrg.Infrastructure\MovOrg.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

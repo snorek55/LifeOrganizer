@@ -5,7 +5,7 @@ using Common.Setup;
 
 using System.Diagnostics;
 
-namespace EntryPoint
+namespace Main.GUI.Setup
 {
 	public class MapperImpl : IAutoMapper
 	{
