@@ -25,7 +25,7 @@ namespace MovOrg.Tests.Integration
 	{
 		private IMDbMoviesApiRepository imdbApiRepository;
 		private ILocalMoviesRepository sqlServerTestRepository;
-		private Config config;
+		private IConfig config;
 
 		public IMDbMoviesApiTests()
 		{

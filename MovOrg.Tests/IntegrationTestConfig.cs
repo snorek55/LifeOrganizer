@@ -2,24 +2,42 @@
 
 using System.Configuration;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Tests.Common
 {
-	public class IntegrationTestConfig : Config
+	public class IntegrationTestConfig : IConfig
 	{
+		private Configuration configuration;
+
 		public IntegrationTestConfig()
 		{
-			Configuration = ConfigurationManager.OpenExeConfiguration(Assembly.GetCallingAssembly().GetName().Name + ".dll");
+			configuration = ConfigurationManager.OpenExeConfiguration(Assembly.GetCallingAssembly().GetName().Name + ".dll");
 		}
 
-		public override string GetConnectionString()
+		public Task AddSearchedTitleAsync(string suggestedTitle)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public string GetConnectionString()
 		{
 			return @"Data Source=(LocalDB)\MSSQLLocalDB;Database=LifeOrganizerDBTest;";
 		}
 
-		public override string GetIMDbApiKey()
+		public string GetIMDbApiKey()
 		{
-			return Configuration.AppSettings.Settings["IMDbApiKey"].Value;
+			return configuration.AppSettings.Settings["IMDbApiKey"].Value;
+		}
+
+		public string GetRatingSourceLogoUrl(string ratingSourceName)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public Task<bool> WasAlreadySearched(string term)
+		{
+			throw new System.NotImplementedException();
 		}
 	}
 }
