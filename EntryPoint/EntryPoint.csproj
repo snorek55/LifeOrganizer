@@ -22,12 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Properties\App.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Properties\private.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
