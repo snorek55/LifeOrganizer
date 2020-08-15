@@ -19,6 +19,6 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <!--<Exec Command="dotnet publish -no-build -p:PublishDir=../EntryPoint/bin/$(Platform)/$(Configuration)/$(TargetFramework)/" />-->
+    <Exec Command="dotnet publish -c $(Configuration) --no-build -p:PublishDir=$(SolutionDir)EntryPoint\bin\$(Configuration)\$(TargetFramework)\" />
   </Target>
 </Project>
