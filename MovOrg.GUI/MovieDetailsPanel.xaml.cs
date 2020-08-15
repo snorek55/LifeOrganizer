@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace DesktopGui.MovOrg
+namespace MovOrg.GUI
 {
 	/// <summary>
 	/// Lógica de interacción para MovieDetailsPanel.xaml

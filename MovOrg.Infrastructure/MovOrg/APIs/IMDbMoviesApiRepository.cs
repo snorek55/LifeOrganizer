@@ -5,8 +5,8 @@ using Common.UseCases;
 using IMDbApiLib;
 using IMDbApiLib.Models;
 
-using MovOrg.Organizers.Domain;
-using MovOrg.Organizers.UseCases.Repositories;
+using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.Repositories;
 
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Infrastructure.MovOrg.APIs
+namespace MovOrg.Infrastructure.MovOrg.APIs
 {
 	public class IMDbMoviesApiRepository : IApiMoviesRepository
 	{

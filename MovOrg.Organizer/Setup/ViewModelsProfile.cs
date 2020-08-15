@@ -3,10 +3,10 @@
 using Common.Adapters;
 using Common.Extensions;
 
-using MovOrg.Organizers.Adapters.Items;
-using MovOrg.Organizers.Domain;
+using MovOrg.Organizer.Adapters.Items;
+using MovOrg.Organizer.Domain;
 
-namespace MovOrg.Organizers.Setup
+namespace MovOrg.Organizer.Setup
 {
 	public class ViewModelsProfile : Profile
 	{

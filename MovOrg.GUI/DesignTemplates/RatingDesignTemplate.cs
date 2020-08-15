@@ -1,6 +1,6 @@
-﻿using MovOrg.Organizers.Adapters.Items;
+﻿using MovOrg.Organizer.Adapters.Items;
 
-namespace DesktopGui.MovOrg.DesignDataTemplates
+namespace MovOrg.GUI.DesignTemplates
 {
 	internal class RatingDesignTemplate : RatingViewModel
 	{

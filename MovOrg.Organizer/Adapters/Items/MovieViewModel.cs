@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
 
-namespace MovOrg.Organizers.Adapters.Items
+namespace MovOrg.Organizer.Adapters.Items
 {
 	public class MovieViewModel : BaseViewModel
 	{

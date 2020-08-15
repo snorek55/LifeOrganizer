@@ -1,8 +1,8 @@
 ﻿using Common.Adapters;
 using Common.Extensions;
 
-using MovOrg.Organizers.Adapters.Items;
-using MovOrg.Organizers.UseCases;
+using MovOrg.Organizer.Adapters.Items;
+using MovOrg.Organizer.UseCases;
 
 using System;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace MovOrg.Organizers.Adapters.Sections
+namespace MovOrg.Organizer.Adapters.Sections
 {
 	public class MovieDetailsPanelViewModel : BaseViewModel
 	{

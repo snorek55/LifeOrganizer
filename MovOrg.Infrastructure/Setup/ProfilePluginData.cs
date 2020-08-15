@@ -2,8 +2,6 @@
 
 using Common.Setup;
 
-using Infrastructure.Setup;
-
 using System.Collections.Generic;
 
 namespace MovOrg.Infrastructure.Setup

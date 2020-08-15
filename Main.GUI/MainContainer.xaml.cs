@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DesktopGui.Main
+namespace Main.GUI
 {
 	/// <summary>
 	/// Lógica de interacción para MovOrgContainer.xaml

@@ -3,12 +3,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
+using MovOrg.Infrastructure.MovOrg.EFCore;
+
 using System;
 using System.Configuration;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace Infrastructure.MovOrg.EFCore
+namespace MovOrg.Infrastructure.Setup
 {
 	public class DbContextFactory : IDbContextFactory, IDesignTimeDbContextFactory<MoviesContext>
 	{

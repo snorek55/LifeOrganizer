@@ -2,16 +2,15 @@
 
 using EntityFramework.DbContextScope;
 
-using EntryPoint.Mapper;
+using EntryPoint;
 
 using FluentAssertions;
 
-using Infrastructure.MovOrg.APIs;
-using Infrastructure.MovOrg.EFCore;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using MovOrg.Organizers.UseCases.Repositories;
+using MovOrg.Infrastructure.MovOrg.APIs;
+using MovOrg.Infrastructure.MovOrg.EFCore;
+using MovOrg.Organizer.UseCases.Repositories;
 
 using System.Threading.Tasks;
 

@@ -1,9 +1,8 @@
 ﻿using MahApps.Metro.Controls;
 
-using Organizers;
-using Organizers.Main.Adapters;
+using Main.Organizer;
 
-namespace DesktopGui.Main
+namespace Main.GUI
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml

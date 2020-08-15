@@ -8,14 +8,14 @@ using EntityFramework.DbContextScope.Interfaces;
 
 using FluentAssertions;
 
-using Infrastructure.MovOrg.EFCore;
-
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using MovOrg.Organizers.Domain;
-using MovOrg.Organizers.UseCases.Repositories;
+using MovOrg.Infrastructure.MovOrg.EFCore;
+using MovOrg.Infrastructure.Setup;
+using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.Repositories;
 
 using System;
 using System.Collections.Generic;

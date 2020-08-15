@@ -1,8 +1,8 @@
 ﻿using Common.UseCases;
 
-using MovOrg.Organizers.Domain;
+using MovOrg.Organizer.Domain;
 
-namespace MovOrg.Organizers.UseCases.Responses
+namespace MovOrg.Organizer.UseCases.Responses
 {
 	public class GetMovieDetailsResponse : ResponseBase
 	{

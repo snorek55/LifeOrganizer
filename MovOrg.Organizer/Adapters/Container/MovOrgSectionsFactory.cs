@@ -1,10 +1,10 @@
 ﻿using Common.Adapters;
 
-using MovOrg.Organizers.Adapters.Sections;
+using MovOrg.Organizer.Adapters.Sections;
 
 using System.Collections.Generic;
 
-namespace MovOrg.Organizers.Adapters.Container
+namespace MovOrg.Organizer.Adapters.Container
 {
 	public class MovOrgSectionsFactory : ISectionsFactory
 	{

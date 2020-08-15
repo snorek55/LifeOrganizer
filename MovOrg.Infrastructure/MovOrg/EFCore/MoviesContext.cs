@@ -3,9 +3,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-using MovOrg.Organizers.Domain;
+using MovOrg.Organizer.Domain;
 
-namespace Infrastructure.MovOrg.EFCore
+namespace MovOrg.Infrastructure.MovOrg.EFCore
 {
 	public class MoviesContext : DbContext, IDbContext
 	{

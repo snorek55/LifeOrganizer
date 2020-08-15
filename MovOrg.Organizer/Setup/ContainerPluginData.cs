@@ -1,10 +1,10 @@
 ﻿using Common.Adapters;
 
-using Organizers.Main.Adapters.MainMenu;
+using MovOrg.Organizer.Adapters.Container;
 
 using System;
 
-namespace MovOrg.Organizers.Adapters.Container
+namespace MovOrg.Organizer.Setup
 {
 	public class ContainerPluginData : IContainerPluginData
 	{

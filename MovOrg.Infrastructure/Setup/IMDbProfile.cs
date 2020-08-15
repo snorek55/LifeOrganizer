@@ -4,9 +4,9 @@ using Common.Extensions;
 
 using IMDbApiLib.Models;
 
-using MovOrg.Organizers.Domain;
+using MovOrg.Organizer.Domain;
 
-namespace Infrastructure.Setup
+namespace MovOrg.Infrastructure.Setup
 {
 	public class IMDbProfile : Profile
 	{

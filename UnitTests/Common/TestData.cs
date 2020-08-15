@@ -2,7 +2,7 @@
 
 using Common.Setup;
 
-using MovOrg.Organizers.Domain;
+using MovOrg.Organizer.Domain;
 
 using System;
 using System.Collections.Generic;

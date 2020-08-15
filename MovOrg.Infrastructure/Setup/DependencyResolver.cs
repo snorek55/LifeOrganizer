@@ -3,18 +3,16 @@
 using EntityFramework.DbContextScope;
 using EntityFramework.DbContextScope.Interfaces;
 
-using Infrastructure.MovOrg.APIs;
-using Infrastructure.MovOrg.EFCore;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-using MovOrg.Infrastructure.Setup;
-using MovOrg.Organizers.UseCases.Repositories;
+using MovOrg.Infrastructure.MovOrg.APIs;
+using MovOrg.Infrastructure.MovOrg.EFCore;
+using MovOrg.Organizer.UseCases.Repositories;
 
 using System.ComponentModel.Composition;
 
-namespace Infrastructure.Setup
+namespace MovOrg.Infrastructure.Setup
 {
 	[Export(typeof(IDependencyResolver))]
 	public class DependencyResolver : IDependencyResolver

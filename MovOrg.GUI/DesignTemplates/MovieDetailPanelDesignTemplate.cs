@@ -1,15 +1,13 @@
 ﻿using Common.Adapters;
 
-using DesktopGui.MovOrg.DesignDataTemplates;
-
-using MovOrg.Organizers.Adapters.Items;
-using MovOrg.Organizers.Adapters.Sections;
+using MovOrg.Organizer.Adapters.Items;
+using MovOrg.Organizer.Adapters.Sections;
 
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace DesktopGui.MovOrg
+namespace MovOrg.GUI.DesignTemplates
 {
 	internal class MovieDetailPanelDesignTemplate : MovieDetailsPanelViewModel
 	{

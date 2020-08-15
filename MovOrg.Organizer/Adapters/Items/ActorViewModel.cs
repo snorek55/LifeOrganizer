@@ -1,4 +1,4 @@
-﻿namespace MovOrg.Organizers.Adapters.Items
+﻿namespace MovOrg.Organizer.Adapters.Items
 {
 	public class ActorViewModel : PersonViewModel
 	{

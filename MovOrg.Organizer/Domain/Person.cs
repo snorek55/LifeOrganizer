@@ -2,7 +2,7 @@
 
 using System;
 
-namespace MovOrg.Organizers.Domain
+namespace MovOrg.Organizer.Domain
 {
 	public class Person : Entity
 	{

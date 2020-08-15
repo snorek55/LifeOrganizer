@@ -1,10 +1,10 @@
 ﻿using Common.UseCases;
 
-using MovOrg.Organizers.Domain;
+using MovOrg.Organizer.Domain;
 
 using System.Collections.Generic;
 
-namespace MovOrg.Organizers.UseCases.Responses
+namespace MovOrg.Organizer.UseCases.Responses
 {
 	public class GetAllMoviesFromLocalResponse : ResponseBase
 	{

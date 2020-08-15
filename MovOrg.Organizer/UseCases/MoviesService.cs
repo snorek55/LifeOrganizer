@@ -3,16 +3,16 @@ using Common.UseCases;
 
 using EntityFramework.DbContextScope.Interfaces;
 
-using MovOrg.Organizers.Domain;
-using MovOrg.Organizers.UseCases.Repositories;
-using MovOrg.Organizers.UseCases.Responses;
+using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.Repositories;
+using MovOrg.Organizer.UseCases.Responses;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace MovOrg.Organizers.UseCases
+namespace MovOrg.Organizer.UseCases
 {
 	public class MoviesService : IMoviesService
 	{

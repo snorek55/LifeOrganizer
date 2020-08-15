@@ -3,7 +3,7 @@ using Common.Extensions;
 
 using System.Linq;
 
-namespace MovOrg.Organizers.Adapters.Container
+namespace MovOrg.Organizer.Adapters.Container
 {
 	public class MovOrgContainerViewModel : BaseOrganizerContainerViewModel
 	{

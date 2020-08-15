@@ -3,11 +3,8 @@ using AutoMapper.Configuration;
 using Common.Adapters;
 using Common.Setup;
 
-using DesktopGui.Main;
-
-using EntryPoint.Setup;
-
-using Organizers;
+using Main.GUI;
+using Main.Organizer;
 
 using System;
 using System.IO;
@@ -15,7 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 
-namespace WinFormsUI
+namespace EntryPoint
 {
 	internal static class Program
 	{

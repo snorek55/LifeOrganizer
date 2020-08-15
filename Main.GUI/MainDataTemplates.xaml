@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:DesktopGui.Main"
+                    xmlns:local="clr-namespace:Main.GUI"
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-                    xmlns:mainConverters="clr-namespace:DesktopGui.Main.Converters"
+                    xmlns:mainConverters="clr-namespace:Main.GUI.Converters"
                     xmlns:moviesAdapters="clr-namespace:Common.Adapters;assembly=Common"
                     xmlns:sections="clr-namespace:Common.Adapters;assembly=Common">
 

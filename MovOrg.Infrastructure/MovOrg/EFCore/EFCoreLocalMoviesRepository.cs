@@ -6,15 +6,15 @@ using EntityFramework.DbContextScope.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
-using MovOrg.Organizers.Domain;
-using MovOrg.Organizers.UseCases.Repositories;
+using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.Repositories;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Infrastructure.MovOrg.EFCore
+namespace MovOrg.Infrastructure.MovOrg.EFCore
 {
 	public class EFCoreLocalMoviesRepository : ILocalMoviesRepository
 	{
@@ -353,11 +353,6 @@ namespace Infrastructure.MovOrg.EFCore
 		{
 			var existingMovie = DbContext.Movies.Find(id);
 			existingMovie.IsWatched = isWatched;
-		}
-
-		public Task<Person> GetPersonDetails(string id)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

@@ -2,21 +2,17 @@
 using Common.Setup;
 using Common.WPF;
 
-using DesktopGui;
-using DesktopGui.Main;
-
-using EntryPoint.Mapper;
+using Main.GUI;
+using Main.Organizer;
 
 using Microsoft.Extensions.DependencyInjection;
-
-using Organizers;
 
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 
-namespace EntryPoint.Setup
+namespace EntryPoint
 {
 	internal class DependencyInjector : IInjector
 	{

@@ -1,8 +1,8 @@
-﻿using MovOrg.Organizers.UseCases.Responses;
+﻿using MovOrg.Organizer.UseCases.Responses;
 
 using System.Threading.Tasks;
 
-namespace MovOrg.Organizers.UseCases
+namespace MovOrg.Organizer.UseCases
 {
 	public interface IMoviesService
 	{

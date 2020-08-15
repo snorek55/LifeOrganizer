@@ -1,6 +1,6 @@
 ﻿using Common.Adapters;
 
-namespace MovOrg.Organizers.Adapters.Items
+namespace MovOrg.Organizer.Adapters.Items
 {
 	public class BoxOfficeViewModel : BaseViewModel
 	{

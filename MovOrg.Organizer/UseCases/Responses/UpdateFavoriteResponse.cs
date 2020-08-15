@@ -1,6 +1,6 @@
 ﻿using Common.UseCases;
 
-namespace MovOrg.Organizers.UseCases.Responses
+namespace MovOrg.Organizer.UseCases.Responses
 {
 	public class UpdateFavoriteResponse : ResponseBase
 	{

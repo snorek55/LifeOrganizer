@@ -11,9 +11,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-using MovOrg.Organizers.Domain;
-using MovOrg.Organizers.UseCases;
-using MovOrg.Organizers.UseCases.Repositories;
+using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases;
+using MovOrg.Organizer.UseCases.Repositories;
 
 using System.Threading.Tasks;
 

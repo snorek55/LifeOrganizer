@@ -2,8 +2,6 @@
 
 using Common.Setup;
 
-using MovOrg.Organizers.Setup;
-
 using System.Collections.Generic;
 
 namespace MovOrg.Organizer.Setup

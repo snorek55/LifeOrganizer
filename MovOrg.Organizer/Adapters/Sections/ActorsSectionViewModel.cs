@@ -1,6 +1,6 @@
 ﻿using Common.Adapters;
 
-namespace MovOrg.Organizers.Adapters.Sections
+namespace MovOrg.Organizer.Adapters.Sections
 {
 	public class ActorsSectionViewModel : SectionViewModel
 	{

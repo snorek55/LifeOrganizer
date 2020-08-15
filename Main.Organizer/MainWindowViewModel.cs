@@ -2,7 +2,7 @@
 
 using System.Collections.ObjectModel;
 
-namespace Organizers
+namespace Main.Organizer
 {
 	public class MainWindowViewModel : BaseViewModel
 	{

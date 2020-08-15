@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWpf>True</UseWpf>
     <NoWin32Manifest>true</NoWin32Manifest>
-    <StartupObject>DesktopGui.App</StartupObject>
+    <StartupObject>Main.GUI.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

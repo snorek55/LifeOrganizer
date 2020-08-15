@@ -1,6 +1,4 @@
-﻿using Organizers.Main.Adapters.MainMenu;
-
-using System;
+﻿using System;
 
 namespace Common.Adapters
 {

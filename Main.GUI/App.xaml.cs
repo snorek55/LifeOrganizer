@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DesktopGui
+namespace Main.GUI
 {
 	/// <summary>
 	/// Interaction logic for App.xaml

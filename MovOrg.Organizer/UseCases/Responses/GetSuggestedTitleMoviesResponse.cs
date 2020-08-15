@@ -1,11 +1,11 @@
 ﻿using Common.UseCases;
 
-using MovOrg.Organizers.Domain;
+using MovOrg.Organizer.Domain;
 
 using System;
 using System.Collections.Generic;
 
-namespace MovOrg.Organizers.UseCases.Responses
+namespace MovOrg.Organizer.UseCases.Responses
 {
 	public class GetSuggestedTitleMoviesResponse : ResponseBase
 	{

@@ -1,8 +1,8 @@
-﻿using MovOrg.Organizers.Domain;
+﻿using MovOrg.Organizer.Domain;
 
 using System.Threading.Tasks;
 
-namespace MovOrg.Organizers.UseCases.Repositories
+namespace MovOrg.Organizer.UseCases.Repositories
 {
 	public interface IReadOnlyMoviesRepository
 	{

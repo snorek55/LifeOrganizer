@@ -4,7 +4,7 @@ using Common.Adapters;
 using Common.Extensions;
 using Common.Setup;
 
-using EntryPoint.Mapper;
+using EntryPoint;
 
 using FluentAssertions;
 using FluentAssertions.Common;
@@ -13,11 +13,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-using MovOrg.Organizers.Adapters.Items;
-using MovOrg.Organizers.Adapters.Sections;
-using MovOrg.Organizers.Domain;
-using MovOrg.Organizers.UseCases;
-using MovOrg.Organizers.UseCases.Responses;
+using MovOrg.Organizer.Adapters.Items;
+using MovOrg.Organizer.Adapters.Sections;
+using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases;
+using MovOrg.Organizer.UseCases.Responses;
 
 using System;
 using System.Collections.Generic;

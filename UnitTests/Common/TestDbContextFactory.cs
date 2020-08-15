@@ -2,9 +2,9 @@
 
 using EntityFramework.DbContextScope.Interfaces;
 
-using Infrastructure.MovOrg.EFCore;
-
 using Microsoft.EntityFrameworkCore;
+
+using MovOrg.Infrastructure.MovOrg.EFCore;
 
 using System;
 

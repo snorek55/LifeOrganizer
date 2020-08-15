@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-namespace MovOrg.Organizers.Domain
+namespace MovOrg.Organizer.Domain
 {
 	public class RatingSource : Entity
 	{

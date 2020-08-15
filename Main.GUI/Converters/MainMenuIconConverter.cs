@@ -1,13 +1,12 @@
-﻿using Common.WPF;
+﻿using Common.Adapters;
+using Common.WPF;
 
 using MahApps.Metro.IconPacks;
-
-using Organizers.Main.Adapters.MainMenu;
 
 using System;
 using System.Globalization;
 
-namespace DesktopGui.Main.Converters
+namespace Main.GUI.Converters
 {
 	public class MainMenuIconConverter : BaseConverter<MainMenuIconConverter>
 	{

@@ -6,10 +6,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-using MovOrg.Organizers.Adapters.Items;
-using MovOrg.Organizers.Adapters.Sections;
-using MovOrg.Organizers.UseCases;
-using MovOrg.Organizers.UseCases.Responses;
+using MovOrg.Organizer.Adapters.Items;
+using MovOrg.Organizer.Adapters.Sections;
+using MovOrg.Organizer.UseCases;
+using MovOrg.Organizer.UseCases.Responses;
 
 namespace Tests.Unit.Adapters
 {

@@ -3,14 +3,13 @@ using Common.Setup;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using MovOrg.Organizer.Setup;
-using MovOrg.Organizers.Adapters.Container;
-using MovOrg.Organizers.Adapters.Sections;
-using MovOrg.Organizers.UseCases;
+using MovOrg.Organizer.Adapters.Container;
+using MovOrg.Organizer.Adapters.Sections;
+using MovOrg.Organizer.UseCases;
 
 using System.ComponentModel.Composition;
 
-namespace MovOrg.Organizers.Setup
+namespace MovOrg.Organizer.Setup
 {
 	[Export(typeof(IDependencyResolver))]
 	public class DependencyResolver : IDependencyResolver

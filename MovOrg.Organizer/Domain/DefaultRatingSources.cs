@@ -1,4 +1,4 @@
-﻿namespace MovOrg.Organizers.Domain
+﻿namespace MovOrg.Organizer.Domain
 {
 	public enum DefaultRatingSources
 	{

@@ -2,9 +2,9 @@
 using Common.Extensions;
 using Common.Setup;
 
-using MovOrg.Organizers.Adapters.Items;
-using MovOrg.Organizers.Domain;
-using MovOrg.Organizers.UseCases;
+using MovOrg.Organizer.Adapters.Items;
+using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases;
 
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace MovOrg.Organizers.Adapters.Sections
+namespace MovOrg.Organizer.Adapters.Sections
 {
 	public class MoviesSectionViewModel : SectionViewModel
 	{

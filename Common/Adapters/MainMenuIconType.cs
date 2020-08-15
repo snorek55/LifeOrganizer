@@ -1,4 +1,4 @@
-﻿namespace Organizers.Main.Adapters.MainMenu
+﻿namespace Common.Adapters
 {
 	public enum MainMenuIconType
 	{
