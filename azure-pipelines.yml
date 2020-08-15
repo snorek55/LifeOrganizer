@@ -31,6 +31,7 @@ steps:
   inputs:
     configuration: '$(buildConfiguration)'
     testAssemblyVer2: '**/*/bin/$(buildConfiguration)/**/*/*Tests.dll'
+    testFiltercriteria: Unit
     diagnosticsEnabled: true
     codeCoverageEnabled: true
     minimumExpectedTests: 30
