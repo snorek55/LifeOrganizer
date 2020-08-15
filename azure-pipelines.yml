@@ -30,9 +30,7 @@ steps:
 - task: VSTest@2
   inputs:
     configuration: '$(buildConfiguration)'
-    testFiltercriteria: 'Unit' 
-    platform: '$(buildPlatform)'
-    otherConsoleOptions: '/Framework:framework45'
+    otherConsoleOptions: '/Framework:.NETCoreApp,Version=v3.1'
     diagnosticsEnabled: true
     codeCoverageEnabled: true
     minimumExpectedTests: 30
