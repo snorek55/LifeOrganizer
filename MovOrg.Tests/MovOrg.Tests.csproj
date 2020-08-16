@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Main.Tests\Main.Tests.csproj" />
     <ProjectReference Include="..\MovOrg.GUI\MovOrg.GUI.csproj" />
     <ProjectReference Include="..\MovOrg.Infrastructure\MovOrg.Infrastructure.csproj" />
     <ProjectReference Include="..\MovOrg.Organizer\MovOrg.Organizer.csproj" />

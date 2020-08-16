@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Main.Tests
+namespace MovOrg.Tests.Setup
 {
 	//https://github.com/JonPSmith/EfCoreInAction/blob/Chapter09/Test/EfHelpers/EfOptionsHelper.cs
 	public static class DbContextExtensions

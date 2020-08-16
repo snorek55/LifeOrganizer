@@ -8,8 +8,6 @@ using EntityFramework.DbContextScope.Interfaces;
 
 using FluentAssertions;
 
-using Main.Tests;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
