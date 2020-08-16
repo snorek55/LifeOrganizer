@@ -21,10 +21,10 @@
         <mah:HamburgerMenu Content="{Binding CurrentOrganizerContainer}"
                            DisplayMode="CompactOverlay"
                            ItemTemplate="{DynamicResource MenuItemTemplate}"
-                           ItemsSource="{Binding MainMenuItems}"
+                           ItemsSource="{Binding MainMenuContainers}"
                            OpenPaneLength="160"
                            OptionsItemTemplate="{DynamicResource MenuItemTemplate}"
-                           OptionsItemsSource="{Binding MainMenuOptionsItems}"
+                           OptionsItemsSource="{Binding MainMenuOptionsContainers}"
                            SelectedItem="{Binding SelectedItem}" />
     </Grid>
 </mah:MetroWindow>
