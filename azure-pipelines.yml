@@ -30,3 +30,9 @@ steps:
 - task: VSTest@2
   inputs:
     configuration: '$(buildConfiguration)'
+    testAssemblyVer2: '**/*/bin/$(buildConfiguration)/**/*/*Tests.dll'
+    testFiltercriteria: Unit
+    diagnosticsEnabled: true
+    codeCoverageEnabled: true
+    minimumExpectedTests: 30
+    failOnMinTestsNotRun: true
