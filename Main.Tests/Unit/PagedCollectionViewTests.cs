@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Collections.ObjectModel;
 
-namespace Tests.Common
+namespace Main.Tests.Unit
 {
 	[TestClass]
 	public class PagedCollectionViewTests
