@@ -10,29 +10,26 @@ using FluentAssertions;
 
 using Main.Tests;
 
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using MovOrg.Infrastructure.EFCore;
-using MovOrg.Infrastructure.Setup;
 using MovOrg.Organizer.Domain;
 using MovOrg.Organizer.UseCases.Repositories;
+using MovOrg.Tests.Setup;
 
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Tests.Common;
-
-namespace MovOrg.Tests.Unit.Infrastructure
+namespace MovOrg.Tests.Base
 {
 	public abstract class LocalRepoMoviesTests : TestData
 	{
-		protected IDbContextScopeFactory DbContextScopeFactory { get; }
-		protected IAmbientDbContextLocator AmbientDbContextLocator { get; }
+		protected IDbContextScopeFactory DbContextScopeFactory { get; private set; }
+		protected IAmbientDbContextLocator AmbientDbContextLocator { get; private set; }
 
-		protected ILocalMoviesRepository LocalRepo { get; }
+		protected ILocalMoviesRepository LocalRepo { get; private set; }
 
 		protected IConfig Config { get; set; }
 
@@ -54,49 +51,22 @@ namespace MovOrg.Tests.Unit.Infrastructure
 		protected LocalRepoMoviesTests(IConfig config) : base()
 		{
 			Config = config;
-			var optionsBuilderMoviesContext = GenerateOptionsBuilderMoviexContext();
 
-			var contextFactory = new DbContextFactory(optionsBuilderMoviesContext);
+			var contextFactory = new TestDbContextFactory(Config);
 			DbContextScopeFactory = new DbContextScopeFactory(contextFactory);
 			AmbientDbContextLocator = new AmbientDbContextLocator();
-			LocalRepo = new EFCoreLocalMoviesRepository(AmbientDbContextLocator, config);
+			LocalRepo = new EFCoreLocalMoviesRepository(AmbientDbContextLocator, Config);
 
 			using var context = DbContextScopeFactory.Create();
 			MoviesContext.Database.Migrate();
-		}
-
-		private DbContextOptionsBuilder<MoviesContext> GenerateOptionsBuilderMoviexContext()
-		{
-			var options = new DbContextOptionsBuilder<MoviesContext>();
-			var connString = Config.GetConnectionString();
-			if (Config is UnitTestConfig)
-			{
-				var connection = new SqliteConnection(connString);
-				connection.Open();
-				return options.UseSqlite(connection)
-					.EnableSensitiveDataLogging();
-			}
-			else if (Config is IntegrationTestConfig)
-				return options.UseSqlServer(connString)
-						.EnableSensitiveDataLogging();
-			else
-				throw new Exception("Unknown config type");
 		}
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			using var context = DbContextScopeFactory.Create();
-			if (Config is UnitTestConfig)
-			{
-				MoviesContext.Database.EnsureDeleted();
-				MoviesContext.Database.EnsureCreated();
-			}
-			else
-			{
-				MoviesContext.WipeAllDataFromDatabase();
-			}
 
+			WipeDatabase();
 			MoviesContext.Movies.Add(TestMovieSeededWithoutRelatedInfo);
 
 			MoviesContext.People.Add(TestDirectorSeeded);
@@ -110,6 +80,21 @@ namespace MovOrg.Tests.Unit.Infrastructure
 
 			MoviesContext.RatingSources.AddRange(RatingSources);
 			context.SaveChanges();
+		}
+
+		private void WipeDatabase()
+		{
+			if (Config is UnitTestConfig)
+			{
+				MoviesContext.Database.EnsureDeleted();
+				MoviesContext.Database.EnsureCreated();
+			}
+			else if (Config is IntegrationTestConfig)
+			{
+				MoviesContext.WipeAllDataFromDatabase();
+			}
+			else
+				throw new ArgumentException("Config type unknown");
 		}
 
 		[TestMethod]

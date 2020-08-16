@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Tests.Common
+namespace MovOrg.Tests.Setup
 {
 	public class TestData
 	{

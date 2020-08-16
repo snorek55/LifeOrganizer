@@ -12,11 +12,10 @@ using MovOrg.Infrastructure.APIs;
 using MovOrg.Infrastructure.EFCore;
 using MovOrg.Infrastructure.Setup;
 using MovOrg.Organizer.UseCases.Repositories;
+using MovOrg.Tests.Setup;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using Tests.Common;
 
 namespace MovOrg.Tests.Integration
 {

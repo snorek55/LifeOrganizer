@@ -14,10 +14,9 @@ using Moq;
 using MovOrg.Organizer.Domain;
 using MovOrg.Organizer.UseCases;
 using MovOrg.Organizer.UseCases.Repositories;
+using MovOrg.Tests.Setup;
 
 using System.Threading.Tasks;
-
-using Tests.Common;
 
 namespace MovOrg.Tests.Unit
 {

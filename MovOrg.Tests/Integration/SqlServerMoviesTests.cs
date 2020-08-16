@@ -1,9 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using MovOrg.Infrastructure.EFCore;
-using MovOrg.Tests.Unit.Infrastructure;
-
-using System.Diagnostics;
+using MovOrg.Tests.Base;
 
 namespace MovOrg.Tests.Integration
 {

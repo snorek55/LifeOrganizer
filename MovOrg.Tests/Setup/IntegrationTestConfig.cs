@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Tests.Common
+namespace MovOrg.Tests.Setup
 {
 	public class IntegrationTestConfig : IConfig
 	{
