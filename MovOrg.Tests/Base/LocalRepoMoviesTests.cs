@@ -8,6 +8,8 @@ using EntityFramework.DbContextScope.Interfaces;
 
 using FluentAssertions;
 
+using Main.Tests;
+
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -34,7 +36,7 @@ namespace MovOrg.Tests.Unit.Infrastructure
 
 		protected IConfig Config { get; set; }
 
-		private MoviesContext MoviesContext
+		protected MoviesContext MoviesContext
 		{
 			get
 			{
@@ -58,7 +60,9 @@ namespace MovOrg.Tests.Unit.Infrastructure
 			DbContextScopeFactory = new DbContextScopeFactory(contextFactory);
 			AmbientDbContextLocator = new AmbientDbContextLocator();
 			LocalRepo = new EFCoreLocalMoviesRepository(AmbientDbContextLocator, config);
-			Seed();
+
+			using var context = DbContextScopeFactory.Create();
+			MoviesContext.Database.Migrate();
 		}
 
 		private DbContextOptionsBuilder<MoviesContext> GenerateOptionsBuilderMoviexContext()
@@ -79,11 +83,19 @@ namespace MovOrg.Tests.Unit.Infrastructure
 				throw new Exception("Unknown config type");
 		}
 
-		private void Seed()
+		[TestInitialize]
+		public void Initialize()
 		{
 			using var context = DbContextScopeFactory.Create();
-			MoviesContext.Database.EnsureDeleted();
-			MoviesContext.Database.EnsureCreated();
+			if (Config is UnitTestConfig)
+			{
+				MoviesContext.Database.EnsureDeleted();
+				MoviesContext.Database.EnsureCreated();
+			}
+			else
+			{
+				MoviesContext.WipeAllDataFromDatabase();
+			}
 
 			MoviesContext.Movies.Add(TestMovieSeededWithoutRelatedInfo);
 
