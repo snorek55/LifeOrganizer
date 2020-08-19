@@ -4,6 +4,6 @@ namespace MovOrg.Organizer.Adapters.Items
 {
 	public class SimilarMovieViewModel : BaseViewModel
 	{
-		public MovieViewModel Movie { get; set; }
+		public string CoverImageUrl { get; set; }
 	}
 }

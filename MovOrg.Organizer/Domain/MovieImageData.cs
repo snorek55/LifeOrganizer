@@ -2,6 +2,8 @@
 
 namespace MovOrg.Organizer.Domain
 {
+	//TODO: this must be merged with common images
+	//TODO: just realized here is the database performance issue
 	public class MovieImageData : Entity
 	{
 		public Movie Movie { get; set; }

@@ -16,7 +16,7 @@ namespace MovOrg.Organizer.Domain
 		//TODO: changed type make sure db still works
 		public float? IMDbRating { get; set; }
 
-		public string CoverImage { get; set; }
+		public string CoverImageUrl { get; set; }
 		public string Year { get; set; }
 		public string Tagline { get; set; }
 		public string Keywords { get; set; }

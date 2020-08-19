@@ -5,6 +5,7 @@ using Common.Setup;
 using MovOrg.Organizer.Adapters.Items;
 using MovOrg.Organizer.Domain;
 using MovOrg.Organizer.UseCases;
+using MovOrg.Organizer.UseCases.DTOs;
 
 using System;
 using System.Collections.Generic;
@@ -266,7 +267,7 @@ namespace MovOrg.Organizer.Adapters.Sections
 			NotifyError(errorMessage);
 		}
 
-		private MovieViewModel MapMovie(Movie movie)
+		private MovieViewModel MapMovie(MovieWithDetailsDto movie)
 		{
 			var movieVm = mapper.Map<MovieViewModel>(movie);
 			return movieVm;

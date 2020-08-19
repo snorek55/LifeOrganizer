@@ -34,7 +34,9 @@ namespace MovOrg.Infrastructure.Setup
 		{
 			var conf = ConfigurationManager.OpenExeConfiguration(AppDomain.CurrentDomain.BaseDirectory + Assembly.GetCallingAssembly().GetName().Name + ".dll");
 
-			var connString = conf.ConnectionStrings.ConnectionStrings["SqlServerConnectionString"].ConnectionString;
+			string connString;
+			connString = conf.ConnectionStrings.ConnectionStrings["SqlServerConnectionString"].ConnectionString;
+
 			return connString;
 		}
 

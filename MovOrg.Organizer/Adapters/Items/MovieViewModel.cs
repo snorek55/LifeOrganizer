@@ -18,13 +18,9 @@ namespace MovOrg.Organizer.Adapters.Items
 
 		public float? IMDbRating { get; set; }
 
-		public ImageViewModel CoverImage { get; set; }
+		public ImageViewModel CoverImage { get; set; } = new ImageViewModel();
 
 		public int? Rank { get; set; }
-
-		#endregion General Info
-
-		#region Details
 
 		public string Plot { get; set; }
 
@@ -53,6 +49,10 @@ namespace MovOrg.Organizer.Adapters.Items
 
 		public string LastUpdatedDetails { get; set; }
 
+		#endregion General Info
+
+		#region Related info
+
 		public BoxOfficeViewModel BoxOffice { get; set; }
 
 		public TrailerViewModel Trailer { get; set; }
@@ -73,7 +73,7 @@ namespace MovOrg.Organizer.Adapters.Items
 		public List<SimilarMovieViewModel> Similars { get; set; } = new List<SimilarMovieViewModel>();
 		public SimilarMovieViewModel SelectedSimilar { get; set; }
 
-		#endregion Details
+		#endregion Related info
 
 		#region User Preferences
 

@@ -1,5 +1,4 @@
-﻿using Common.Infrastructure;
-using Common.Setup;
+﻿using Common.Setup;
 using Common.UseCases;
 
 using EntityFramework.DbContextScope.Interfaces;
@@ -7,6 +6,7 @@ using EntityFramework.DbContextScope.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.DTOs;
 using MovOrg.Organizer.UseCases.Repositories;
 
 using System;
@@ -35,11 +35,13 @@ namespace MovOrg.Infrastructure.EFCore
 		}
 
 		private IConfig config;
+		private IAutoMapper mapper;
 
-		public EFCoreLocalMoviesRepository(IAmbientDbContextLocator ambientDbContextLocator, IConfig config)
+		public EFCoreLocalMoviesRepository(IAmbientDbContextLocator ambientDbContextLocator, IConfig config, IAutoMapper mapper)
 		{
 			this.ambientDbContextLocator = ambientDbContextLocator ?? throw new ArgumentNullException(nameof(ambientDbContextLocator));
 			this.config = config;
+			this.mapper = mapper;
 		}
 
 		public async Task<bool> AreDetailsAvailableFor(string id)
@@ -50,40 +52,24 @@ namespace MovOrg.Infrastructure.EFCore
 		public async Task<IEnumerable<Movie>> GetAllMovies()
 		{
 			return await DbContext.Movies
-							.Include(x => x.BoxOffice)
-							.Include(x => x.Trailer)
+							.AsNoTracking()
 							.ToListAsync();
 		}
 
-		public async Task<Movie> GetMovieDetailsById(string id)
+		//TODO:change database schema to improve time (make pk int and other performance improvements)
+		public async Task<MovieWithDetailsDto> GetMovieDetailsById(string id)
 		{
-			var movie = await DbContext.Movies
-			.Include(x => x.BoxOffice)
-			.Include(x => x.Trailer)
-			.Include(x => x.Ratings)
-				.ThenInclude(x => x.Source)
-			.Include(x => x.CompanyList)
-				.ThenInclude(x => x.Company)
-			.Include(x => x.ActorList)
-				.ThenInclude(x => x.Person)
-			.Include(x => x.DirectorList)
-				.ThenInclude(x => x.Person)
-			.Include(x => x.WriterList)
-				.ThenInclude(x => x.Person)
-			.Include(x => x.Images)
-			.Include(x => x.Similars)
-				.ThenInclude(x => x.Similar)
-			.SingleOrDefaultAsync(x => x.Id == id);
+			var movieWithDetails = await mapper.Mapper.ProjectTo<MovieWithDetailsDto>(DbContext.Movies.Where(x => x.Id == id)).AsNoTracking().SingleOrDefaultAsync();
 
-			return movie;
+			return movieWithDetails;
 		}
 
-		public async Task UpdateMovieDetails(Movie movie)
+		public async Task UpdateMovieDetails(MovieWithDetailsDto movie)
 		{
 			await UpdateMovie(movie);
-			var persistentMovie = await GetMovieDetailsById(movie.Id);
+			var persistentMovie = await DbContext.Movies.FindAsync(movie.Id);
 			persistentMovie.LastUpdatedDetails = RoundToSecond(DateTime.Now);
-			movie.LastUpdatedDetails = RoundToSecond(DateTime.Now);
+			//movie.LastUpdatedDetails = RoundToSecond(DateTime.Now);
 		}
 
 		private DateTime RoundToSecond(DateTime dateTime)
@@ -153,7 +139,7 @@ namespace MovOrg.Infrastructure.EFCore
 			DbContext.SaveChanges();
 		}
 
-		private async Task UpdateMovie(Movie movie)
+		private async Task UpdateMovie(MovieWithDetailsDto movie)
 		{
 			var existingMovie = await DbContext.Movies
 				.Include(x => x.BoxOffice)
@@ -188,15 +174,33 @@ namespace MovOrg.Infrastructure.EFCore
 			existingMovie.IsFavorite = fav;
 			existingMovie.BoxOffice = movie.BoxOffice;
 			existingMovie.Trailer = movie.Trailer;
-			existingMovie.Images = movie.Images;
 
 			UpdateRelatedInfo(movie);
 
 			UpdateRatings(movie, existingMovie);
 		}
 
-		private void UpdateRelatedInfo(Movie movie)
+		private void UpdateRelatedInfo(MovieWithDetailsDto movie)
 		{
+			foreach (var image in movie.Images)
+			{
+				var existingLink = DbContext.MovieImageDatas.Find(new object[] { image.MovieId, image.Id });
+				if (existingLink != null)
+					continue;
+
+				var existingMovie = DbContext.Movies.Find(new object[] { image.MovieId });
+				if (existingMovie == null) throw new InvalidOperationException("Se esperaba encontrar pelicula para agregar personas");
+
+				existingMovie.Images.Add(new MovieImageData
+				{
+					Id = image.Id,
+					Movie = existingMovie,
+					MovieId = existingMovie.Id,
+					Image = image.Image,
+					Title = image.Title
+				});
+			}
+
 			//TODO: refactor this
 			foreach (var moviePerson in movie.ActorList)
 			{
@@ -308,32 +312,59 @@ namespace MovOrg.Infrastructure.EFCore
 				DbContext.MovieSimilars.Add(newLink);
 			}
 
-			EfCoreUtils.UpdateManyToManyLinkAndEntities(movie.CompanyList, DbContext, typeof(Movie), typeof(Company));
+			foreach (var movieCompany in movie.CompanyList)
+			{
+				var existingLink = DbContext.MovieCompanies.Find(new object[] { movieCompany.MovieId, movieCompany.CompanyId });
+				if (existingLink != null)
+					continue;
+
+				var existingCompany = DbContext.Companies.Find(new object[] { movieCompany.CompanyId });
+				if (existingCompany == null)
+				{
+					DbContext.Companies.Add(movieCompany.Company);
+					existingCompany = DbContext.Companies.Find(new object[] { movieCompany.CompanyId });
+				}
+
+				var existingMovie = DbContext.Movies.Find(new object[] { movieCompany.MovieId });
+				if (existingMovie == null) throw new InvalidOperationException("Se esperaba encontrar pelicula para agregar personas");
+
+				var newLink = new MovieCompany
+				{
+					Movie = existingMovie,
+					MovieId = existingMovie.Id,
+					Company = existingCompany,
+					CompanyId = existingCompany.Id,
+				};
+
+				DbContext.MovieCompanies.Add(newLink);
+			}
 		}
 
-		private void UpdateRatings(Movie movie, Movie existingMovie)
+		private void UpdateRatings(MovieWithDetailsDto movie, Movie existingMovie)
 		{
-			foreach (var rating in movie.Ratings)
+			foreach (var ratingDto in movie.Ratings)
 			{
-				var existingRating = DbContext.Ratings.Find(rating.MovieId, rating.SourceId);
-				var existingSource = DbContext.RatingSources.Find(rating.SourceId);
+				var existingRating = DbContext.Ratings.Find(ratingDto.MovieId, ratingDto.SourceId);
+				var existingSource = DbContext.RatingSources.Find(ratingDto.SourceId);
 
 				if (existingSource == null)
 				{
-					DbContext.RatingSources.Add(rating.Source);
-					existingSource = DbContext.RatingSources.Find(rating.SourceId);
+					DbContext.RatingSources.Add(ratingDto.Source);
+					existingSource = DbContext.RatingSources.Find(ratingDto.SourceId);
 				}
 
 				if (existingRating == null)
 				{
-					rating.Movie = existingMovie;
-					rating.MovieId = existingMovie.Id;
-					rating.Source = existingSource;
-					rating.SourceId = existingSource.Id;
+					var rating = new Rating
+					{
+						Movie = existingMovie,
+						MovieId = existingMovie.Id,
+						Source = existingSource,
+						SourceId = existingSource.Id
+					};
 					DbContext.Ratings.Add(rating);
-					existingRating = DbContext.Ratings.Find(rating.MovieId, rating.SourceId);
+					existingRating = DbContext.Ratings.Find(ratingDto.MovieId, ratingDto.SourceId);
 				}
-
 				existingMovie.Ratings.Add(existingRating);
 			}
 		}

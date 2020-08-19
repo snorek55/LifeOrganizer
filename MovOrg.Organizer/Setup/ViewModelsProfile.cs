@@ -5,6 +5,7 @@ using Common.Extensions;
 
 using MovOrg.Organizer.Adapters.Items;
 using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.DTOs;
 
 namespace MovOrg.Organizer.Setup
 {
@@ -18,7 +19,7 @@ namespace MovOrg.Organizer.Setup
 				.MapFrom(d => d.CoverImage, s =>
 					new ImageViewModel
 					{
-						Image = s.CoverImage,
+						Image = s.CoverImageUrl,
 						Title = "Cover"
 					}
 				);
@@ -49,7 +50,34 @@ namespace MovOrg.Organizer.Setup
 				.MapFrom(d => d.Score, y => (y.Score != null) ? y.Score.ToString() : "N/A");
 
 			CreateMap<MovieSimilar, SimilarMovieViewModel>(MemberList.None)
-				.MapFrom(d => d.Movie, s => s.Similar);
+				.MapFrom(d => d.CoverImageUrl, s => s.Similar.CoverImageUrl);
+
+			CreateMap<MovieWithDetailsDto, MovieViewModel>(MemberList.Source)
+				.IgnoreSourceMember(s => s.CoverImageUrl)
+				.MapFrom(d => d.CoverImage, s => new ImageViewModel
+				{
+					Image = s.CoverImageUrl,
+					Title = "Cover"
+				});
+
+			CreateMap<ActorDto, ActorViewModel>(MemberList.None)
+				.MapFrom(x => x.Name, s => s.PersonName)
+				.MapFrom(x => x.ImageUrl, y => y.PersonImageUrl);
+
+			CreateMap<DirectorDto, DirectorViewModel>(MemberList.None)
+			.MapFrom(x => x.Name, s => s.PersonName);
+
+			CreateMap<WriterDto, WriterViewModel>(MemberList.None)
+			.MapFrom(x => x.Name, s => s.PersonName);
+
+			CreateMap<CompanyDto, CompanyViewModel>(MemberList.None)
+				.MapFrom(x => x.Name, y => y.CompanyName);
+
+			CreateMap<SimilarDto, SimilarMovieViewModel>(MemberList.None);
+
+			CreateMap<RatingDto, RatingViewModel>(MemberList.None);
+
+			CreateMap<MovieImageDto, ImageViewModel>(MemberList.None);
 		}
 	}
 }

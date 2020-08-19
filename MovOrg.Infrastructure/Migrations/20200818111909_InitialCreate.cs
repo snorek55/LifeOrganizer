@@ -28,7 +28,7 @@ namespace MovOrg.Infrastructure.Migrations
                     Plot = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     IMDbRating = table.Column<float>(nullable: true),
-                    CoverImage = table.Column<string>(nullable: true),
+                    CoverImageUrl = table.Column<string>(nullable: true),
                     Year = table.Column<string>(nullable: true),
                     Tagline = table.Column<string>(nullable: true),
                     Keywords = table.Column<string>(nullable: true),

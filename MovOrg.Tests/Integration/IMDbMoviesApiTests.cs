@@ -30,7 +30,7 @@ namespace MovOrg.Tests.Integration
 		{
 			config = new IntegrationTestConfig();
 			var AmbientDbContextLocator = new AmbientDbContextLocator();
-			sqlServerTestRepository = new EFCoreLocalMoviesRepository(AmbientDbContextLocator, config);
+			sqlServerTestRepository = new EFCoreLocalMoviesRepository(AmbientDbContextLocator, config, new MapperImpl(new List<Profile> { new IMDbProfile() }));
 			imdbApiRepository = new IMDbMoviesApiRepository(new MapperImpl(new List<Profile> { new IMDbProfile() }), sqlServerTestRepository, config);
 		}
 

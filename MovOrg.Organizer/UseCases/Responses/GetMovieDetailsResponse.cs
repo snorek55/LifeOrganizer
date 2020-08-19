@@ -1,18 +1,18 @@
 ﻿using Common.UseCases;
 
-using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.DTOs;
 
 namespace MovOrg.Organizer.UseCases.Responses
 {
 	public class GetMovieDetailsResponse : ResponseBase
 	{
-		public Movie Movie { get; set; }
+		public MovieWithDetailsDto Movie { get; set; }
 
 		public GetMovieDetailsResponse()
 		{
 		}
 
-		public GetMovieDetailsResponse(Movie movie) : base()
+		public GetMovieDetailsResponse(MovieWithDetailsDto movie) : base()
 		{
 			Movie = movie;
 		}

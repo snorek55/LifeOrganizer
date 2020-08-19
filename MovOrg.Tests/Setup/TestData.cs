@@ -44,12 +44,15 @@ namespace MovOrg.Tests.Setup
 		protected MovieWriter TestMovieWriterSeeded { get; private set; }
 		protected MovieCompany TestMovieCompanySeeded { get; private set; }
 		protected MovieSimilar TestMovieSimilarSeeded { get; private set; }
+		protected List<MovieSimilar> TestMovieSimilarList { get; private set; } = new List<MovieSimilar>();
 
 		protected MovieImageData TestMovieImageSeeded { get; private set; }
 		protected MovieImageData TestMovieImageNotSeeded { get; private set; }
 
 		protected List<Movie> InitialMoviesInDb { get; } = new List<Movie>();
 
+		protected List<Person> PeopleList { get; private set; } = new List<Person>();
+		protected List<Company> CompanyList { get; private set; } = new List<Company>();
 		protected List<RatingSource> RatingSources { get; private set; }
 
 		protected Rating TestRatingSeeded { get; private set; }
@@ -67,10 +70,96 @@ namespace MovOrg.Tests.Setup
 
 			CreateTestManyToManyData();
 
-			TestMovieSeededWithRelatedInfo.LastUpdatedDetails = DateTime.Now;
+			CreateFillerData();
 
+			TestMovieSeededWithRelatedInfo.LastUpdatedDetails = DateTime.Now;
 			InitialMoviesInDb.Add(TestMovieSeededWithoutRelatedInfo);
 			InitialMoviesInDb.Add(TestMovieSeededWithRelatedInfo);
+		}
+
+		private void CreateFillerData()
+		{
+			for (int i = 0; i < 12; i++)
+			{
+				var movie = CreateMovieWithoutRelatedInfo();
+				InitialMoviesInDb.Add(movie);
+
+				var similar = new MovieSimilar
+				{
+					Movie = TestMovieSeededWithRelatedInfo,
+					MovieId = TestMovieSeededWithRelatedInfo.Id,
+					Similar = movie,
+					SimilarId = movie.Id
+				};
+
+				TestMovieSeededWithRelatedInfo.Similars.Add(similar);
+			}
+
+			for (int i = 0; i < 70; i++)
+			{
+				var person = CreatePersonWithoutRelatedInfo();
+				PeopleList.Add(person);
+
+				TestMovieSeededWithRelatedInfo.ActorList.Add(new MovieActor
+				{
+					Movie = TestMovieSeededWithRelatedInfo,
+					MovieId = TestMovieSeededWithRelatedInfo.Id,
+					Person = person,
+					PersonId = person.Id
+				});
+			}
+
+			for (int i = 0; i < 2; i++)
+			{
+				var person = CreatePersonWithoutRelatedInfo();
+				PeopleList.Add(person);
+
+				TestMovieSeededWithRelatedInfo.DirectorList.Add(new MovieDirector
+				{
+					Movie = TestMovieSeededWithRelatedInfo,
+					MovieId = TestMovieSeededWithRelatedInfo.Id,
+					Person = person,
+					PersonId = person.Id
+				});
+			}
+
+			for (int i = 0; i < 2; i++)
+			{
+				var person = CreatePersonWithoutRelatedInfo();
+				PeopleList.Add(person);
+
+				TestMovieSeededWithRelatedInfo.WriterList.Add(new MovieWriter
+				{
+					Movie = TestMovieSeededWithRelatedInfo,
+					MovieId = TestMovieSeededWithRelatedInfo.Id,
+					Person = person,
+					PersonId = person.Id
+				});
+			}
+
+			for (int i = 0; i < 2; i++)
+			{
+				var company = CreateCompanyWithoutRelatedInfo();
+				CompanyList.Add(company);
+
+				TestMovieSeededWithRelatedInfo.CompanyList.Add(new MovieCompany
+				{
+					Movie = TestMovieSeededWithRelatedInfo,
+					MovieId = TestMovieSeededWithRelatedInfo.Id,
+					Company = company,
+					CompanyId = company.Id
+				});
+			}
+
+			for (int i = 0; i < 6; i++)
+			{
+				var rating = fixture.Build<Rating>()
+					.With(x => x.Movie, TestMovieSeededWithRelatedInfo)
+					.With(x => x.MovieId, TestMovieSeededWithRelatedInfo.Id)
+					.Create();
+
+				TestMovieSeededWithRelatedInfo.Ratings.Add(rating);
+			}
 		}
 
 		private void CreateTestOneToOneData()

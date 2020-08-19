@@ -5,6 +5,7 @@ using Common.Extensions;
 using IMDbApiLib.Models;
 
 using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.DTOs;
 
 namespace MovOrg.Infrastructure.Setup
 {
@@ -12,6 +13,19 @@ namespace MovOrg.Infrastructure.Setup
 	{
 		public IMDbProfile()
 		{
+			CreateMap<Movie, MovieWithDetailsDto>(MemberList.Destination);
+			CreateMap<MovieActor, ActorDto>(MemberList.None);
+			CreateMap<MovieCompany, CompanyDto>(MemberList.None);
+			CreateMap<MovieWriter, WriterDto>(MemberList.None);
+			CreateMap<MovieDirector, DirectorDto>(MemberList.None);
+			CreateMap<MovieSimilar, SimilarDto>(MemberList.None)
+				.MapFrom(x => x.CoverImageUrl, y => y.Similar.CoverImageUrl);
+			CreateMap<Rating, RatingDto>(MemberList.None);
+			CreateMap<MovieImageData, MovieImageDto>(MemberList.None)
+				.ReverseMap();
+
+			//TODO: hacer un profile para dtos
+
 			CreateMap<TitleData, Movie>()
 				.IgnoreAllPropertiesWithAnInaccessibleSetter()
 				.IgnoreDestinationMember(d => d.Images)
@@ -23,7 +37,7 @@ namespace MovOrg.Infrastructure.Setup
 				.IgnoreDestinationMember(d => d.IsWatched)
 				.IgnoreDestinationMember(d => d.IsMustWatch)
 				.IgnoreDestinationMember(d => d.Ratings)
-				.MapFrom(d => d.CoverImage, s => s.Image)
+				.MapFrom(d => d.CoverImageUrl, s => s.Image)
 				.AfterMap((s, d) =>
 				{
 					d.BoxOffice.Movie = d;
@@ -75,14 +89,14 @@ namespace MovOrg.Infrastructure.Setup
 
 			CreateMap<SearchResult, Movie>(MemberList.Source)
 				.IgnoreSourceMember(s => s.ResultType)
-				.MapFrom(d => d.CoverImage, s => s.Image);
+				.MapFrom(d => d.CoverImageUrl, s => s.Image);
 
 			CreateMap<Top250DataDetail, Movie>(MemberList.Source)
 				.IgnoreSourceMember(s => s.IMDbRating)
 				.IgnoreSourceMember(s => s.FullTitle)
 				.IgnoreSourceMember(s => s.Crew)
 				.IgnoreSourceMember(s => s.IMDbRatingCount)
-				.MapFrom(d => d.CoverImage, s => s.Image);
+				.MapFrom(d => d.CoverImageUrl, s => s.Image);
 
 			CreateMap<ActorShort, MovieActor>(MemberList.None)
 				.MapFrom(d => d.Person, s => new Person { Id = s.Id, Name = s.Name, ImageUrl = s.Image })
@@ -117,7 +131,7 @@ namespace MovOrg.Infrastructure.Setup
 				.IgnoreDestinationMember(d => d.Id);
 
 			CreateMap<SimilarShort, MovieSimilar>()
-				.MapFrom(d => d.Similar, s => new Movie { Id = s.Id, CoverImage = s.Image })
+				.MapFrom(d => d.Similar, s => new Movie { Id = s.Id, CoverImageUrl = s.Image })
 				.MapFrom(d => d.SimilarId, s => s.Id)
 				.IgnoreDestinationMember(d => d.Movie)
 				.IgnoreDestinationMember(d => d.MovieId);

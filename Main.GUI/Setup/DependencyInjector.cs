@@ -57,7 +57,7 @@ namespace Main.GUI.Setup
 
 		private void LoadMain(IServiceCollection services)
 		{
-			services.AddSingleton<MainWindowViewModel>(
+			services.AddSingleton(
 				x =>
 				{
 					var mainVM = new MainWindowViewModel();

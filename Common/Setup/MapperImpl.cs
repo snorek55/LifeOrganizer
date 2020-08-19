@@ -8,7 +8,7 @@ namespace Common.Setup
 {
 	public class MapperImpl : IAutoMapper
 	{
-		private IMapper mapper;
+		public IMapper Mapper { get; private set; }
 
 		public MapperImpl(MapperConfigurationExpression configExpression)
 		{
@@ -34,19 +34,19 @@ namespace Common.Setup
 				Debug.WriteLine(ex.ToString());
 				throw;
 			}
-			mapper = config.CreateMapper();
+			Mapper = config.CreateMapper();
 		}
 
 		public TDestination Map<TSource, TDestination>(TSource source)
 		{
-			return mapper.Map<TSource, TDestination>(source);
+			return Mapper.Map<TSource, TDestination>(source);
 		}
 
 		public TDestination Map<TDestination>(object source)
 		{
 			try
 			{
-				return mapper.Map<TDestination>(source);
+				return Mapper.Map<TDestination>(source);
 			}
 			catch (AutoMapperMappingException ex)
 			{

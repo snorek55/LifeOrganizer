@@ -4,6 +4,7 @@ using Common.UseCases;
 using EntityFramework.DbContextScope.Interfaces;
 
 using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.DTOs;
 using MovOrg.Organizer.UseCases.Repositories;
 using MovOrg.Organizer.UseCases.Responses;
 
@@ -82,7 +83,7 @@ namespace MovOrg.Organizer.UseCases
 			{
 				using var context = dbContextScopeFactory.Create();
 				bool areDetailsAvailableInLocal = await localRepository.AreDetailsAvailableFor(id);
-				Movie movie = null;
+				MovieWithDetailsDto movie = null;
 				if (!areDetailsAvailableInLocal || forceUpdateFromApi)
 				{
 					movie = await apiRepository.GetMovieDetailsById(id);

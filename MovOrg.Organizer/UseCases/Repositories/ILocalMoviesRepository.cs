@@ -1,4 +1,5 @@
 ﻿using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.DTOs;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace MovOrg.Organizer.UseCases.Repositories
 
 		Task UpdateSuggestedTitleMovies(IEnumerable<Movie> movies);
 
-		Task UpdateMovieDetails(Movie movie);
+		Task UpdateMovieDetails(MovieWithDetailsDto movie);
 
 		Task UpdateTopMovies(IEnumerable<Movie> topApiMovies);
 

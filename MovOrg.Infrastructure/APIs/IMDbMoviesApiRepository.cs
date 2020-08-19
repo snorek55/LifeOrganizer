@@ -6,6 +6,7 @@ using IMDbApiLib;
 using IMDbApiLib.Models;
 
 using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.DTOs;
 using MovOrg.Organizer.UseCases.Repositories;
 
 using System;
@@ -39,7 +40,7 @@ namespace MovOrg.Infrastructure.APIs
 			return mapper.Map<IEnumerable<Movie>>(data.Results);
 		}
 
-		public async Task<Movie> GetMovieDetailsById(string id)
+		public async Task<MovieWithDetailsDto> GetMovieDetailsById(string id)
 		{
 			Ensure.IsNotNull(id);
 			var data = await apiLib.TitleAsync(id, Language.en, true, true, true, true, true, true, true);
@@ -66,7 +67,10 @@ namespace MovOrg.Infrastructure.APIs
 			}
 
 			await UpdateRatings(data.Ratings, movie);
-			return movie;
+
+			var dto = mapper.Map<MovieWithDetailsDto>(movie);
+
+			return dto;
 		}
 
 		public async Task<IEnumerable<Movie>> GetTopMovies()
