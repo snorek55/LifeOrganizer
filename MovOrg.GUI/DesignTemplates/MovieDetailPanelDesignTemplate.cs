@@ -11,7 +11,7 @@ namespace MovOrg.GUI.DesignTemplates
 {
 	internal class MovieDetailPanelDesignTemplate : MovieDetailsPanelViewModel
 	{
-		public MovieDetailPanelDesignTemplate() : base(null, null)
+		public MovieDetailPanelDesignTemplate() : base(null, null, null)
 		{
 			SelectedMovie = new MovieViewModelDesignTemplate();
 		}

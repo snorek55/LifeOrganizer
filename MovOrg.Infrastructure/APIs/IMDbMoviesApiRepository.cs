@@ -40,7 +40,7 @@ namespace MovOrg.Infrastructure.APIs
 			return mapper.Map<IEnumerable<Movie>>(data.Results);
 		}
 
-		public async Task<MovieWithDetailsDto> GetMovieDetailsById(string id)
+		public async Task<UpdateMovieDetailsDto> GetAllMovieDetailsById(string id)
 		{
 			Ensure.IsNotNull(id);
 			var data = await apiLib.TitleAsync(id, Language.en, true, true, true, true, true, true, true);
@@ -68,7 +68,7 @@ namespace MovOrg.Infrastructure.APIs
 
 			await UpdateRatings(data.Ratings, movie);
 
-			var dto = mapper.Map<MovieWithDetailsDto>(movie);
+			var dto = mapper.Map<UpdateMovieDetailsDto>(movie);
 
 			return dto;
 		}

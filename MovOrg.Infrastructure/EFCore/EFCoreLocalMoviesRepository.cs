@@ -64,7 +64,7 @@ namespace MovOrg.Infrastructure.EFCore
 			return movieWithDetails;
 		}
 
-		public async Task UpdateMovieDetails(MovieWithDetailsDto movie)
+		public async Task UpdateMovieDetails(UpdateMovieDetailsDto movie)
 		{
 			await UpdateMovie(movie);
 			var persistentMovie = await DbContext.Movies.FindAsync(movie.Id);
@@ -139,7 +139,7 @@ namespace MovOrg.Infrastructure.EFCore
 			DbContext.SaveChanges();
 		}
 
-		private async Task UpdateMovie(MovieWithDetailsDto movie)
+		private async Task UpdateMovie(UpdateMovieDetailsDto movie)
 		{
 			var existingMovie = await DbContext.Movies
 				.Include(x => x.BoxOffice)
@@ -180,7 +180,7 @@ namespace MovOrg.Infrastructure.EFCore
 			UpdateRatings(movie, existingMovie);
 		}
 
-		private void UpdateRelatedInfo(MovieWithDetailsDto movie)
+		private void UpdateRelatedInfo(UpdateMovieDetailsDto movie)
 		{
 			foreach (var image in movie.Images)
 			{
@@ -340,7 +340,7 @@ namespace MovOrg.Infrastructure.EFCore
 			}
 		}
 
-		private void UpdateRatings(MovieWithDetailsDto movie, Movie existingMovie)
+		private void UpdateRatings(UpdateMovieDetailsDto movie, Movie existingMovie)
 		{
 			foreach (var ratingDto in movie.Ratings)
 			{
@@ -385,6 +385,13 @@ namespace MovOrg.Infrastructure.EFCore
 		{
 			var existingMovie = DbContext.Movies.Find(id);
 			existingMovie.IsWatched = isWatched;
+		}
+
+		public IEnumerable<MovieImageDto> GetMovieImagesById(string id)
+		{
+			var images = DbContext.MovieImageDatas.Where(x => x.MovieId == id).ToList();
+			var imagesDto = mapper.Map<List<MovieImageDto>>(images);
+			return imagesDto;
 		}
 	}
 }

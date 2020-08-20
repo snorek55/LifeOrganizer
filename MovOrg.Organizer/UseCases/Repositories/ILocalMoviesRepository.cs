@@ -14,7 +14,7 @@ namespace MovOrg.Organizer.UseCases.Repositories
 
 		Task UpdateSuggestedTitleMovies(IEnumerable<Movie> movies);
 
-		Task UpdateMovieDetails(MovieWithDetailsDto movie);
+		Task UpdateMovieDetails(UpdateMovieDetailsDto movie);
 
 		Task UpdateTopMovies(IEnumerable<Movie> topApiMovies);
 
@@ -25,5 +25,7 @@ namespace MovOrg.Organizer.UseCases.Repositories
 		void MarkMovieAsMustWatch(string id, bool isMustWatch);
 
 		void MarkMovieAsWatched(string id, bool isWatched);
+
+		IEnumerable<MovieImageDto> GetMovieImagesById(string id);
 	}
 }

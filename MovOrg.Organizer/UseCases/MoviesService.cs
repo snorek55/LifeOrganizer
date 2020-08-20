@@ -86,8 +86,11 @@ namespace MovOrg.Organizer.UseCases
 				MovieWithDetailsDto movie = null;
 				if (!areDetailsAvailableInLocal || forceUpdateFromApi)
 				{
-					movie = await apiRepository.GetMovieDetailsById(id);
-					await localRepository.UpdateMovieDetails(movie);
+					var allMovieDetails = await apiRepository.GetAllMovieDetailsById(id);
+
+					await localRepository.UpdateMovieDetails(allMovieDetails);
+
+					movie = allMovieDetails;
 				}
 				else
 				{
@@ -161,6 +164,20 @@ namespace MovOrg.Organizer.UseCases
 			catch (RepositoryException ex)
 			{
 				return new UpdateWatchedResponse(ex.ToString());
+			}
+		}
+
+		public GetMovieImagesResponse GetMovieImagesById(string id)
+		{
+			try
+			{
+				using var context = dbContextScopeFactory.Create();
+				var images = localRepository.GetMovieImagesById(id);
+				return new GetMovieImagesResponse(images);
+			}
+			catch (RepositoryException ex)
+			{
+				return new GetMovieImagesResponse(ex.ToString());
 			}
 		}
 	}

@@ -1,5 +1,10 @@
 ﻿using AutoFixture;
 
+using AutoMapper;
+
+using Common.Adapters;
+using Common.Setup;
+
 using FluentAssertions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,8 +13,13 @@ using Moq;
 
 using MovOrg.Organizer.Adapters.Items;
 using MovOrg.Organizer.Adapters.Sections;
+using MovOrg.Organizer.Setup;
 using MovOrg.Organizer.UseCases;
+using MovOrg.Organizer.UseCases.DTOs;
 using MovOrg.Organizer.UseCases.Responses;
+
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MovOrg.Tests.Unit.Adapters
 {
@@ -20,13 +30,14 @@ namespace MovOrg.Tests.Unit.Adapters
 		private Mock<IMoviesService> mockMoviesService = new Mock<IMoviesService>();
 		private MoviesSectionViewModel moviesSection = new MoviesSectionViewModel();
 		private Fixture fixture = new Fixture();
+		private IAutoMapper mapper = new MapperImpl(new List<Profile> { new ViewModelsProfile() });
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			fixture = new Fixture();
 			fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-			movieDetailsPanel = new MovieDetailsPanelViewModel(mockMoviesService.Object, moviesSection);
+			movieDetailsPanel = new MovieDetailsPanelViewModel(mockMoviesService.Object, moviesSection, mapper);
 			movieDetailsPanel.SelectedMovie = fixture.Create<MovieViewModel>();
 		}
 
@@ -73,11 +84,14 @@ namespace MovOrg.Tests.Unit.Adapters
 		[TestMethod]
 		public void ShowImages_WorksOk()
 		{
-			movieDetailsPanel.ImagePresenter.Images.Clear();
+			var randomImages = fixture.CreateMany<MovieImageDto>().ToList();
+			var response = new GetMovieImagesResponse(randomImages);
+			mockMoviesService.Setup(x => x.GetMovieImagesById(movieDetailsPanel.SelectedMovie.Id)).Returns(response);
+
 			movieDetailsPanel.AreImagesShowing = false;
 			movieDetailsPanel.ShowImagesCommand.Execute("");
 
-			var expectedImages = movieDetailsPanel.SelectedMovie.Images;
+			var expectedImages = mapper.Map<List<ImageViewModel>>(randomImages);
 			expectedImages.Add(movieDetailsPanel.SelectedMovie.CoverImage);
 
 			movieDetailsPanel.ImagePresenter.Images.Should().BeEquivalentTo(expectedImages);

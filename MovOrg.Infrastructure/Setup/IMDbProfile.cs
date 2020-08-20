@@ -14,6 +14,8 @@ namespace MovOrg.Infrastructure.Setup
 		public IMDbProfile()
 		{
 			CreateMap<Movie, MovieWithDetailsDto>(MemberList.Destination);
+			CreateMap<Movie, UpdateMovieDetailsDto>(MemberList.Destination);
+
 			CreateMap<MovieActor, ActorDto>(MemberList.None);
 			CreateMap<MovieCompany, CompanyDto>(MemberList.None);
 			CreateMap<MovieWriter, WriterDto>(MemberList.None);

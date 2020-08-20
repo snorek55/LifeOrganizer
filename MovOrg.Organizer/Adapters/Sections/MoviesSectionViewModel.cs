@@ -86,7 +86,7 @@ namespace MovOrg.Organizer.Adapters.Sections
 			mapper = autoMapper;
 			this.dispatcher = dispatcher;
 			this.moviesService = moviesService;
-			MovieDetailsPanel = new MovieDetailsPanelViewModel(moviesService, this);
+			MovieDetailsPanel = new MovieDetailsPanelViewModel(moviesService, this, mapper);
 			GetAllMoviesFromLocalOnStartup();
 		}
 

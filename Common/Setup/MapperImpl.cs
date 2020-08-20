@@ -15,6 +15,7 @@ namespace Common.Setup
 			CreateMapper(configExpression);
 		}
 
+		//TODO: params insted of list
 		public MapperImpl(List<Profile> profiles)
 		{
 			var configExpression = new MapperConfigurationExpression();

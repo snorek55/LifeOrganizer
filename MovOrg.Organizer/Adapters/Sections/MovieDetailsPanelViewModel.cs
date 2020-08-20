@@ -1,10 +1,12 @@
 ﻿using Common.Adapters;
 using Common.Extensions;
+using Common.Setup;
 
 using MovOrg.Organizer.Adapters.Items;
 using MovOrg.Organizer.UseCases;
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,11 +35,13 @@ namespace MovOrg.Organizer.Adapters.Sections
 		private MoviesSectionViewModel parent;
 
 		private IMoviesService service;
+		private IAutoMapper mapper;
 
-		public MovieDetailsPanelViewModel(IMoviesService service, MoviesSectionViewModel parent)
+		public MovieDetailsPanelViewModel(IMoviesService service, MoviesSectionViewModel parent, IAutoMapper mapper)
 		{
 			this.parent = parent;
 			this.service = service;
+			this.mapper = mapper;
 			ImagePresenter.RequestedExit += HideImages;
 		}
 
@@ -86,10 +90,19 @@ namespace MovOrg.Organizer.Adapters.Sections
 		private void ShowImages()
 		{
 			ImagePresenter.Images.Clear();
-			ImagePresenter.Images.AddRange(SelectedMovie.Images);
 			ImagePresenter.Images.Add(SelectedMovie.CoverImage);
-			ImagePresenter.CurrentImage = ImagePresenter.Images.First();
-			AreImagesShowing = true;
+			var imageResponse = service.GetMovieImagesById(SelectedMovie.Id);
+			if (!imageResponse.HasError)
+			{
+				var imagesVM = mapper.Map<IEnumerable<ImageViewModel>>(imageResponse.MovieImages);
+				ImagePresenter.Images.AddRange(imagesVM);
+				ImagePresenter.CurrentImage = ImagePresenter.Images.First();
+				AreImagesShowing = true;
+			}
+			else
+			{
+				parent.NotificationsHandler.NotifyError(imageResponse.Error);
+			}
 		}
 
 		private void HideImages(object sender, EventArgs e)

@@ -52,12 +52,12 @@ namespace MovOrg.Tests.Unit
 		public async Task GetMovieWithId_ShouldRetunDetailsFromApi_WhenNotAvailableInLocal()
 		{
 			var movie = fixture.Create<Movie>();
-			var movieDto = mapper.Map<MovieWithDetailsDto>(movie);
+			var movieDto = mapper.Map<UpdateMovieDetailsDto>(movie);
 			mockLocalRepo.Setup(x => x.AreDetailsAvailableFor(movie.Id)).ReturnsAsync(false);
-			mockApiRepo.Setup(x => x.GetMovieDetailsById(movie.Id)).ReturnsAsync(movieDto);
+			mockApiRepo.Setup(x => x.GetAllMovieDetailsById(movie.Id)).ReturnsAsync(movieDto);
 			var response = await moviesService.GetMovieWithId(movie.Id);
-
-			response.Movie.Should().BeEquivalentTo(movieDto);
+			MovieWithDetailsDto movieWithDetails = movieDto;
+			response.Movie.Should().BeEquivalentTo(movieWithDetails);
 		}
 	}
 }

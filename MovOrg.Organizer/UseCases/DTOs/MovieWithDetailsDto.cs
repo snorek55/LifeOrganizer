@@ -39,7 +39,5 @@ namespace MovOrg.Organizer.UseCases.DTOs
 		public List<SimilarDto> Similars { get; set; }
 
 		public List<RatingDto> Ratings { get; set; }
-
-		public List<MovieImageDto> Images { get; set; }
 	}
 }
