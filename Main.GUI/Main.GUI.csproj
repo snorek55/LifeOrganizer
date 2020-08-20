@@ -39,4 +39,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Target Name="CleanBinFolder" AfterTargets="Clean">
+    <RemoveDir Directories="$(TargetDir)" />
+  </Target>
 </Project>
