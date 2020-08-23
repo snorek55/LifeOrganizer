@@ -33,6 +33,12 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Title}" />
                         <TextBlock Text=" " />
+                        <TextBlock>
+                            <Run Text="(" />
+                            <Run Text="{Binding Year}" />
+                            <Run Text=")" />
+                        </TextBlock>
+                        <TextBlock Text=" " />
                         <materialDesign:PackIcon Kind="Rank" />
                         <TextBlock Text="{Binding Rank}" />
                         <materialDesign:PackIcon Kind="Heart" Visibility="{Binding IsFavorite, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" />
