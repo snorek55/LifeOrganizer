@@ -1,5 +1,6 @@
 ﻿using MovOrg.Organizer.Domain;
 
+using System;
 using System.Collections.Generic;
 
 namespace MovOrg.Organizer.UseCases.DTOs
@@ -26,7 +27,7 @@ namespace MovOrg.Organizer.UseCases.DTOs
 		public string Countries { get; set; }
 		public string Languages { get; set; }
 
-		public string ReleaseDate { get; set; }
+		public DateTime? ReleaseDate { get; set; }
 
 		#endregion Basic Data
 

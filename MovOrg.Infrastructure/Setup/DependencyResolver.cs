@@ -3,7 +3,6 @@
 using EntityFramework.DbContextScope;
 using EntityFramework.DbContextScope.Interfaces;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 using MovOrg.Infrastructure.APIs;
@@ -28,11 +27,7 @@ namespace MovOrg.Infrastructure.Setup
 			services.AddSingleton<IDbContextScopeFactory>(provider =>
 			{
 				var dependency = provider.GetRequiredService<IConfig>();
-				var dbOptions = new DbContextOptionsBuilder<MoviesContext>().UseSqlServer(dependency.GetConnectionString())
-						.EnableSensitiveDataLogging();
-
-				var dbContextFactory = new DbContextFactory(dbOptions);
-
+				var dbContextFactory = new DbContextFactory(dependency);
 				return new DbContextScopeFactory(dbContextFactory);
 			});
 		}

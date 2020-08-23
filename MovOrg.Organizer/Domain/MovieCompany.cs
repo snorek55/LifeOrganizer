@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MovOrg.Organizer.Domain
+﻿namespace MovOrg.Organizer.Domain
 {
 	public class MovieCompany
 	{

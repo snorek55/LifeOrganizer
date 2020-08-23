@@ -1,5 +1,4 @@
-﻿using Common.Adapters;
-using Common.UseCases;
+﻿using Common.UseCases;
 
 using System;
 using System.Threading.Tasks;

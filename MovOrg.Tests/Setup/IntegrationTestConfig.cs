@@ -20,7 +20,7 @@ namespace MovOrg.Tests.Setup
 			throw new System.NotImplementedException();
 		}
 
-		public string GetConnectionString()
+		public string GetConnectionString(bool isMigrations)
 		{
 			return @"Data Source=(LocalDB)\MSSQLLocalDB;Database=LifeOrganizerDBTest;";
 		}

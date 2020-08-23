@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Common.Setup
@@ -33,13 +34,19 @@ namespace Common.Setup
 			}
 		}
 
-		public virtual string GetConnectionString()
+		public string GetConnectionString(bool isMigrations = false)
 		{
-			var connString = Configuration.ConnectionStrings.ConnectionStrings["SqlServerConnectionString"].ConnectionString;
+			if (!isMigrations)
+				return Configuration.ConnectionStrings.ConnectionStrings["SqlServerConnectionString"].ConnectionString;
+
+			var conf = ConfigurationManager.OpenExeConfiguration(AppDomain.CurrentDomain.BaseDirectory + Assembly.GetCallingAssembly().GetName().Name + ".dll");
+			string connString;
+			connString = conf.ConnectionStrings.ConnectionStrings["SqlServerConnectionString"].ConnectionString;
+
 			return connString;
 		}
 
-		public virtual string GetIMDbApiKey()
+		public string GetIMDbApiKey()
 		{
 			return Configuration.AppSettings.Settings["IMDbApiKey"].Value;
 		}
@@ -50,7 +57,7 @@ namespace Common.Setup
 			return lines.ToList().Any(x => x.Equals(term, StringComparison.OrdinalIgnoreCase));
 		}
 
-		public virtual string GetRatingSourceLogoUrl(string ratingSourceName)
+		public string GetRatingSourceLogoUrl(string ratingSourceName)
 		{
 			var logoKeyName = ratingSourceName + "Logo";
 			return Configuration.AppSettings.Settings[logoKeyName].Value;

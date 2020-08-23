@@ -6,7 +6,7 @@ namespace Common.Setup
 	{
 		Task<bool> WasAlreadySearched(string term);
 
-		string GetConnectionString();
+		string GetConnectionString(bool isMigrations = false);
 
 		string GetIMDbApiKey();
 

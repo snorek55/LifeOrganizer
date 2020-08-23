@@ -10,7 +10,7 @@ using MovOrg.Infrastructure.EFCore;
 namespace MovOrg.Infrastructure.Migrations
 {
     [DbContext(typeof(MoviesContext))]
-    [Migration("20200818111909_InitialCreate")]
+    [Migration("20200823151502_Initial-Create")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -106,8 +106,8 @@ namespace MovOrg.Infrastructure.Migrations
                     b.Property<int?>("Rank")
                         .HasColumnType("int");
 
-                    b.Property<string>("ReleaseDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("ReleaseDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("RuntimeStr")
                         .HasColumnType("nvarchar(max)");

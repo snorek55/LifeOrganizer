@@ -12,8 +12,6 @@ namespace MovOrg.Organizer.Domain
 		public string Title { get; set; }
 		public string Plot { get; set; }
 		public string Description { get; set; }
-
-		//TODO: changed type make sure db still works
 		public float? IMDbRating { get; set; }
 
 		public string CoverImageUrl { get; set; }
@@ -30,7 +28,7 @@ namespace MovOrg.Organizer.Domain
 		public bool IsTop250 { get => LastUpdatedTop250 != null; }
 		public DateTime? LastUpdatedDetails { get; set; }
 		public bool AreDetailsAvailable { get => LastUpdatedDetails != null; }
-		public string ReleaseDate { get; set; }
+		public DateTime? ReleaseDate { get; set; }
 
 		public int? Rank { get; set; }
 

@@ -70,12 +70,6 @@ namespace MovOrg.Infrastructure.EFCore
 			//movie.LastUpdatedDetails = RoundToSecond(DateTime.Now);
 		}
 
-		private DateTime RoundToSecond(DateTime dateTime)
-		{
-			var stringDateTime = dateTime.ToString("dd/MM/yy HH:mm:ss");
-			return DateTime.Parse(stringDateTime, new CultureInfo("es-es"));
-		}
-
 		public async Task UpdateSuggestedTitleMovies(IEnumerable<Movie> movies)
 		{
 			foreach (var movie in movies)
@@ -113,6 +107,31 @@ namespace MovOrg.Infrastructure.EFCore
 				await AddAndSaveDefaultRatingSources();
 
 			return await DbContext.RatingSources.ToListAsync();
+		}
+
+		public void MarkMovieAsFavorite(string id, bool isFavorite)
+		{
+			var existingMovie = DbContext.Movies.Find(id);
+			existingMovie.IsFavorite = isFavorite;
+		}
+
+		public void MarkMovieAsMustWatch(string id, bool isMustWatch)
+		{
+			var existingMovie = DbContext.Movies.Find(id);
+			existingMovie.IsMustWatch = isMustWatch;
+		}
+
+		public void MarkMovieAsWatched(string id, bool isWatched)
+		{
+			var existingMovie = DbContext.Movies.Find(id);
+			existingMovie.IsWatched = isWatched;
+		}
+
+		public IEnumerable<MovieImageDto> GetMovieImagesById(string id)
+		{
+			var images = DbContext.MovieImageDatas.Where(x => x.MovieId == id).ToList();
+			var imagesDto = mapper.Map<List<MovieImageDto>>(images);
+			return imagesDto;
 		}
 
 		private async Task AddAndSaveDefaultRatingSources()
@@ -367,29 +386,10 @@ namespace MovOrg.Infrastructure.EFCore
 			}
 		}
 
-		public void MarkMovieAsFavorite(string id, bool isFavorite)
+		private DateTime RoundToSecond(DateTime dateTime)
 		{
-			var existingMovie = DbContext.Movies.Find(id);
-			existingMovie.IsFavorite = isFavorite;
-		}
-
-		public void MarkMovieAsMustWatch(string id, bool isMustWatch)
-		{
-			var existingMovie = DbContext.Movies.Find(id);
-			existingMovie.IsMustWatch = isMustWatch;
-		}
-
-		public void MarkMovieAsWatched(string id, bool isWatched)
-		{
-			var existingMovie = DbContext.Movies.Find(id);
-			existingMovie.IsWatched = isWatched;
-		}
-
-		public IEnumerable<MovieImageDto> GetMovieImagesById(string id)
-		{
-			var images = DbContext.MovieImageDatas.Where(x => x.MovieId == id).ToList();
-			var imagesDto = mapper.Map<List<MovieImageDto>>(images);
-			return imagesDto;
+			var stringDateTime = dateTime.ToString("dd/MM/yy HH:mm:ss");
+			return DateTime.Parse(stringDateTime, new CultureInfo("es-es"));
 		}
 	}
 }

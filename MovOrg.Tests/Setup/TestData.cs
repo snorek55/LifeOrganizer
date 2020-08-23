@@ -14,7 +14,12 @@ namespace MovOrg.Tests.Setup
 {
 	public class TestData
 	{
-		public static IAutoMapper Mapper { get; private set; } = new MapperImpl(new IMDbProfile(), new ViewModelsProfile());
+		public static IAutoMapper Mapper { get; private set; } = new MapperImpl(
+			new IMDbProfile(),
+			new ViewModelsProfile(),
+			new DtoToViewModelProfile(),
+			new DomainToDtoProfile());
+
 		public static IConfig UnitTestConfig { get; } = new UnitTestConfig();
 		public static IConfig IntegrationConfig { get; } = new IntegrationTestConfig();
 

@@ -60,7 +60,13 @@ namespace MovOrg.Tests.Base
 			LocalRepo = new EFCoreLocalMoviesRepository(AmbientDbContextLocator, Config, Mapper);
 
 			using var context = DbContextScopeFactory.Create();
-			MoviesContext.Database.Migrate();
+			if (Config is UnitTestConfig)
+				MoviesContext.Database.Migrate();
+			else
+			{
+				MoviesContext.Database.EnsureDeleted();
+				MoviesContext.Database.EnsureCreated();
+			}
 		}
 
 		[TestInitialize]
@@ -69,8 +75,6 @@ namespace MovOrg.Tests.Base
 			using var context = DbContextScopeFactory.Create();
 
 			WipeDatabase();
-			//MoviesContext.Movies.Add(TestMovieSeededWithoutRelatedInfo);
-			//			MoviesContext.Movies.Add(TestMovieSeededWithRelatedInfo);
 
 			MoviesContext.People.Add(TestDirectorSeeded);
 			MoviesContext.People.Add(TestActorSeeded);

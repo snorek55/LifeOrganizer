@@ -11,7 +11,7 @@ namespace MovOrg.Tests.Setup
 			throw new System.NotImplementedException();
 		}
 
-		public string GetConnectionString()
+		public string GetConnectionString(bool isMigrations)
 		{
 			//SQLite in memory db
 			return "DataSource =:memory:";

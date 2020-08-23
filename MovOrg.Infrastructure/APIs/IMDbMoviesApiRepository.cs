@@ -47,25 +47,6 @@ namespace MovOrg.Infrastructure.APIs
 			ThrowIfError(data.ErrorMessage);
 			var movie = mapper.Map<Movie>(data);
 
-			int i = 0;
-			foreach (var image in data.Images.Items)
-			{
-				movie.Images.Add(new MovieImageData
-				{
-					Id = (i++).ToString(),
-					MovieId = data.Images.IMDbId,
-					Movie = movie,
-					Image = image.Image,
-					Title = image.Title
-				});
-			}
-
-			foreach (var actor in movie.ActorList)
-			{
-				if (data.StarList.Any(x => x.Id == actor.PersonId))
-					actor.IsStar = true;
-			}
-
 			await UpdateRatings(data.Ratings, movie);
 
 			var dto = mapper.Map<UpdateMovieDetailsDto>(movie);

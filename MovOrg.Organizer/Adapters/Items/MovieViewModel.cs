@@ -44,8 +44,7 @@ namespace MovOrg.Organizer.Adapters.Items
 
 		public string WikipediaUrl { get; set; }
 
-		//TODO: this should be datetime here and in the domain
-		public string ReleaseDate { get; set; }
+		public DateTime? ReleaseDate { get; set; }
 
 		public string LastUpdatedDetails { get; set; }
 

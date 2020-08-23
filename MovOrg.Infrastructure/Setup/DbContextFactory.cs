@@ -1,4 +1,6 @@
-﻿using EntityFramework.DbContextScope.Interfaces;
+﻿using Common.Setup;
+
+using EntityFramework.DbContextScope.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -6,38 +8,28 @@ using Microsoft.EntityFrameworkCore.Design;
 using MovOrg.Infrastructure.EFCore;
 
 using System;
-using System.Configuration;
 using System.Diagnostics;
-using System.Reflection;
 
 namespace MovOrg.Infrastructure.Setup
 {
 	public class DbContextFactory : IDbContextFactory, IDesignTimeDbContextFactory<MoviesContext>
 	{
 		private DbContextOptionsBuilder<MoviesContext> optionsBuilderMoviesContext;
+		private IConfig config;
 
-		//TODO: still works if private?
 		public DbContextFactory()
 		{
 			Debug.WriteLine("Default constructor was used on DbContextFactory. This is only allowed for Migrations.");
-			optionsBuilderMoviesContext = new DbContextOptionsBuilder<MoviesContext>().UseSqlServer(GetConnectionString())
+			config = new Config();
+			optionsBuilderMoviesContext = new DbContextOptionsBuilder<MoviesContext>().UseSqlServer(config.GetConnectionString(true))
 						.EnableSensitiveDataLogging();
 		}
 
-		public DbContextFactory(DbContextOptionsBuilder<MoviesContext> optionsBuilderMoviesContext)
+		public DbContextFactory(IConfig config)
 		{
-			this.optionsBuilderMoviesContext = optionsBuilderMoviesContext;
-		}
-
-		//TODO: this must be merged with config
-		private static string GetConnectionString()
-		{
-			var conf = ConfigurationManager.OpenExeConfiguration(AppDomain.CurrentDomain.BaseDirectory + Assembly.GetCallingAssembly().GetName().Name + ".dll");
-
-			string connString;
-			connString = conf.ConnectionStrings.ConnectionStrings["SqlServerConnectionString"].ConnectionString;
-
-			return connString;
+			this.config = config;
+			optionsBuilderMoviesContext = new DbContextOptionsBuilder<MoviesContext>().UseSqlServer(config.GetConnectionString())
+						.EnableSensitiveDataLogging();
 		}
 
 		public TDbContext CreateDbContext<TDbContext>() where TDbContext : class, IDbContext

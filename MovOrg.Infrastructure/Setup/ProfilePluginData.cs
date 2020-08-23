@@ -10,7 +10,8 @@ namespace MovOrg.Infrastructure.Setup
 	{
 		public IEnumerable<Profile> Profiles => new List<Profile>
 		{
-			new IMDbProfile()
+			new IMDbProfile(),
+			new DomainToDtoProfile()
 		};
 	}
 }

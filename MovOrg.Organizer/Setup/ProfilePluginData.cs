@@ -10,7 +10,8 @@ namespace MovOrg.Organizer.Setup
 	{
 		public IEnumerable<Profile> Profiles => new List<Profile>
 		{
-			new ViewModelsProfile()
+			new ViewModelsProfile(),
+			new DtoToViewModelProfile()
 		};
 	}
 }

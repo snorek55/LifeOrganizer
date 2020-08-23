@@ -2,7 +2,6 @@
 
 namespace MovOrg.Organizer.Domain
 {
-	//TODO: this must be merged with common images
 	public class MovieImageData : Entity
 	{
 		public Movie Movie { get; set; }

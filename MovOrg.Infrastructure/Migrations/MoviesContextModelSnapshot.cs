@@ -104,8 +104,8 @@ namespace MovOrg.Infrastructure.Migrations
                     b.Property<int?>("Rank")
                         .HasColumnType("int");
 
-                    b.Property<string>("ReleaseDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("ReleaseDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("RuntimeStr")
                         .HasColumnType("nvarchar(max)");

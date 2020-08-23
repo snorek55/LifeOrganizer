@@ -5,7 +5,8 @@ using Common.Extensions;
 using IMDbApiLib.Models;
 
 using MovOrg.Organizer.Domain;
-using MovOrg.Organizer.UseCases.DTOs;
+
+using System.Linq;
 
 namespace MovOrg.Infrastructure.Setup
 {
@@ -13,23 +14,6 @@ namespace MovOrg.Infrastructure.Setup
 	{
 		public IMDbProfile()
 		{
-			CreateMap<Movie, MovieWithDetailsDto>(MemberList.Destination);
-			CreateMap<Movie, UpdateMovieDetailsDto>(MemberList.Destination);
-
-			CreateMap<MovieActor, ActorDto>(MemberList.None);
-			CreateMap<MovieCompany, CompanyDto>(MemberList.None);
-			CreateMap<MovieWriter, WriterDto>(MemberList.None);
-			CreateMap<MovieDirector, DirectorDto>(MemberList.None);
-			CreateMap<MovieSimilar, SimilarDto>(MemberList.None)
-				.MapFrom(x => x.CoverImageUrl, y => y.Similar.CoverImageUrl);
-			CreateMap<Rating, RatingDto>(MemberList.None);
-			CreateMap<MovieImageData, MovieImageDto>(MemberList.None)
-				.ReverseMap();
-
-			CreateMap<Movie, MovieListItemDto>(MemberList.Destination)
-				.ReverseMap();
-			//TODO: hacer un profile para dtos
-
 			CreateMap<TitleData, Movie>()
 				.IgnoreAllPropertiesWithAnInaccessibleSetter()
 				.IgnoreDestinationMember(d => d.Images)
@@ -55,8 +39,25 @@ namespace MovOrg.Infrastructure.Setup
 				.AfterMap((s, d) =>
 				{
 					//TODO: refactor this
+
+					int i = 0;
+					foreach (var image in s.Images.Items)
+					{
+						d.Images.Add(new MovieImageData
+						{
+							Id = (i++).ToString(),
+							MovieId = d.Id,
+							Movie = d,
+							Image = image.Image,
+							Title = image.Title
+						});
+					}
+
 					foreach (var actor in d.ActorList)
 					{
+						if (s.StarList.Any(x => x.Id == actor.PersonId))
+							actor.IsStar = true;
+
 						actor.Movie = d;
 						actor.MovieId = d.Id;
 					}
@@ -76,12 +77,6 @@ namespace MovOrg.Infrastructure.Setup
 					{
 						company.Movie = d;
 						company.MovieId = d.Id;
-					}
-
-					foreach (var image in d.Images)
-					{
-						image.Movie = d;
-						image.MovieId = d.Id;
 					}
 
 					foreach (var similar in d.Similars)
