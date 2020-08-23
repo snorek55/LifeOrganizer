@@ -1,4 +1,4 @@
-# LifeOrganizer ![](https://img.shields.io/github/license/snorek55/LifeOrganizer?style=plastic)
+# LifeOrganizer ![](https://img.shields.io/github/license/snorek55/LifeOrganizer?style=plastic) 	![](https://img.shields.io/azure-devops/coverage/daimielsoft/LifeOrganizer/7?style=plastic)
 Organizer for movies, games, fitness, food, books and all kinds of collections you love.
 
 # Table of contents
