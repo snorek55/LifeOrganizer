@@ -1,6 +1,6 @@
 ﻿using Common.UseCases;
 
-using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.DTOs;
 
 using System.Collections.Generic;
 
@@ -8,13 +8,13 @@ namespace MovOrg.Organizer.UseCases.Responses
 {
 	public class GetAllMoviesFromLocalResponse : ResponseBase
 	{
-		public IEnumerable<Movie> Movies { get; set; }
+		public IEnumerable<MovieListItemDto> Movies { get; set; }
 
 		public GetAllMoviesFromLocalResponse()
 		{
 		}
 
-		public GetAllMoviesFromLocalResponse(IEnumerable<Movie> movies) : base(null)
+		public GetAllMoviesFromLocalResponse(IEnumerable<MovieListItemDto> movies) : base(null)
 		{
 			Movies = movies;
 		}

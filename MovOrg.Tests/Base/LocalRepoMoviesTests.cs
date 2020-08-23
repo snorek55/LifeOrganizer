@@ -52,6 +52,8 @@ namespace MovOrg.Tests.Base
 			}
 		}
 
+		private List<MovieListItemDto> InitialMovieListItemDtos => Mapper.Map<List<MovieListItemDto>>(InitialMoviesInDb);
+
 		#region Initialization
 
 		protected LocalRepoMoviesTests(IConfig config) : base()
@@ -589,7 +591,7 @@ namespace MovOrg.Tests.Base
 		{
 			using var context = DbContextScopeFactory.CreateReadOnly();
 			var movies = await LocalRepo.GetAllMovies();
-			movies.Should().BeEquivalentTo(InitialMoviesInDb);
+			movies.Should().BeEquivalentTo(InitialMovieListItemDtos);
 		}
 
 		[TestMethod]

@@ -26,6 +26,8 @@ namespace MovOrg.Infrastructure.Setup
 			CreateMap<MovieImageData, MovieImageDto>(MemberList.None)
 				.ReverseMap();
 
+			CreateMap<Movie, MovieListItemDto>(MemberList.Destination)
+				.ReverseMap();
 			//TODO: hacer un profile para dtos
 
 			CreateMap<TitleData, Movie>()

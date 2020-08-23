@@ -96,7 +96,7 @@ namespace MovOrg.Organizer.Adapters.Sections
 			{
 				var response = await ExecuteCommandTaskAsync(() => moviesService.GetAllMoviesFromLocal(), "Loaded movies from local");
 				if (!response.HasError)
-					ResetAndUpdateMovies(response.Movies);
+					ResetAndUpdateMovieList(response.Movies);
 			});
 		}
 
@@ -108,7 +108,7 @@ namespace MovOrg.Organizer.Adapters.Sections
 			var moviesResponse = await ExecuteCommandTaskAsync(() => moviesService.GetAllMoviesFromLocal(), "Loaded movies from local");
 
 			if (!moviesResponse.HasError)
-				ResetAndUpdateMovies(moviesResponse.Movies);
+				ResetAndUpdateMovieList(moviesResponse.Movies);
 		}
 
 		private async Task SearchTop250MoviesAsync()
@@ -119,7 +119,7 @@ namespace MovOrg.Organizer.Adapters.Sections
 
 			var moviesResponse = await ExecuteCommandTaskAsync(() => moviesService.GetAllMoviesFromLocal(), "Actualizadas mejores 250 peliculas");
 			if (!moviesResponse.HasError)
-				ResetAndUpdateMovies(moviesResponse.Movies);
+				ResetAndUpdateMovieList(moviesResponse.Movies);
 		}
 
 		private async Task SearchMoviesWithChosenTitleAsync()
@@ -245,6 +245,21 @@ namespace MovOrg.Organizer.Adapters.Sections
 		#endregion Events
 
 		#region Rendering
+
+		private void ResetAndUpdateMovieList(IEnumerable<MovieListItemDto> movies)
+		{
+			Movies.Clear();
+			if (movies == null) return;
+
+			movies = movies.OrderByDescending(x => x.Rank != null).ThenBy(x => x.Rank);
+
+			var moviesVm = mapper.Map<IEnumerable<MovieViewModel>>(movies);
+
+			foreach (var item in moviesVm)
+			{
+				Movies.Add(item);
+			}
+		}
 
 		private void ResetAndUpdateMovies(IEnumerable<Movie> movies)
 		{

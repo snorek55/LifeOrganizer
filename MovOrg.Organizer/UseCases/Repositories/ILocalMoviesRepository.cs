@@ -10,7 +10,7 @@ namespace MovOrg.Organizer.UseCases.Repositories
 	{
 		Task<bool> AreDetailsAvailableFor(string id);
 
-		Task<IEnumerable<Movie>> GetAllMovies();
+		Task<IEnumerable<MovieListItemDto>> GetAllMovies();
 
 		Task UpdateSuggestedTitleMovies(IEnumerable<Movie> movies);
 

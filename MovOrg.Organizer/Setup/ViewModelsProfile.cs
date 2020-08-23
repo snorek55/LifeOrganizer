@@ -78,6 +78,17 @@ namespace MovOrg.Organizer.Setup
 			CreateMap<RatingDto, RatingViewModel>(MemberList.None);
 
 			CreateMap<MovieImageDto, ImageViewModel>(MemberList.None);
+
+			CreateMap<MovieListItemDto, MovieViewModel>(MemberList.Source)
+				.IgnoreSourceMember(s => s.CoverImageUrl)
+				.MapFrom(d => d.CoverImage, s => new ImageViewModel
+				{
+					Image = s.CoverImageUrl,
+					Title = "Cover"
+				});
+
+			CreateMap<MovieViewModel, MovieListItemDto>(MemberList.Destination)
+				.MapFrom(d => d.CoverImageUrl, s => s.CoverImage.Image);
 		}
 	}
 }
