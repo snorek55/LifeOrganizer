@@ -51,13 +51,13 @@ namespace MovOrg.Infrastructure.EFCore
 
 		public async Task<IEnumerable<MovieListItemDto>> GetAllMovies()
 		{
-			return await mapper.Mapper.ProjectTo<MovieListItemDto>(DbContext.Movies).AsNoTracking().ToListAsync();
+			return await mapper.ProjectTo<MovieListItemDto>(DbContext.Movies).AsNoTracking().ToListAsync();
 		}
 
 		//TODO:change database schema to improve time (make pk int and other performance improvements)
 		public async Task<MovieWithDetailsDto> GetMovieDetailsById(string id)
 		{
-			var movieWithDetails = await mapper.Mapper.ProjectTo<MovieWithDetailsDto>(DbContext.Movies.Where(x => x.Id == id)).AsNoTracking().FirstOrDefaultAsync();
+			var movieWithDetails = await mapper.ProjectTo<MovieWithDetailsDto>(DbContext.Movies.Where(x => x.Id == id)).AsNoTracking().FirstOrDefaultAsync();
 
 			return movieWithDetails;
 		}

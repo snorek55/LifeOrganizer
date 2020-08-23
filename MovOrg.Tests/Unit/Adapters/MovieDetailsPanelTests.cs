@@ -1,9 +1,6 @@
 ﻿using AutoFixture;
 
-using AutoMapper;
-
 using Common.Adapters;
-using Common.Setup;
 
 using FluentAssertions;
 
@@ -13,10 +10,10 @@ using Moq;
 
 using MovOrg.Organizer.Adapters.Items;
 using MovOrg.Organizer.Adapters.Sections;
-using MovOrg.Organizer.Setup;
 using MovOrg.Organizer.UseCases;
 using MovOrg.Organizer.UseCases.DTOs;
 using MovOrg.Organizer.UseCases.Responses;
+using MovOrg.Tests.Setup;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -30,14 +27,13 @@ namespace MovOrg.Tests.Unit.Adapters
 		private Mock<IMoviesService> mockMoviesService = new Mock<IMoviesService>();
 		private MoviesSectionViewModel moviesSection = new MoviesSectionViewModel();
 		private Fixture fixture = new Fixture();
-		private IAutoMapper mapper = new MapperImpl(new List<Profile> { new ViewModelsProfile() });
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			fixture = new Fixture();
 			fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-			movieDetailsPanel = new MovieDetailsPanelViewModel(mockMoviesService.Object, moviesSection, mapper);
+			movieDetailsPanel = new MovieDetailsPanelViewModel(mockMoviesService.Object, moviesSection, TestData.Mapper);
 			movieDetailsPanel.SelectedMovie = fixture.Create<MovieViewModel>();
 		}
 
@@ -91,7 +87,7 @@ namespace MovOrg.Tests.Unit.Adapters
 			movieDetailsPanel.AreImagesShowing = false;
 			movieDetailsPanel.ShowImagesCommand.Execute("");
 
-			var expectedImages = mapper.Map<List<ImageViewModel>>(randomImages);
+			var expectedImages = TestData.Mapper.Map<List<ImageViewModel>>(randomImages);
 			expectedImages.Add(movieDetailsPanel.SelectedMovie.CoverImage);
 
 			movieDetailsPanel.ImagePresenter.Images.Should().BeEquivalentTo(expectedImages);

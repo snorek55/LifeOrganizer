@@ -2,7 +2,9 @@
 
 using Common.Setup;
 
+using MovOrg.Infrastructure.Setup;
 using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.Setup;
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,7 @@ namespace MovOrg.Tests.Setup
 {
 	public class TestData
 	{
+		public static IAutoMapper Mapper { get; private set; } = new MapperImpl(new IMDbProfile(), new ViewModelsProfile());
 		public static IConfig UnitTestConfig { get; } = new UnitTestConfig();
 		public static IConfig IntegrationConfig { get; } = new IntegrationTestConfig();
 

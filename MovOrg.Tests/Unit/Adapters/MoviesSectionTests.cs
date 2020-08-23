@@ -1,10 +1,7 @@
 ﻿using AutoFixture;
 
-using AutoMapper;
-
 using Common.Adapters;
 using Common.Extensions;
-using Common.Setup;
 
 using FluentAssertions;
 using FluentAssertions.Common;
@@ -13,14 +10,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-using MovOrg.Infrastructure.Setup;
 using MovOrg.Organizer.Adapters.Items;
 using MovOrg.Organizer.Adapters.Sections;
 using MovOrg.Organizer.Domain;
-using MovOrg.Organizer.Setup;
 using MovOrg.Organizer.UseCases;
 using MovOrg.Organizer.UseCases.DTOs;
 using MovOrg.Organizer.UseCases.Responses;
+using MovOrg.Tests.Setup;
 
 using System;
 using System.Collections.Generic;
@@ -35,13 +31,10 @@ namespace MovOrg.Tests.Unit.Adapters
 		private MoviesSectionViewModel moviesSectionViewModel;
 		private Mock<IMoviesService> mockMoviesService = new Mock<IMoviesService>();
 		private Mock<IDispatcher> mockDispatcher = new Mock<IDispatcher>();
-		private IAutoMapper autoMapper = new MapperImpl(new List<Profile> { new ViewModelsProfile(), new IMDbProfile() });
 		private Fixture fixture = new Fixture();
 
 		private List<Movie> moviesInLocal;
-		private List<MovieViewModel> MoviesVMInLocal => autoMapper.Map<List<MovieViewModel>>(moviesInLocal);
-
-		private List<MovieListItemDto> MoviesListItemDtos => autoMapper.Map<List<MovieListItemDto>>(moviesInLocal);
+		private List<MovieListItemDto> MoviesListItemDtos => TestData.Mapper.Map<List<MovieListItemDto>>(moviesInLocal);
 
 		private GetAllMoviesFromLocalResponse response;
 
@@ -64,10 +57,10 @@ namespace MovOrg.Tests.Unit.Adapters
 				movie.IsWatched = false;
 			}
 
-			response = new GetAllMoviesFromLocalResponse(autoMapper.Map<List<MovieListItemDto>>(movies));
+			response = new GetAllMoviesFromLocalResponse(TestData.Mapper.Map<List<MovieListItemDto>>(movies));
 			moviesInLocal = movies;
 			mockMoviesService.Setup(x => x.GetAllMoviesFromLocal()).ReturnsAsync(response);
-			moviesSectionViewModel = new MoviesSectionViewModel(mockMoviesService.Object, autoMapper, mockDispatcher.Object);
+			moviesSectionViewModel = new MoviesSectionViewModel(mockMoviesService.Object, TestData.Mapper, mockDispatcher.Object);
 		}
 
 		#region SearchCommandTests
@@ -84,11 +77,11 @@ namespace MovOrg.Tests.Unit.Adapters
 			var searchWord = fixture.Create<string>();
 			mockMoviesService.Setup(x => x.GetMoviesFromSuggestedTitleAsync(searchWord, false)).ReturnsAsync(response);
 			moviesSectionViewModel.SuggestedTitle = searchWord;
-			var currentList = autoMapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
+			var currentList = TestData.Mapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
 			currentList.Should().BeEquivalentTo(MoviesListItemDtos);
 			moviesSectionViewModel.SearchCommand.Execute("");
 
-			var expectedVms = autoMapper.Map<List<MovieViewModel>>(response.Movies);
+			var expectedVms = TestData.Mapper.Map<List<MovieViewModel>>(response.Movies);
 			moviesSectionViewModel.Movies.Should().BeEquivalentTo(expectedVms);
 		}
 
@@ -105,13 +98,13 @@ namespace MovOrg.Tests.Unit.Adapters
 			var searchWord = fixture.Create<string>();
 			mockMoviesService.Setup(x => x.GetMoviesFromSuggestedTitleAsync(searchWord, false)).ReturnsAsync(response);
 			moviesSectionViewModel.SuggestedTitle = searchWord;
-			var currentList = autoMapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
+			var currentList = TestData.Mapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
 			currentList.Should().BeEquivalentTo(MoviesListItemDtos);
 			moviesSectionViewModel.SearchCommand.Execute("");
 			//TODO: improve search engine
 			var moviesWithCorrectTitle = response.Movies.ToList().FindAll(x => x.Title.Contains(searchWord));
-			var expectedVms = autoMapper.Map<List<MovieViewModel>>(moviesWithCorrectTitle);
-
+			var expectedDtos = TestData.Mapper.Map<List<MovieListItemDto>>(moviesWithCorrectTitle);
+			var expectedVms = TestData.Mapper.Map<List<MovieViewModel>>(expectedDtos);
 			var collectionView = CollectionViewSource.GetDefaultView(moviesSectionViewModel.Movies);
 
 			collectionView.Should().HaveSameCount(expectedVms);
@@ -127,7 +120,7 @@ namespace MovOrg.Tests.Unit.Adapters
 				.Create();
 			var searchWord = fixture.Create<string>();
 			mockMoviesService.Setup(x => x.GetMoviesFromSuggestedTitleAsync(searchWord, false)).ReturnsAsync(response);
-			moviesSectionViewModel.SuggestedTitle = searchWord; var currentList = autoMapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
+			moviesSectionViewModel.SuggestedTitle = searchWord; var currentList = TestData.Mapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
 			currentList.Should().BeEquivalentTo(MoviesListItemDtos); moviesSectionViewModel.SearchCommand.Execute("");
 
 			moviesSectionViewModel.Movies.Should().BeEmpty();
@@ -140,7 +133,7 @@ namespace MovOrg.Tests.Unit.Adapters
 		[TestMethod]
 		public void ClearSearchCommand_ShouldShowMoviesFromLocal_WhenExecuted()
 		{
-			var expectedList = autoMapper.Map<List<MovieListItemDto>>(moviesInLocal);
+			var expectedList = TestData.Mapper.Map<List<MovieListItemDto>>(moviesInLocal);
 			var response = new GetAllMoviesFromLocalResponse(expectedList);
 			mockMoviesService.Setup(x => x.GetAllMoviesFromLocal()).ReturnsAsync(response);
 
@@ -150,7 +143,7 @@ namespace MovOrg.Tests.Unit.Adapters
 
 			moviesSectionViewModel.ClearSearchCommand.Execute("");
 
-			var actualList = autoMapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
+			var actualList = TestData.Mapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
 			actualList.Should().BeEquivalentTo(expectedList);
 		}
 
@@ -165,7 +158,7 @@ namespace MovOrg.Tests.Unit.Adapters
 			var updateResponse = new UpdateTopMoviesResponse();
 			mockMoviesService.Setup(x => x.UpdateTopMovies()).Callback(() => response.Movies.First().Rank = 2).ReturnsAsync(updateResponse);
 
-			var currentList = autoMapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
+			var currentList = TestData.Mapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
 			currentList.Should().BeEquivalentTo(MoviesListItemDtos);
 			moviesSectionViewModel.Movies[0].Rank.Should().NotBe(2);
 			moviesSectionViewModel.Top250Command.Execute("");

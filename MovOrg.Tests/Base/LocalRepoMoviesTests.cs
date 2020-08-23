@@ -1,7 +1,5 @@
 ﻿using AutoFixture;
 
-using AutoMapper;
-
 using Common.Setup;
 using Common.UseCases;
 
@@ -14,9 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using MovOrg.Infrastructure.EFCore;
-using MovOrg.Infrastructure.Setup;
 using MovOrg.Organizer.Domain;
-using MovOrg.Organizer.Setup;
 using MovOrg.Organizer.UseCases.DTOs;
 using MovOrg.Organizer.UseCases.Repositories;
 using MovOrg.Tests.Setup;
@@ -36,8 +32,6 @@ namespace MovOrg.Tests.Base
 		protected ILocalMoviesRepository LocalRepo { get; private set; }
 
 		protected IConfig Config { get; set; }
-
-		protected IAutoMapper Mapper { get; private set; } = new MapperImpl(new List<Profile> { new IMDbProfile(), new ViewModelsProfile() });
 
 		protected MoviesContext MoviesContext
 		{

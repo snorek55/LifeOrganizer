@@ -1,4 +1,4 @@
-﻿using AutoMapper.Configuration;
+﻿using AutoMapper;
 
 using Common.Adapters;
 using Common.Setup;
@@ -39,13 +39,12 @@ namespace Main.GUI.Setup
 			services.AddSingleton<IAutoMapper, MapperImpl>(
 				x =>
 				{
-					var configExpression = new MapperConfigurationExpression();
+					var allProfiles = new List<Profile>();
 
 					foreach (var profileData in x.GetServices<IProfilePluginData>())
-					{
-						configExpression.AddProfiles(profileData.Profiles);
-					}
-					return new MapperImpl(configExpression);
+						allProfiles.AddRange(profileData.Profiles);
+
+					return new MapperImpl(allProfiles.ToArray());
 				});
 		}
 

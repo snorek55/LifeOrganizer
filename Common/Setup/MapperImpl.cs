@@ -1,29 +1,23 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration;
 
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Common.Setup
 {
 	public class MapperImpl : IAutoMapper
 	{
-		public IMapper Mapper { get; private set; }
+		private IMapper mapper;
 
-		public MapperImpl(MapperConfigurationExpression configExpression)
-		{
-			CreateMapper(configExpression);
-		}
-
-		//TODO: params insted of list
-		public MapperImpl(List<Profile> profiles)
+		public MapperImpl(params Profile[] profiles) : base()
 		{
 			var configExpression = new MapperConfigurationExpression();
 			configExpression.AddProfiles(profiles);
-			CreateMapper(configExpression);
+			InitializeMapper(configExpression);
 		}
 
-		private void CreateMapper(MapperConfigurationExpression configExpression)
+		private void InitializeMapper(MapperConfigurationExpression configExpression)
 		{
 			var config = new MapperConfiguration(configExpression);
 			try
@@ -35,25 +29,30 @@ namespace Common.Setup
 				Debug.WriteLine(ex.ToString());
 				throw;
 			}
-			Mapper = config.CreateMapper();
+			mapper = config.CreateMapper();
 		}
 
 		public TDestination Map<TSource, TDestination>(TSource source)
 		{
-			return Mapper.Map<TSource, TDestination>(source);
+			return mapper.Map<TSource, TDestination>(source);
 		}
 
 		public TDestination Map<TDestination>(object source)
 		{
 			try
 			{
-				return Mapper.Map<TDestination>(source);
+				return mapper.Map<TDestination>(source);
 			}
 			catch (AutoMapperMappingException ex)
 			{
 				Debug.WriteLine(ex.ToString());
 				throw;
 			}
+		}
+
+		public IQueryable<TDestination> ProjectTo<TDestination>(IQueryable source)
+		{
+			return mapper.ProjectTo<TDestination>(source);
 		}
 	}
 }

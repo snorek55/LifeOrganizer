@@ -1,13 +1,13 @@
-﻿using AutoMapper;
+﻿using System.Linq;
 
 namespace Common.Setup
 {
 	public interface IAutoMapper
 	{
-		IMapper Mapper { get; }
-
 		TDestination Map<TDestination>(object source);
 
 		TDestination Map<TSource, TDestination>(TSource source);
+
+		IQueryable<TDestination> ProjectTo<TDestination>(IQueryable source);
 	}
 }
