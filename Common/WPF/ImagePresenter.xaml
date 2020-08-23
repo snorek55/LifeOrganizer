@@ -59,13 +59,7 @@
                       ItemsSource="{Binding Images}"
                       MouseUp="ListView_MouseUp"
                       SelectedItem="{Binding CurrentImage}"
-                      Style="{StaticResource ExternalScrollVirtualizingPanelStyle}">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="4" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListView>
+                      Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
 
             <StackPanel Grid.Row="2"
                         HorizontalAlignment="Center"

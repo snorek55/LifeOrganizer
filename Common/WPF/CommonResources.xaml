@@ -21,6 +21,8 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="ExternalScrollVirtualizingPanelStyle" TargetType="ListView">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -34,6 +36,16 @@
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="4" />
                 </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <!--  https://stackoverflow.com/questions/6959274/cannot-find-source-for-binding-with-reference-databound-listview-problem  -->
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                </Style>
             </Setter.Value>
         </Setter>
     </Style>
