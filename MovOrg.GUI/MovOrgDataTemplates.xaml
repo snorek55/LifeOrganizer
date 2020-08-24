@@ -18,7 +18,6 @@
 
     <DataTemplate DataType="{x:Type itemsAdapters:MovieViewModel}">
         <StackPanel>
-
             <Image Width="120"
                    Height="120"
                    HorizontalAlignment="Center">
@@ -39,8 +38,8 @@
                             <Run Text=")" />
                         </TextBlock>
                         <TextBlock Text=" " />
-                        <materialDesign:PackIcon Kind="Rank" />
-                        <TextBlock Text="{Binding Rank}" />
+                        <materialDesign:PackIcon Kind="Rank" Visibility="{Binding Rank, Converter={local:RankToVisibilityConverter}}" />
+                        <TextBlock Text="{Binding Rank}" Visibility="{Binding Rank, Converter={local:RankToVisibilityConverter}}" />
                         <materialDesign:PackIcon Kind="Heart" Visibility="{Binding IsFavorite, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         <materialDesign:PackIcon Kind="EyeCheck" Visibility="{Binding IsWatched, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         <materialDesign:PackIcon Kind="EyeCircleOutline" Visibility="{Binding IsMustWatch, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" />
