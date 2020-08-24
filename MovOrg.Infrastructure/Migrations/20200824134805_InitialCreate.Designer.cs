@@ -10,7 +10,7 @@ using MovOrg.Infrastructure.EFCore;
 namespace MovOrg.Infrastructure.Migrations
 {
     [DbContext(typeof(MoviesContext))]
-    [Migration("20200823151502_Initial-Create")]
+    [Migration("20200824134805_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

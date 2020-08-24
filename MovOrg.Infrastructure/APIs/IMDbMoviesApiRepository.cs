@@ -32,12 +32,12 @@ namespace MovOrg.Infrastructure.APIs
 			this.localMoviesRepository = localMoviesRepository;
 		}
 
-		public async Task<IEnumerable<Movie>> GetMoviesFromSuggestedTitle(string suggestedTitle)
+		public async Task<IEnumerable<MovieListItemDto>> GetMoviesFromSuggestedTitle(string suggestedTitle)
 		{
 			Ensure.IsNotNull(suggestedTitle);
 			var data = await apiLib.SearchMovieAsync(suggestedTitle);
 			ThrowIfError(data.ErrorMessage);
-			return mapper.Map<IEnumerable<Movie>>(data.Results);
+			return mapper.Map<IEnumerable<MovieListItemDto>>(data.Results);
 		}
 
 		public async Task<UpdateMovieDetailsDto> GetAllMovieDetailsById(string id)
@@ -46,7 +46,7 @@ namespace MovOrg.Infrastructure.APIs
 			var data = await apiLib.TitleAsync(id, Language.en, true, true, true, true, true, true, true);
 			ThrowIfError(data.ErrorMessage);
 			var movie = mapper.Map<Movie>(data);
-
+			//TODO: updateratings must be as dto
 			await UpdateRatings(data.Ratings, movie);
 
 			var dto = mapper.Map<UpdateMovieDetailsDto>(movie);
@@ -54,16 +54,11 @@ namespace MovOrg.Infrastructure.APIs
 			return dto;
 		}
 
-		public async Task<IEnumerable<Movie>> GetTopMovies()
+		public async Task<IEnumerable<MovieListItemDto>> GetTopMovies()
 		{
 			var data = await apiLib.Top250MoviesAsync();
 			ThrowIfError(data.ErrorMessage);
-			var movies = mapper.Map<IEnumerable<Movie>>(data.Items);
-			foreach (var movie in movies)
-			{
-				movie.LastUpdatedTop250 = DateTime.Now;
-			}
-
+			var movies = mapper.Map<IEnumerable<MovieListItemDto>>(data.Items);
 			return movies;
 		}
 

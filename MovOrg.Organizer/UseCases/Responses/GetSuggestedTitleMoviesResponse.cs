@@ -1,6 +1,6 @@
 ﻿using Common.UseCases;
 
-using MovOrg.Organizer.Domain;
+using MovOrg.Organizer.UseCases.DTOs;
 
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ namespace MovOrg.Organizer.UseCases.Responses
 {
 	public class GetSuggestedTitleMoviesResponse : ResponseBase
 	{
-		public IEnumerable<Movie> Movies { get; set; }
+		public IEnumerable<MovieListItemDto> Movies { get; set; }
 
 		public bool AlreadySearched { get; set; }
 
@@ -17,7 +17,7 @@ namespace MovOrg.Organizer.UseCases.Responses
 		{
 		}
 
-		public GetSuggestedTitleMoviesResponse(IEnumerable<Movie> movies) : base()
+		public GetSuggestedTitleMoviesResponse(IEnumerable<MovieListItemDto> movies) : base()
 		{
 			Movies = movies ?? throw new ArgumentNullException(nameof(movies));
 		}

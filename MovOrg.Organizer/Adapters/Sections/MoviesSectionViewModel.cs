@@ -3,7 +3,6 @@ using Common.Extensions;
 using Common.Setup;
 
 using MovOrg.Organizer.Adapters.Items;
-using MovOrg.Organizer.Domain;
 using MovOrg.Organizer.UseCases;
 using MovOrg.Organizer.UseCases.DTOs;
 
@@ -141,7 +140,7 @@ namespace MovOrg.Organizer.Adapters.Sections
 
 			if (!suggestedTitleResponse.HasError)
 			{
-				ResetAndUpdateMovies(suggestedTitleResponse.Movies);
+				ResetAndUpdateMovieList(suggestedTitleResponse.Movies);
 				NotifyStatus("Found " + suggestedTitleResponse.Movies.Count() + " movies");
 			}
 			else
@@ -166,7 +165,7 @@ namespace MovOrg.Organizer.Adapters.Sections
 				conditions &= movie.IsWatched;
 			if (OnlyTop250)
 				conditions &= movie.Rank != null && movie.Rank > 0;
-			if (!string.IsNullOrEmpty(SuggestedTitleFilter))
+			if (!string.IsNullOrEmpty(SuggestedTitleFilter) && !string.IsNullOrEmpty(movie.Title))
 			{
 				var titleContainsFilter = movie.Title.Contains(SuggestedTitleFilter);
 				var descriptionContainsFilter = false;
@@ -247,21 +246,6 @@ namespace MovOrg.Organizer.Adapters.Sections
 		#region Rendering
 
 		private void ResetAndUpdateMovieList(IEnumerable<MovieListItemDto> movies)
-		{
-			Movies.Clear();
-			if (movies == null) return;
-
-			movies = movies.OrderByDescending(x => x.Rank != null).ThenBy(x => x.Rank);
-
-			var moviesVm = mapper.Map<IEnumerable<MovieViewModel>>(movies);
-
-			foreach (var item in moviesVm)
-			{
-				Movies.Add(item);
-			}
-		}
-
-		private void ResetAndUpdateMovies(IEnumerable<Movie> movies)
 		{
 			Movies.Clear();
 			if (movies == null) return;

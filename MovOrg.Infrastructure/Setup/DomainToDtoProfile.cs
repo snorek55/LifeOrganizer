@@ -2,6 +2,8 @@
 
 using Common.Extensions;
 
+using IMDbApiLib.Models;
+
 using MovOrg.Organizer.Domain;
 using MovOrg.Organizer.UseCases.DTOs;
 
@@ -26,6 +28,16 @@ namespace MovOrg.Infrastructure.Setup
 
 			CreateMap<Movie, MovieListItemDto>(MemberList.Destination)
 				.ReverseMap();
+
+			CreateMap<Top250DataDetail, MovieListItemDto>(MemberList.Destination)
+				.MapFrom(d => d.CoverImageUrl, s => s.Image);
+
+			//TODO: new dto
+			CreateMap<SearchResult, MovieListItemDto>(MemberList.Destination)
+				.IgnoreDestinationMember(d => d.IMDbRating)
+				.IgnoreDestinationMember(d => d.Rank)
+				.IgnoreDestinationMember(d => d.Year)
+				.MapFrom(d => d.CoverImageUrl, s => s.Image);
 		}
 	}
 }

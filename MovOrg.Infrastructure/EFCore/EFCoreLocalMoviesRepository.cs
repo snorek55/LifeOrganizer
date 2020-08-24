@@ -70,17 +70,17 @@ namespace MovOrg.Infrastructure.EFCore
 			//movie.LastUpdatedDetails = RoundToSecond(DateTime.Now);
 		}
 
-		public async Task UpdateSuggestedTitleMovies(IEnumerable<Movie> movies)
+		public async Task UpdateSuggestedTitleMovies(IEnumerable<MovieListItemDto> movies)
 		{
 			foreach (var movie in movies)
 			{
 				var persistentMovie = await DbContext.Movies.FindAsync(movie.Id);
 				if (persistentMovie == null)
-					DbContext.Movies.Add(movie);
+					DbContext.Movies.Add(mapper.Map<Movie>(movie));
 			}
 		}
 
-		public async Task UpdateTopMovies(IEnumerable<Movie> topApiMovies)
+		public async Task UpdateTopMovies(IEnumerable<MovieListItemDto> topApiMovies)
 		{
 			await DbContext.Movies.Where(x => x.LastUpdatedTop250 != null).ForEachAsync(x => { x.LastUpdatedTop250 = null; x.Rank = null; });
 
@@ -89,8 +89,8 @@ namespace MovOrg.Infrastructure.EFCore
 				var persistentMovie = await DbContext.Movies.FindAsync(movie.Id);
 				if (persistentMovie == null)
 				{
-					var newMovie = DbContext.Movies.Add(movie);
-					newMovie.Entity.LastUpdatedTop250 = DateTime.Now;
+					var entryMovie = DbContext.Movies.Add(mapper.Map<Movie>(movie));
+					entryMovie.Entity.LastUpdatedTop250 = DateTime.Now;
 				}
 				else
 				{

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using Common.Extensions;
+using Common.Setup;
 
 using IMDbApiLib.Models;
 
@@ -25,6 +26,7 @@ namespace MovOrg.Infrastructure.Setup
 				.IgnoreDestinationMember(d => d.IsWatched)
 				.IgnoreDestinationMember(d => d.IsMustWatch)
 				.IgnoreDestinationMember(d => d.Ratings)
+				.ForMember(d => d.IMDbRating, o => o.ConvertUsing(new StringToNullableFloatValueConverter()))
 				.MapFrom(d => d.CoverImageUrl, s => s.Image)
 				.AfterMap((s, d) =>
 				{

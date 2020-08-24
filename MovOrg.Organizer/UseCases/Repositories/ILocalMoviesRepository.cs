@@ -12,11 +12,11 @@ namespace MovOrg.Organizer.UseCases.Repositories
 
 		Task<IEnumerable<MovieListItemDto>> GetAllMovies();
 
-		Task UpdateSuggestedTitleMovies(IEnumerable<Movie> movies);
+		Task UpdateSuggestedTitleMovies(IEnumerable<MovieListItemDto> movies);
 
 		Task UpdateMovieDetails(UpdateMovieDetailsDto movie);
 
-		Task UpdateTopMovies(IEnumerable<Movie> topApiMovies);
+		Task UpdateTopMovies(IEnumerable<MovieListItemDto> topApiMovies);
 
 		Task<IEnumerable<RatingSource>> GetRatingSources();
 

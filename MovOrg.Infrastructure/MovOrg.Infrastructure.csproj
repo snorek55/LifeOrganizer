@@ -12,6 +12,8 @@
     <Compile Remove="Migrations\20200813153843_InitialCreate.Designer.cs" />
     <Compile Remove="Migrations\20200818111909_InitialCreate.cs" />
     <Compile Remove="Migrations\20200818111909_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200823151502_Initial-Create.cs" />
+    <Compile Remove="Migrations\20200823151502_Initial-Create.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,10 +44,6 @@
     <None Update="Properties\private.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

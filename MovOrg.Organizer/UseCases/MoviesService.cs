@@ -3,7 +3,6 @@ using Common.UseCases;
 
 using EntityFramework.DbContextScope.Interfaces;
 
-using MovOrg.Organizer.Domain;
 using MovOrg.Organizer.UseCases.DTOs;
 using MovOrg.Organizer.UseCases.Repositories;
 using MovOrg.Organizer.UseCases.Responses;
@@ -69,7 +68,7 @@ namespace MovOrg.Organizer.UseCases
 		private async Task<GetSuggestedTitleMoviesResponse> LoadMoviesFromSuggestedTitleAsync(string suggestedTitle, bool forceUpdateFromApi)
 		{
 			using var context = dbContextScopeFactory.Create();
-			IEnumerable<Movie> movies;
+			IEnumerable<MovieListItemDto> movies;
 			movies = await apiRepository.GetMoviesFromSuggestedTitle(suggestedTitle);
 			await localRepository.UpdateSuggestedTitleMovies(movies);
 			await context.SaveChangesAsync();

@@ -90,7 +90,7 @@ namespace MovOrg.Tests.Unit.Adapters
 		{
 			var response = fixture.Build<GetSuggestedTitleMoviesResponse>()
 				.With(x => x.AlreadySearched, true)
-				.With(x => x.Movies, moviesInLocal)
+				.With(x => x.Movies, MoviesListItemDtos)
 				.With(x => x.Error, string.Empty)
 				.Create();
 
@@ -115,7 +115,7 @@ namespace MovOrg.Tests.Unit.Adapters
 		public void SearchCommand_ShouldReturnNoMovies_WhenTitleDoesNotExist_AndIsNotAlreadySearched()
 		{
 			var response = fixture.Build<GetSuggestedTitleMoviesResponse>()
-				.With(x => x.Movies, new List<Movie>())
+				.With(x => x.Movies, new List<MovieListItemDto>())
 				.With(x => x.AlreadySearched, false)
 				.Create();
 			var searchWord = fixture.Create<string>();
