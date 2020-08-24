@@ -158,6 +158,7 @@ namespace MovOrg.Infrastructure.EFCore
 
 		private async Task UpdateMovie(UpdateMovieDetailsDto movie)
 		{
+			//TODO: this makes update very slow. must improve
 			var existingMovie = await DbContext.Movies
 				.Include(x => x.BoxOffice)
 				.Include(x => x.Trailer)
@@ -377,12 +378,24 @@ namespace MovOrg.Infrastructure.EFCore
 						Movie = existingMovie,
 						MovieId = existingMovie.Id,
 						Source = existingSource,
-						SourceId = existingSource.Id
+						SourceId = existingSource.Id,
 					};
+
 					DbContext.Ratings.Add(rating);
 					existingRating = DbContext.Ratings.Find(ratingDto.MovieId, ratingDto.SourceId);
 				}
-				existingMovie.Ratings.Add(existingRating);
+
+				var isOk = float.TryParse(ratingDto.Score, out float f);
+				if (isOk)
+					existingRating.Score = f;
+				else
+					existingRating.Score = null;
+
+				var ratingAlreadyAdded = existingMovie.Ratings.Find(x => x.SourceId == existingRating.SourceId);
+				if (ratingAlreadyAdded == null)
+					existingMovie.Ratings.Add(existingRating);
+				else
+					ratingAlreadyAdded.Score = existingRating.Score;
 			}
 		}
 
