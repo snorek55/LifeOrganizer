@@ -60,13 +60,8 @@ namespace MovOrg.Tests.Base
 			LocalRepo = new EFCoreLocalMoviesRepository(AmbientDbContextLocator, Config, Mapper);
 
 			using var context = DbContextScopeFactory.Create();
-			if (Config is UnitTestConfig)
-				MoviesContext.Database.Migrate();
-			else
-			{
-				MoviesContext.Database.EnsureDeleted();
-				MoviesContext.Database.EnsureCreated();
-			}
+			MoviesContext.Database.EnsureDeleted();
+			MoviesContext.Database.EnsureCreated();
 		}
 
 		[TestInitialize]

@@ -271,7 +271,8 @@ namespace MovOrg.Infrastructure.Migrations
                     MovieId = table.Column<string>(nullable: false),
                     SourceId = table.Column<string>(nullable: false),
                     Id = table.Column<string>(nullable: true),
-                    Score = table.Column<float>(nullable: true)
+                    Score = table.Column<float>(nullable: true),
+                    SiteUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

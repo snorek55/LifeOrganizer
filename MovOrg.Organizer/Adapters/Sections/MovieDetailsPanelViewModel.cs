@@ -32,6 +32,8 @@ namespace MovOrg.Organizer.Adapters.Sections
 
 		public ICommand ShowImagesCommand { get => new SyncCommand(ShowImages); }
 
+		public ICommand GoToMoviesWebPage { get => new AsyncCommand(GotToMoviesWebPage); }
+
 		private MoviesSectionViewModel parent;
 
 		private IMoviesService service;
@@ -72,21 +74,6 @@ namespace MovOrg.Organizer.Adapters.Sections
 			parent.SelectedMovie.IsFavorite = SelectedMovie.IsFavorite;
 		}
 
-		private void GoToWikipedia()
-		{
-			Process.Start("explorer.exe", SelectedMovie.WikipediaUrl);
-		}
-
-		private void ShowTrailer()
-		{
-			Process.Start("explorer.exe", SelectedMovie.Trailer.LinkEmbed);
-		}
-
-		private void GoToIMDbPage()
-		{
-			Process.Start("explorer.exe", "https://www.imdb.com/title/" + SelectedMovie.Id + "/");
-		}
-
 		private void ShowImages()
 		{
 			ImagePresenter.Images.Clear();
@@ -113,6 +100,30 @@ namespace MovOrg.Organizer.Adapters.Sections
 		private async Task UpdateCurrentMovieAsync()
 		{
 			await parent.ShowSelectedMovieInfoAsync(true);
+		}
+
+		private void GoToWikipedia()
+		{
+			Process.Start("explorer.exe", SelectedMovie.WikipediaUrl);
+		}
+
+		private void ShowTrailer()
+		{
+			Process.Start("explorer.exe", SelectedMovie.Trailer.LinkEmbed);
+		}
+
+		private void GoToIMDbPage()
+		{
+			Process.Start("explorer.exe", "https://www.imdb.com/title/" + SelectedMovie.Id + "/");
+		}
+
+		private async Task GotToMoviesWebPage()
+		{
+			if (SelectedMovie.SelectedRating == null)
+				return;
+
+			var response = await service.GetRatingSourceUrl(SelectedMovie.Id, SelectedMovie.SelectedRating.SourceName);
+			Process.Start("explorer.exe", response.MovieRatingSiteDto.SourceUrl);
 		}
 	}
 }

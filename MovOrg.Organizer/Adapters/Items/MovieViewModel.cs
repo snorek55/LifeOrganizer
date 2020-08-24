@@ -66,6 +66,7 @@ namespace MovOrg.Organizer.Adapters.Items
 		public List<WriterViewModel> WriterList { get; set; } = new List<WriterViewModel>();
 
 		public List<RatingViewModel> Ratings { get; set; } = new List<RatingViewModel>();
+		public RatingViewModel SelectedRating { get; set; }
 
 		public List<SimilarMovieViewModel> Similars { get; set; } = new List<SimilarMovieViewModel>();
 		public SimilarMovieViewModel SelectedSimilar { get; set; }

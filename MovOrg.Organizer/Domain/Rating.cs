@@ -6,6 +6,8 @@ namespace MovOrg.Organizer.Domain
 	{
 		public float? Score { get; set; }
 
+		public string SiteUrl { get; set; }
+
 		public string MovieId { get; set; }
 		public Movie Movie { get; set; }
 

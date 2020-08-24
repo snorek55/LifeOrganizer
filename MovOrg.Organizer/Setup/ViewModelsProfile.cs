@@ -16,6 +16,7 @@ namespace MovOrg.Organizer.Setup
 			CreateMap<Movie, MovieViewModel>()
 				.IgnoreDestinationMember(x => x.ShowAllActors)
 				.IgnoreDestinationMember(x => x.SelectedSimilar)
+				.IgnoreDestinationMember(x => x.SelectedRating)
 				.MapFrom(d => d.CoverImage, s =>
 					new ImageViewModel
 					{

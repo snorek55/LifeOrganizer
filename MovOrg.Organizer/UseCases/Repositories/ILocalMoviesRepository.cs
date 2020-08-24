@@ -27,5 +27,9 @@ namespace MovOrg.Organizer.UseCases.Repositories
 		void MarkMovieAsWatched(string id, bool isWatched);
 
 		IEnumerable<MovieImageDto> GetMovieImagesById(string id);
+
+		IEnumerable<MovieRatingSourceDto> GetRatingSourceUrls(string id);
+
+		void UpdateSourcesWebPages(string id, IEnumerable<MovieRatingSourceDto> sourcesWebPages);
 	}
 }

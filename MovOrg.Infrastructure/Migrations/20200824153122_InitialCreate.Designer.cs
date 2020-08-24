@@ -10,7 +10,7 @@ using MovOrg.Infrastructure.EFCore;
 namespace MovOrg.Infrastructure.Migrations
 {
     [DbContext(typeof(MoviesContext))]
-    [Migration("20200824134805_InitialCreate")]
+    [Migration("20200824153122_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -276,6 +276,9 @@ namespace MovOrg.Infrastructure.Migrations
 
                     b.Property<float?>("Score")
                         .HasColumnType("real");
+
+                    b.Property<string>("SiteUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MovieId", "SourceId");
 

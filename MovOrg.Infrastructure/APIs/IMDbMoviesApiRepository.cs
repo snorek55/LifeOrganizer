@@ -105,5 +105,36 @@ namespace MovOrg.Infrastructure.APIs
 		{
 			if (!string.IsNullOrEmpty(errorMessage)) throw new RepositoryException(errorMessage);
 		}
+
+		public async Task<IEnumerable<MovieRatingSourceDto>> GetRatingSourcesUrls(string id)
+		{
+			//TODO: make automatic with reflection or smh
+			var externalSiteData = await apiLib.ExternalSitesAsync(id);
+			var relevantRatingSites = new List<MovieRatingSourceDto>
+			{
+				new MovieRatingSourceDto
+				{
+					SourceUrl = externalSiteData.RottenTomatoes.Url,
+					SourceName = "RottenTomatoes"
+				},
+				new MovieRatingSourceDto
+				{
+					SourceUrl = externalSiteData.Metacritic.Url,
+					SourceName = "Metacritic"
+				},
+				new MovieRatingSourceDto
+				{
+					SourceUrl = externalSiteData.TV_com.Url,
+					SourceName = "TV_com"
+				},
+				new MovieRatingSourceDto
+				{
+					SourceUrl = externalSiteData.IMDb.Url,
+					SourceName = "IMDb"
+				}
+			};
+
+			return relevantRatingSites;
+		}
 	}
 }

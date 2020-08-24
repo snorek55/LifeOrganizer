@@ -10,6 +10,7 @@ using MovOrg.Organizer.UseCases.Responses;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases
@@ -177,6 +178,35 @@ namespace MovOrg.Organizer.UseCases
 			catch (RepositoryException ex)
 			{
 				return new GetMovieImagesResponse(ex.ToString());
+			}
+		}
+
+		public async Task<GetRatingSourceUrlResponse> GetRatingSourceUrl(string id, string sourceName)
+		{
+			try
+			{
+				using var context = dbContextScopeFactory.Create();
+				var sourcesWebPages = localRepository.GetRatingSourceUrls(id);
+
+				var nullWebPages = sourcesWebPages.Where(x => x.SourceUrl == null);
+				if (nullWebPages.Count() == sourcesWebPages.Count())
+				{
+					sourcesWebPages = await apiRepository.GetRatingSourcesUrls(id);
+					localRepository.UpdateSourcesWebPages(id, sourcesWebPages);
+					await context.SaveChangesAsync();
+				}
+
+				foreach (var source in sourcesWebPages)
+				{
+					if (source.SourceName == sourceName)
+						return new GetRatingSourceUrlResponse(source);
+				}
+
+				return new GetRatingSourceUrlResponse();
+			}
+			catch (RepositoryException ex)
+			{
+				return new GetRatingSourceUrlResponse(ex.ToString());
 			}
 		}
 	}

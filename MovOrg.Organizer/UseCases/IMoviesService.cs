@@ -21,5 +21,7 @@ namespace MovOrg.Organizer.UseCases
 		UpdateMustWatchResponse UpdateMustWatch(string id, bool isMustWatch);
 
 		UpdateWatchedResponse UpdateWatched(string id, bool isWatched);
+
+		Task<GetRatingSourceUrlResponse> GetRatingSourceUrl(string id, string sourceName);
 	}
 }

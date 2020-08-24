@@ -151,7 +151,7 @@
                         </TextBlock.Style>
                     </TextBlock>
 
-                    <ListView ItemsSource="{Binding SelectedMovie.Ratings}">
+                    <ListView ItemsSource="{Binding SelectedMovie.Ratings}" SelectedItem="{Binding SelectedMovie.SelectedRating, Mode=TwoWay}">
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal" />
@@ -159,6 +159,7 @@
                         </ListView.ItemsPanel>
                     </ListView>
 
+                    <Button Command="{Binding GoToMoviesWebPage}" Content="Go to site" />
                     <TextBlock Text="{Binding SelectedMovie.Plot}"
                                Margin="5"
                                Padding="5"

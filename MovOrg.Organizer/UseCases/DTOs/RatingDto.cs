@@ -7,6 +7,7 @@ namespace MovOrg.Organizer.UseCases.DTOs
 		public string SourceName { get; set; }
 		public string SourceLogoUrl { get; set; }
 		public string Score { get; set; }
+
 		public string MovieId { get; set; }
 		public string SourceId { get; set; }
 		public RatingSource Source { get; set; }

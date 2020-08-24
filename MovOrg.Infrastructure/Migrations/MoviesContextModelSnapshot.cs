@@ -275,6 +275,9 @@ namespace MovOrg.Infrastructure.Migrations
                     b.Property<float?>("Score")
                         .HasColumnType("real");
 
+                    b.Property<string>("SiteUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("MovieId", "SourceId");
 
                     b.HasIndex("SourceId");
