@@ -234,6 +234,7 @@ namespace MovOrg.Organizer.Adapters.Sections
 			var response = await ExecuteCommandTaskAsync(() => moviesService.GetMovieWithId(SelectedMovie.Id, forceUpdate), "");
 			if (!response.HasError)
 			{
+				MovieDetailsPanel.AreImagesShowing = false;
 				MovieDetailsPanel.SelectedMovie = MapMovie(response.Movie);
 				NotifyStatus("Loaded info for movie " + SelectedMovie.Title);
 			}
