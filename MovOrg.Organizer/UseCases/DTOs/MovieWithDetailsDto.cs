@@ -40,5 +40,15 @@ namespace MovOrg.Organizer.UseCases.DTOs
 		public List<SimilarDto> Similars { get; set; }
 
 		public List<RatingDto> Ratings { get; set; }
+
+		#region User Preferences
+
+		public bool IsFavorite { get; set; }
+
+		public bool IsMustWatch { get; set; }
+
+		public bool IsWatched { get; set; }
+
+		#endregion User Preferences
 	}
 }

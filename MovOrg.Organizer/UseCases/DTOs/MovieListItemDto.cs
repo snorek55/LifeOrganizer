@@ -13,5 +13,15 @@
 		public string Year { get; set; }
 
 		#endregion Basic Data
+
+		#region User Preferences
+
+		public bool IsFavorite { get; set; }
+
+		public bool IsMustWatch { get; set; }
+
+		public bool IsWatched { get; set; }
+
+		#endregion User Preferences
 	}
 }

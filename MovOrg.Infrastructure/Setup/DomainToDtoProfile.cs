@@ -30,6 +30,9 @@ namespace MovOrg.Infrastructure.Setup
 				.ReverseMap();
 
 			CreateMap<Top250DataDetail, MovieListItemDto>(MemberList.Destination)
+				.IgnoreDestinationMember(d => d.IsFavorite)
+				.IgnoreDestinationMember(d => d.IsMustWatch)
+				.IgnoreDestinationMember(d => d.IsWatched)
 				.MapFrom(d => d.CoverImageUrl, s => s.Image);
 
 			//TODO: new dto
@@ -37,6 +40,9 @@ namespace MovOrg.Infrastructure.Setup
 				.IgnoreDestinationMember(d => d.IMDbRating)
 				.IgnoreDestinationMember(d => d.Rank)
 				.IgnoreDestinationMember(d => d.Year)
+				.IgnoreDestinationMember(d => d.IsFavorite)
+				.IgnoreDestinationMember(d => d.IsMustWatch)
+				.IgnoreDestinationMember(d => d.IsWatched)
 				.MapFrom(d => d.CoverImageUrl, s => s.Image);
 		}
 	}
