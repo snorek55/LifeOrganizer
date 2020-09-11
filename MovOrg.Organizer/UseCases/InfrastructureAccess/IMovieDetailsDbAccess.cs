@@ -14,5 +14,11 @@ namespace MovOrg.Organizer.UseCases.DbAccess
 		Task<bool> AreDetailsAvailableFor(string movieId);
 
 		Task<IEnumerable<MovieImageDto>> GetMovieImages(string movieId);
+
+		void MarkMovieAsFavorite(string id, bool isFavorite);
+
+		void MarkMovieAsMustWatch(string id, bool isMustWatch);
+
+		void MarkMovieAsWatched(string id, bool isWatched);
 	}
 }

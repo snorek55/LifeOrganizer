@@ -29,6 +29,7 @@ namespace MovOrg.Organizer.UseCases
 		private readonly RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails;
 		private readonly RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal;
 		private RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages;
+		private RunnerWriteDb<UpdateUserMovieStatusRequest> runnerUserMovieStatus;
 
 		public MoviesService(
 			IDbContextScopeFactory dbContextScopeFactory,
@@ -37,7 +38,8 @@ namespace MovOrg.Organizer.UseCases
 			IConfig config,
 			RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails,
 			RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal,
-			RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages
+			RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages,
+			RunnerWriteDb<UpdateUserMovieStatusRequest> runnerUserMovieStatus
 			)
 		{
 			this.dbContextScopeFactory = dbContextScopeFactory ?? throw new ArgumentNullException(nameof(dbContextScopeFactory));
@@ -47,36 +49,25 @@ namespace MovOrg.Organizer.UseCases
 			this.runnerMovieDetails = runnerMovieDetails;
 			this.runnerMoviesFromLocal = runnerMoviesFromLocal;
 			this.runnerMovieImages = runnerMovieImages;
+			this.runnerUserMovieStatus = runnerUserMovieStatus;
 		}
 
 		public async Task<DataResponseBase<IEnumerable<MovieListItemDto>>> GetAllMoviesFromLocal()
 		{
 			var moviesFromLocal = await runnerMoviesFromLocal.RunAction(new GetMoviesFromLocalRequest());
-
 			return ReturnIfNotNull(moviesFromLocal);
 		}
 
 		public async Task<DataResponseBase<MovieWithDetailsDto>> GetMovieWithId(string id, bool forceUpdateFromApi = false)
 		{
 			var movieWithDetails = await runnerMovieDetails.RunAction(new GetMovieDetailsRequest(id));
-
 			return ReturnIfNotNull(movieWithDetails);
 		}
 
-		public GetMovieImagesResponse GetMovieImagesById(string id)
+		public async Task<DataResponseBase<IEnumerable<MovieImageDto>>> GetMovieImagesById(string id)
 		{
-			//var images = await runnerMovieImages.RunAction(new GetMovieImagesRequest(id));
-			//return ReturnIfNotNull(images);
-			try
-			{
-				using var context = dbContextScopeFactory.Create();
-				var images = localRepository.GetMovieImagesById(id);
-				return new GetMovieImagesResponse(images);
-			}
-			catch (RepositoryException ex)
-			{
-				return new GetMovieImagesResponse(ex.ToString());
-			}
+			var images = await runnerMovieImages.RunAction(new GetMovieImagesRequest(id));
+			return ReturnIfNotNull(images);
 		}
 
 		public async Task<GetSuggestedTitleMoviesResponse> GetMoviesFromSuggestedTitleAsync(string suggestedTitle, bool forceUpdateFromApi = false)
@@ -129,49 +120,37 @@ namespace MovOrg.Organizer.UseCases
 			}
 		}
 
-		public UpdateFavoriteResponse UpdateFavoriteStatus(string id, bool isFavorite)
+		public async Task<UpdateFavoriteResponse> UpdateFavoriteStatus(string id, bool isFavorite)
 		{
-			try
-			{
-				using var context = dbContextScopeFactory.Create();
-				localRepository.MarkMovieAsFavorite(id, isFavorite);
-				context.SaveChanges();
+			var isOk = await runnerUserMovieStatus.RunAction(new UpdateUserMovieStatusRequest(MovieUserStatus.IsFavorite, id, isFavorite));
+
+			//TODO: make generic method for this
+			if (!isOk)
+				return new UpdateFavoriteResponse(runnerUserMovieStatus.Errors.ToString());
+			else
 				return new UpdateFavoriteResponse();
-			}
-			catch (RepositoryException ex)
-			{
-				return new UpdateFavoriteResponse(ex.ToString());
-			}
 		}
 
-		public UpdateMustWatchResponse UpdateMustWatch(string id, bool isMustWatch)
+		public async Task<UpdateMustWatchResponse> UpdateMustWatch(string id, bool isMustWatch)
 		{
-			try
-			{
-				using var context = dbContextScopeFactory.Create();
-				localRepository.MarkMovieAsMustWatch(id, isMustWatch);
-				context.SaveChanges();
+			var isOk = await runnerUserMovieStatus.RunAction(new UpdateUserMovieStatusRequest(MovieUserStatus.MustWatch, id, isMustWatch));
+
+			//TODO: make generic method for this
+			if (!isOk)
+				return new UpdateMustWatchResponse(runnerUserMovieStatus.Errors.ToString());
+			else
 				return new UpdateMustWatchResponse();
-			}
-			catch (RepositoryException ex)
-			{
-				return new UpdateMustWatchResponse(ex.ToString());
-			}
 		}
 
-		public UpdateWatchedResponse UpdateWatched(string id, bool isWatched)
+		public async Task<UpdateWatchedResponse> UpdateWatched(string id, bool isWatched)
 		{
-			try
-			{
-				using var context = dbContextScopeFactory.Create();
-				localRepository.MarkMovieAsWatched(id, isWatched);
-				context.SaveChanges();
+			var isOk = await runnerUserMovieStatus.RunAction(new UpdateUserMovieStatusRequest(MovieUserStatus.Watched, id, isWatched));
+
+			//TODO: make generic method for this
+			if (!isOk)
+				return new UpdateWatchedResponse(runnerUserMovieStatus.Errors.ToString());
+			else
 				return new UpdateWatchedResponse();
-			}
-			catch (RepositoryException ex)
-			{
-				return new UpdateWatchedResponse(ex.ToString());
-			}
 		}
 
 		public async Task<GetRatingSourceUrlResponse> GetRatingSourceUrl(string id, string sourceName)

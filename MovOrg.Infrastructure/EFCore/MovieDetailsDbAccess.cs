@@ -64,6 +64,31 @@ namespace MovOrg.Infrastructure.EFCore.DbAccess
 			persistentMovie.LastUpdatedDetails = RoundToSecond(DateTime.Now);
 		}
 
+		public async Task<IEnumerable<MovieImageDto>> GetMovieImages(string id)
+		{
+			var images = await DbContext.MovieImageDatas.Where(x => x.MovieId == id).ToListAsync();
+			var imagesDto = mapper.Map<List<MovieImageDto>>(images);
+			return imagesDto;
+		}
+
+		public void MarkMovieAsFavorite(string id, bool isFavorite)
+		{
+			var existingMovie = DbContext.Movies.Find(id);
+			existingMovie.IsFavorite = isFavorite;
+		}
+
+		public void MarkMovieAsMustWatch(string id, bool isMustWatch)
+		{
+			var existingMovie = DbContext.Movies.Find(id);
+			existingMovie.IsMustWatch = isMustWatch;
+		}
+
+		public void MarkMovieAsWatched(string id, bool isWatched)
+		{
+			var existingMovie = DbContext.Movies.Find(id);
+			existingMovie.IsWatched = isWatched;
+		}
+
 		private async Task AddAndSaveDefaultRatingSources()
 		{
 			var list = await DbContext.RatingSources.ToListAsync();
@@ -333,13 +358,6 @@ namespace MovOrg.Infrastructure.EFCore.DbAccess
 		{
 			var stringDateTime = dateTime.ToString("dd/MM/yy HH:mm:ss");
 			return DateTime.Parse(stringDateTime, new CultureInfo("es-es"));
-		}
-
-		public async Task<IEnumerable<MovieImageDto>> GetMovieImages(string id)
-		{
-			var images = await DbContext.MovieImageDatas.Where(x => x.MovieId == id).ToListAsync();
-			var imagesDto = mapper.Map<List<MovieImageDto>>(images);
-			return imagesDto;
 		}
 	}
 }

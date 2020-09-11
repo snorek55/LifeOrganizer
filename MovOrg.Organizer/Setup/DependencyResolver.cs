@@ -35,6 +35,9 @@ namespace MovOrg.Organizer.Setup
 			services.AddSingleton<RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>>>();
 			services.AddSingleton<IServiceAction<GetMovieImagesRequest, IEnumerable<MovieImageDto>>, GetMovieImagesAction>();
 
+			services.AddSingleton<RunnerWriteDb<UpdateUserMovieStatusRequest>>();
+			services.AddSingleton<IServiceAction<UpdateUserMovieStatusRequest>, UpdateUserMovieStatusAction>();
+
 			services.AddSingleton<MovOrgContainerViewModel>();
 			services.AddSingleton<ContainerPluginData>();
 

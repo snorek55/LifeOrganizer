@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 
 using Common.Adapters;
+using Common.UseCases;
 
 using FluentAssertions;
 
@@ -42,7 +43,7 @@ namespace MovOrg.Tests.Unit.Adapters
 		{
 			movieDetailsPanel.SelectedMovie.IsMustWatch = false;
 			moviesSection.SelectedMovie = movieDetailsPanel.SelectedMovie;
-			mockMoviesService.Setup(x => x.UpdateMustWatch(movieDetailsPanel.SelectedMovie.Id, false)).Callback(() => movieDetailsPanel.SelectedMovie.IsMustWatch = true).Returns(new UpdateMustWatchResponse());
+			mockMoviesService.Setup(x => x.UpdateMustWatch(movieDetailsPanel.SelectedMovie.Id, false)).Callback(() => movieDetailsPanel.SelectedMovie.IsMustWatch = true).ReturnsAsync(new UpdateMustWatchResponse());
 
 			movieDetailsPanel.IsMustWatchCommand.Execute("");
 
@@ -55,7 +56,7 @@ namespace MovOrg.Tests.Unit.Adapters
 		{
 			movieDetailsPanel.SelectedMovie.IsFavorite = false;
 			moviesSection.SelectedMovie = movieDetailsPanel.SelectedMovie;
-			mockMoviesService.Setup(x => x.UpdateFavoriteStatus(movieDetailsPanel.SelectedMovie.Id, false)).Callback(() => movieDetailsPanel.SelectedMovie.IsFavorite = true).Returns(new UpdateFavoriteResponse());
+			mockMoviesService.Setup(x => x.UpdateFavoriteStatus(movieDetailsPanel.SelectedMovie.Id, false)).Callback(() => movieDetailsPanel.SelectedMovie.IsFavorite = true).ReturnsAsync(new UpdateFavoriteResponse());
 
 			movieDetailsPanel.IsFavoriteCommand.Execute("");
 
@@ -69,7 +70,7 @@ namespace MovOrg.Tests.Unit.Adapters
 			movieDetailsPanel.SelectedMovie.IsWatched = false;
 			moviesSection.SelectedMovie = movieDetailsPanel.SelectedMovie;
 			var response = new UpdateFavoriteResponse();
-			mockMoviesService.Setup(x => x.UpdateWatched(movieDetailsPanel.SelectedMovie.Id, false)).Callback(() => movieDetailsPanel.SelectedMovie.IsWatched = true).Returns(new UpdateWatchedResponse());
+			mockMoviesService.Setup(x => x.UpdateWatched(movieDetailsPanel.SelectedMovie.Id, false)).Callback(() => movieDetailsPanel.SelectedMovie.IsWatched = true).ReturnsAsync(new UpdateWatchedResponse());
 
 			movieDetailsPanel.IsWatchedCommand.Execute("");
 
@@ -81,8 +82,8 @@ namespace MovOrg.Tests.Unit.Adapters
 		public void ShowImages_WorksOk()
 		{
 			var randomImages = fixture.CreateMany<MovieImageDto>().ToList();
-			var response = new GetMovieImagesResponse(randomImages);
-			mockMoviesService.Setup(x => x.GetMovieImagesById(movieDetailsPanel.SelectedMovie.Id)).Returns(response);
+			var response = new DataResponseBase<IEnumerable<MovieImageDto>>(randomImages);
+			mockMoviesService.Setup(x => x.GetMovieImagesById(movieDetailsPanel.SelectedMovie.Id)).ReturnsAsync(response);
 
 			movieDetailsPanel.AreImagesShowing = false;
 			movieDetailsPanel.ShowImagesCommand.Execute("");

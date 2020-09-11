@@ -16,15 +16,15 @@ namespace MovOrg.Organizer.UseCases
 
 		Task<DataResponseBase<MovieWithDetailsDto>> GetMovieWithId(string id, bool forceUpdateFromApi = false);
 
-		GetMovieImagesResponse GetMovieImagesById(string id);
+		Task<DataResponseBase<IEnumerable<MovieImageDto>>> GetMovieImagesById(string id);
 
 		Task<DataResponseBase<IEnumerable<MovieListItemDto>>> GetAllMoviesFromLocal();
 
-		UpdateFavoriteResponse UpdateFavoriteStatus(string id, bool isFavorite);
+		Task<UpdateFavoriteResponse> UpdateFavoriteStatus(string id, bool isFavorite);
 
-		UpdateMustWatchResponse UpdateMustWatch(string id, bool isMustWatch);
+		Task<UpdateMustWatchResponse> UpdateMustWatch(string id, bool isMustWatch);
 
-		UpdateWatchedResponse UpdateWatched(string id, bool isWatched);
+		Task<UpdateWatchedResponse> UpdateWatched(string id, bool isWatched);
 
 		Task<GetRatingSourceUrlResponse> GetRatingSourceUrl(string id, string sourceName);
 	}
