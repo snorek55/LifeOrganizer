@@ -25,11 +25,15 @@ namespace MovOrg.Organizer.Setup
 			services.AddSingleton<IContainerPluginData, ContainerPluginData>();
 			services.AddSingleton<IMoviesService, MoviesService>();
 			services.AddSingleton<ISectionsFactory, MovOrgSectionsFactory>();
+
 			services.AddSingleton<RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto>>();
 			services.AddSingleton<IServiceAction<GetMovieDetailsRequest, MovieWithDetailsDto>, GetMovieDetailsAction>();
 
 			services.AddSingleton<RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>>>();
 			services.AddSingleton<IServiceAction<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>>, GetMoviesFromLocalAction>();
+
+			services.AddSingleton<RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>>>();
+			services.AddSingleton<IServiceAction<GetMovieImagesRequest, IEnumerable<MovieImageDto>>, GetMovieImagesAction>();
 
 			services.AddSingleton<MovOrgContainerViewModel>();
 			services.AddSingleton<ContainerPluginData>();

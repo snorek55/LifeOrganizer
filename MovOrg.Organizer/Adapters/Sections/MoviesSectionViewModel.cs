@@ -95,7 +95,7 @@ namespace MovOrg.Organizer.Adapters.Sections
 			{
 				var response = await ExecuteCommandTaskAsync(() => moviesService.GetAllMoviesFromLocal(), "Loaded movies from local");
 				if (!response.HasError)
-					ResetAndUpdateMovieList(response.Movies);
+					ResetAndUpdateMovieList(response.Data);
 			});
 		}
 
@@ -107,7 +107,7 @@ namespace MovOrg.Organizer.Adapters.Sections
 			var moviesResponse = await ExecuteCommandTaskAsync(() => moviesService.GetAllMoviesFromLocal(), "Loaded movies from local");
 
 			if (!moviesResponse.HasError)
-				ResetAndUpdateMovieList(moviesResponse.Movies);
+				ResetAndUpdateMovieList(moviesResponse.Data);
 		}
 
 		private async Task SearchTop250MoviesAsync()
@@ -118,7 +118,7 @@ namespace MovOrg.Organizer.Adapters.Sections
 
 			var moviesResponse = await ExecuteCommandTaskAsync(() => moviesService.GetAllMoviesFromLocal(), "Actualizadas mejores 250 peliculas");
 			if (!moviesResponse.HasError)
-				ResetAndUpdateMovieList(moviesResponse.Movies);
+				ResetAndUpdateMovieList(moviesResponse.Data);
 		}
 
 		private async Task SearchMoviesWithChosenTitleAsync()
@@ -235,7 +235,7 @@ namespace MovOrg.Organizer.Adapters.Sections
 			if (!response.HasError)
 			{
 				MovieDetailsPanel.AreImagesShowing = false;
-				MovieDetailsPanel.SelectedMovie = MapMovie(response.Movie);
+				MovieDetailsPanel.SelectedMovie = MapMovie(response.Data);
 				NotifyStatus("Loaded info for movie " + SelectedMovie.Title);
 			}
 		}

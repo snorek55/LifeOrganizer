@@ -1,5 +1,6 @@
 ﻿using MovOrg.Organizer.UseCases.DTOs;
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases.DbAccess
@@ -11,5 +12,7 @@ namespace MovOrg.Organizer.UseCases.DbAccess
 		Task AddMovieDetails(UpdateMovieDetailsDto movieDetails);
 
 		Task<bool> AreDetailsAvailableFor(string movieId);
+
+		Task<IEnumerable<MovieImageDto>> GetMovieImages(string movieId);
 	}
 }

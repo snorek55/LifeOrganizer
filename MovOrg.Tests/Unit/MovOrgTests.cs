@@ -32,7 +32,7 @@ namespace MovOrg.Tests.Unit
 
 		public MovOrgTests()
 		{
-			moviesService = new MoviesService(contextScopeFactory, mockLocalRepo.Object, mockApiRepo.Object, mockConfig.Object, null, null);
+			moviesService = new MoviesService(contextScopeFactory, mockLocalRepo.Object, mockApiRepo.Object, mockConfig.Object, null, null, null);
 		}
 
 		[TestInitialize]
@@ -51,7 +51,7 @@ namespace MovOrg.Tests.Unit
 			mockApiRepo.Setup(x => x.GetAllMovieDetailsById(movie.Id)).ReturnsAsync(movieDto);
 			var response = await moviesService.GetMovieWithId(movie.Id);
 			MovieWithDetailsDto movieWithDetails = movieDto;
-			response.Movie.Should().BeEquivalentTo(movieWithDetails);
+			response.Data.Should().BeEquivalentTo(movieWithDetails);
 		}
 	}
 }

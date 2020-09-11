@@ -28,6 +28,7 @@ namespace MovOrg.Organizer.UseCases
 		private IConfig config;
 		private readonly RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails;
 		private readonly RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal;
+		private RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages;
 
 		public MoviesService(
 			IDbContextScopeFactory dbContextScopeFactory,
@@ -35,7 +36,8 @@ namespace MovOrg.Organizer.UseCases
 			IApiMoviesRepository apiRepository,
 			IConfig config,
 			RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails,
-			RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal
+			RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal,
+			RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages
 			)
 		{
 			this.dbContextScopeFactory = dbContextScopeFactory ?? throw new ArgumentNullException(nameof(dbContextScopeFactory));
@@ -44,16 +46,37 @@ namespace MovOrg.Organizer.UseCases
 			this.config = config ?? throw new ArgumentNullException(nameof(config));
 			this.runnerMovieDetails = runnerMovieDetails;
 			this.runnerMoviesFromLocal = runnerMoviesFromLocal;
+			this.runnerMovieImages = runnerMovieImages;
 		}
 
-		public async Task<GetMoviesFromLocalResponse> GetAllMoviesFromLocal()
+		public async Task<DataResponseBase<IEnumerable<MovieListItemDto>>> GetAllMoviesFromLocal()
 		{
 			var moviesFromLocal = await runnerMoviesFromLocal.RunAction(new GetMoviesFromLocalRequest());
 
-			if (moviesFromLocal == null)
-				return new GetMoviesFromLocalResponse(runnerMoviesFromLocal.Errors.ToString());
-			else
-				return new GetMoviesFromLocalResponse(moviesFromLocal);
+			return ReturnIfNotNull(moviesFromLocal);
+		}
+
+		public async Task<DataResponseBase<MovieWithDetailsDto>> GetMovieWithId(string id, bool forceUpdateFromApi = false)
+		{
+			var movieWithDetails = await runnerMovieDetails.RunAction(new GetMovieDetailsRequest(id));
+
+			return ReturnIfNotNull(movieWithDetails);
+		}
+
+		public GetMovieImagesResponse GetMovieImagesById(string id)
+		{
+			//var images = await runnerMovieImages.RunAction(new GetMovieImagesRequest(id));
+			//return ReturnIfNotNull(images);
+			try
+			{
+				using var context = dbContextScopeFactory.Create();
+				var images = localRepository.GetMovieImagesById(id);
+				return new GetMovieImagesResponse(images);
+			}
+			catch (RepositoryException ex)
+			{
+				return new GetMovieImagesResponse(ex.ToString());
+			}
 		}
 
 		public async Task<GetSuggestedTitleMoviesResponse> GetMoviesFromSuggestedTitleAsync(string suggestedTitle, bool forceUpdateFromApi = false)
@@ -87,16 +110,6 @@ namespace MovOrg.Organizer.UseCases
 			await context.SaveChangesAsync();
 			await config.AddSearchedTitleAsync(suggestedTitle);
 			return new GetSuggestedTitleMoviesResponse(movies);
-		}
-
-		public async Task<GetMovieDetailsResponse> GetMovieWithId(string id, bool forceUpdateFromApi = false)
-		{
-			var movieWithDetails = await runnerMovieDetails.RunAction(new GetMovieDetailsRequest(id));
-
-			if (movieWithDetails == null)
-				return new GetMovieDetailsResponse(runnerMovieDetails.Errors.ToString());
-			else
-				return new GetMovieDetailsResponse(movieWithDetails);
 		}
 
 		public async Task<UpdateTopMoviesResponse> UpdateTopMovies()
@@ -158,20 +171,6 @@ namespace MovOrg.Organizer.UseCases
 			catch (RepositoryException ex)
 			{
 				return new UpdateWatchedResponse(ex.ToString());
-			}
-		}
-
-		public GetMovieImagesResponse GetMovieImagesById(string id)
-		{
-			try
-			{
-				using var context = dbContextScopeFactory.Create();
-				var images = localRepository.GetMovieImagesById(id);
-				return new GetMovieImagesResponse(images);
-			}
-			catch (RepositoryException ex)
-			{
-				return new GetMovieImagesResponse(ex.ToString());
 			}
 		}
 

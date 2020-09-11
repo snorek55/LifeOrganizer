@@ -10,6 +10,7 @@ using MovOrg.Organizer.UseCases.DbAccess;
 using MovOrg.Organizer.UseCases.DTOs;
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -332,6 +333,13 @@ namespace MovOrg.Infrastructure.EFCore.DbAccess
 		{
 			var stringDateTime = dateTime.ToString("dd/MM/yy HH:mm:ss");
 			return DateTime.Parse(stringDateTime, new CultureInfo("es-es"));
+		}
+
+		public async Task<IEnumerable<MovieImageDto>> GetMovieImages(string id)
+		{
+			var images = await DbContext.MovieImageDatas.Where(x => x.MovieId == id).ToListAsync();
+			var imagesDto = mapper.Map<List<MovieImageDto>>(images);
+			return imagesDto;
 		}
 	}
 }

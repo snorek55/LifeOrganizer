@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace MovOrg.Organizer.UseCases.Responses
 {
-	public class GetSuggestedTitleMoviesResponse : ResponseBase
+	public class GetSuggestedTitleMoviesResponse : DataResponseBase<IEnumerable<MovieListItemDto>>
 	{
 		public IEnumerable<MovieListItemDto> Movies { get; set; }
 

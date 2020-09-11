@@ -2,6 +2,7 @@
 
 using Common.Adapters;
 using Common.Extensions;
+using Common.UseCases;
 
 using FluentAssertions;
 using FluentAssertions.Common;
@@ -36,7 +37,7 @@ namespace MovOrg.Tests.Unit.Adapters
 		private List<Movie> moviesInLocal;
 		private List<MovieListItemDto> MoviesListItemDtos => TestData.Mapper.Map<List<MovieListItemDto>>(moviesInLocal);
 
-		private GetMoviesFromLocalResponse response;
+		private DataResponseBase<IEnumerable<MovieListItemDto>> response;
 
 		public MoviesSectionTests()
 		{
@@ -57,7 +58,7 @@ namespace MovOrg.Tests.Unit.Adapters
 				movie.IsWatched = false;
 			}
 
-			response = new GetMoviesFromLocalResponse(TestData.Mapper.Map<List<MovieListItemDto>>(movies));
+			response = new DataResponseBase<IEnumerable<MovieListItemDto>>(TestData.Mapper.Map<List<MovieListItemDto>>(movies));
 			moviesInLocal = movies;
 			mockMoviesService.Setup(x => x.GetAllMoviesFromLocal()).ReturnsAsync(response);
 			moviesSectionViewModel = new MoviesSectionViewModel(mockMoviesService.Object, TestData.Mapper, mockDispatcher.Object);
@@ -134,7 +135,7 @@ namespace MovOrg.Tests.Unit.Adapters
 		public void ClearSearchCommand_ShouldShowMoviesFromLocal_WhenExecuted()
 		{
 			var expectedList = TestData.Mapper.Map<List<MovieListItemDto>>(moviesInLocal);
-			var response = new GetMoviesFromLocalResponse(expectedList);
+			var response = new DataResponseBase<IEnumerable<MovieListItemDto>>(expectedList);
 			mockMoviesService.Setup(x => x.GetAllMoviesFromLocal()).ReturnsAsync(response);
 
 			moviesSectionViewModel.Movies.Clear();
@@ -156,7 +157,7 @@ namespace MovOrg.Tests.Unit.Adapters
 		{
 			//TODO: response movie must be the same object as moviesinlocal for this to workout. must change
 			var updateResponse = new UpdateTopMoviesResponse();
-			mockMoviesService.Setup(x => x.UpdateTopMovies()).Callback(() => response.Movies.First().Rank = 2).ReturnsAsync(updateResponse);
+			mockMoviesService.Setup(x => x.UpdateTopMovies()).Callback(() => response.Data.First().Rank = 2).ReturnsAsync(updateResponse);
 
 			var currentList = TestData.Mapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
 			currentList.Should().BeEquivalentTo(MoviesListItemDtos);

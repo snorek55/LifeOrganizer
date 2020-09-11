@@ -1,5 +1,9 @@
-﻿using MovOrg.Organizer.UseCases.Responses;
+﻿using Common.UseCases;
 
+using MovOrg.Organizer.UseCases.DTOs;
+using MovOrg.Organizer.UseCases.Responses;
+
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases
@@ -10,11 +14,11 @@ namespace MovOrg.Organizer.UseCases
 
 		Task<UpdateTopMoviesResponse> UpdateTopMovies();
 
-		Task<GetMovieDetailsResponse> GetMovieWithId(string id, bool forceUpdateFromApi = false);
+		Task<DataResponseBase<MovieWithDetailsDto>> GetMovieWithId(string id, bool forceUpdateFromApi = false);
 
 		GetMovieImagesResponse GetMovieImagesById(string id);
 
-		Task<GetMoviesFromLocalResponse> GetAllMoviesFromLocal();
+		Task<DataResponseBase<IEnumerable<MovieListItemDto>>> GetAllMoviesFromLocal();
 
 		UpdateFavoriteResponse UpdateFavoriteStatus(string id, bool isFavorite);
 

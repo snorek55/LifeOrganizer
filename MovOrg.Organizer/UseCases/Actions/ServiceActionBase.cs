@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Common.UseCases;
+
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,6 +20,18 @@ namespace MovOrg.Organizer.UseCases
 		{
 			_errors.Add(new ValidationResult
 			(errorMessage, propertyNames));
+		}
+
+		protected DataResponseBase<TData> ReturnIfNotNull<TData>(TData data)
+		{
+			if (data == null)
+				return new DataResponseBase<TData>(Errors.ToString());
+			else
+			{
+				var response = new DataResponseBase<TData>();
+				response.Data = data;
+				return response;
+			}
 		}
 	}
 }

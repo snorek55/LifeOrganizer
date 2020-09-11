@@ -1,15 +1,15 @@
 ﻿namespace Common.UseCases
 {
-	public class ResponseBase : IResponse
+	public abstract class ResponseBase : IResponse
 	{
 		public bool HasError { get => !string.IsNullOrEmpty(Error); }
 		public string Error { get; set; }
 
-		public ResponseBase()
+		protected ResponseBase()
 		{
 		}
 
-		public ResponseBase(string error)
+		protected ResponseBase(string error)
 		{
 			Error = error;
 		}
