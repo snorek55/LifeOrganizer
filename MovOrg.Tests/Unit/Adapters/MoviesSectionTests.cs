@@ -36,7 +36,7 @@ namespace MovOrg.Tests.Unit.Adapters
 		private List<Movie> moviesInLocal;
 		private List<MovieListItemDto> MoviesListItemDtos => TestData.Mapper.Map<List<MovieListItemDto>>(moviesInLocal);
 
-		private GetAllMoviesFromLocalResponse response;
+		private GetMoviesFromLocalResponse response;
 
 		public MoviesSectionTests()
 		{
@@ -57,7 +57,7 @@ namespace MovOrg.Tests.Unit.Adapters
 				movie.IsWatched = false;
 			}
 
-			response = new GetAllMoviesFromLocalResponse(TestData.Mapper.Map<List<MovieListItemDto>>(movies));
+			response = new GetMoviesFromLocalResponse(TestData.Mapper.Map<List<MovieListItemDto>>(movies));
 			moviesInLocal = movies;
 			mockMoviesService.Setup(x => x.GetAllMoviesFromLocal()).ReturnsAsync(response);
 			moviesSectionViewModel = new MoviesSectionViewModel(mockMoviesService.Object, TestData.Mapper, mockDispatcher.Object);
@@ -134,7 +134,7 @@ namespace MovOrg.Tests.Unit.Adapters
 		public void ClearSearchCommand_ShouldShowMoviesFromLocal_WhenExecuted()
 		{
 			var expectedList = TestData.Mapper.Map<List<MovieListItemDto>>(moviesInLocal);
-			var response = new GetAllMoviesFromLocalResponse(expectedList);
+			var response = new GetMoviesFromLocalResponse(expectedList);
 			mockMoviesService.Setup(x => x.GetAllMoviesFromLocal()).ReturnsAsync(response);
 
 			moviesSectionViewModel.Movies.Clear();

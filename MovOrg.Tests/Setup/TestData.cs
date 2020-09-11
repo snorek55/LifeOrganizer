@@ -87,7 +87,7 @@ namespace MovOrg.Tests.Setup
 
 		private void CreateFillerData()
 		{
-			for (int i = 0; i < 12; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				var movie = CreateMovieWithoutRelatedInfo();
 				InitialMoviesInDb.Add(movie);
@@ -103,7 +103,7 @@ namespace MovOrg.Tests.Setup
 				TestMovieSeededWithRelatedInfo.Similars.Add(similar);
 			}
 
-			for (int i = 0; i < 70; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				var person = CreatePersonWithoutRelatedInfo();
 				PeopleList.Add(person);
@@ -117,7 +117,7 @@ namespace MovOrg.Tests.Setup
 				});
 			}
 
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				var person = CreatePersonWithoutRelatedInfo();
 				PeopleList.Add(person);
@@ -131,7 +131,7 @@ namespace MovOrg.Tests.Setup
 				});
 			}
 
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				var person = CreatePersonWithoutRelatedInfo();
 				PeopleList.Add(person);
@@ -145,7 +145,7 @@ namespace MovOrg.Tests.Setup
 				});
 			}
 
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				var company = CreateCompanyWithoutRelatedInfo();
 				CompanyList.Add(company);
@@ -159,7 +159,7 @@ namespace MovOrg.Tests.Setup
 				});
 			}
 
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				var rating = fixture.Build<Rating>()
 					.With(x => x.Movie, TestMovieSeededWithRelatedInfo)

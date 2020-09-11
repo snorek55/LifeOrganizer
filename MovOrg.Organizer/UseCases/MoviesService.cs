@@ -5,7 +5,9 @@ using EntityFramework.DbContextScope.Interfaces;
 
 using MovOrg.Organizer.UseCases.DTOs;
 using MovOrg.Organizer.UseCases.Repositories;
+using MovOrg.Organizer.UseCases.Requests;
 using MovOrg.Organizer.UseCases.Responses;
+using MovOrg.Organizer.UseCases.Runners;
 
 using System;
 using System.Collections.Generic;
@@ -15,33 +17,43 @@ using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases
 {
-	public class MoviesService : IMoviesService
+	//Adapts info from wpf to call business logic
+	public class MoviesService : ServiceActionBase, IMoviesService
 	{
+		//TODO: tengo que pasarle varios runners pero la clave esta en que cuando termine de implementarlos podre suprimir este service e utilizar directamente los runners en los adapters
 		private IDbContextScopeFactory dbContextScopeFactory;
+
 		private ILocalMoviesRepository localRepository;
 		private IApiMoviesRepository apiRepository;
 		private IConfig config;
+		private readonly RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails;
+		private readonly RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal;
 
-		public MoviesService(IDbContextScopeFactory dbContextScopeFactory, ILocalMoviesRepository localRepository, IApiMoviesRepository apiRepository, IConfig config)
+		public MoviesService(
+			IDbContextScopeFactory dbContextScopeFactory,
+			ILocalMoviesRepository localRepository,
+			IApiMoviesRepository apiRepository,
+			IConfig config,
+			RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails,
+			RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal
+			)
 		{
 			this.dbContextScopeFactory = dbContextScopeFactory ?? throw new ArgumentNullException(nameof(dbContextScopeFactory));
 			this.localRepository = localRepository ?? throw new ArgumentNullException(nameof(localRepository));
 			this.apiRepository = apiRepository ?? throw new ArgumentNullException(nameof(apiRepository));
 			this.config = config ?? throw new ArgumentNullException(nameof(config));
+			this.runnerMovieDetails = runnerMovieDetails;
+			this.runnerMoviesFromLocal = runnerMoviesFromLocal;
 		}
 
-		public async Task<GetAllMoviesFromLocalResponse> GetAllMoviesFromLocal()
+		public async Task<GetMoviesFromLocalResponse> GetAllMoviesFromLocal()
 		{
-			try
-			{
-				using var context = dbContextScopeFactory.CreateReadOnly();
-				var movies = await localRepository.GetAllMovies();
-				return new GetAllMoviesFromLocalResponse(movies);
-			}
-			catch (RepositoryException ex)
-			{
-				return new GetAllMoviesFromLocalResponse(ex.ToString());
-			}
+			var moviesFromLocal = await runnerMoviesFromLocal.RunAction(new GetMoviesFromLocalRequest());
+
+			if (moviesFromLocal == null)
+				return new GetMoviesFromLocalResponse(runnerMoviesFromLocal.Errors.ToString());
+			else
+				return new GetMoviesFromLocalResponse(moviesFromLocal);
 		}
 
 		public async Task<GetSuggestedTitleMoviesResponse> GetMoviesFromSuggestedTitleAsync(string suggestedTitle, bool forceUpdateFromApi = false)
@@ -79,30 +91,12 @@ namespace MovOrg.Organizer.UseCases
 
 		public async Task<GetMovieDetailsResponse> GetMovieWithId(string id, bool forceUpdateFromApi = false)
 		{
-			try
-			{
-				using var context = dbContextScopeFactory.Create();
-				bool areDetailsAvailableInLocal = await localRepository.AreDetailsAvailableFor(id);
-				MovieWithDetailsDto movie = null;
-				if (!areDetailsAvailableInLocal || forceUpdateFromApi)
-				{
-					var allMovieDetails = await apiRepository.GetAllMovieDetailsById(id);
+			var movieWithDetails = await runnerMovieDetails.RunAction(new GetMovieDetailsRequest(id));
 
-					await localRepository.UpdateMovieDetails(allMovieDetails);
-
-					movie = allMovieDetails;
-				}
-				else
-				{
-					movie = await localRepository.GetMovieDetailsById(id);
-				}
-				await context.SaveChangesAsync();
-				return new GetMovieDetailsResponse(movie);
-			}
-			catch (RepositoryException ex)
-			{
-				return new GetMovieDetailsResponse(ex.ToString());
-			}
+			if (movieWithDetails == null)
+				return new GetMovieDetailsResponse(runnerMovieDetails.Errors.ToString());
+			else
+				return new GetMovieDetailsResponse(movieWithDetails);
 		}
 
 		public async Task<UpdateTopMoviesResponse> UpdateTopMovies()

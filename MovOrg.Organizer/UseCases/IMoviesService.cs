@@ -14,7 +14,7 @@ namespace MovOrg.Organizer.UseCases
 
 		GetMovieImagesResponse GetMovieImagesById(string id);
 
-		Task<GetAllMoviesFromLocalResponse> GetAllMoviesFromLocal();
+		Task<GetMoviesFromLocalResponse> GetAllMoviesFromLocal();
 
 		UpdateFavoriteResponse UpdateFavoriteStatus(string id, bool isFavorite);
 

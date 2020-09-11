@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using MovOrg.Infrastructure.APIs;
 using MovOrg.Infrastructure.EFCore;
+using MovOrg.Infrastructure.EFCore.DbAccess;
+using MovOrg.Organizer.UseCases.DbAccess;
 using MovOrg.Organizer.UseCases.Repositories;
 
 using System.ComponentModel.Composition;
@@ -23,6 +25,9 @@ namespace MovOrg.Infrastructure.Setup
 			services.AddSingleton<ILocalMoviesRepository, EFCoreLocalMoviesRepository>();
 			services.AddSingleton<IAmbientDbContextLocator, AmbientDbContextLocator>();
 			services.AddDbContext<MoviesContext>();
+			services.AddSingleton<IMovieDetailsDbAccess, MovieDetailsDbAccess>();
+			services.AddSingleton<IMovieDetailsApiAccess, MovieDetailsApiAccess>();
+			services.AddSingleton<IMoviesFromLocalDbAccess, MoviesFromLocalDbAccess>();
 
 			services.AddSingleton<IDbContextScopeFactory>(provider =>
 			{

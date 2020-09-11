@@ -6,20 +6,20 @@ using System.Collections.Generic;
 
 namespace MovOrg.Organizer.UseCases.Responses
 {
-	public class GetAllMoviesFromLocalResponse : ResponseBase
+	public class GetMoviesFromLocalResponse : ResponseBase
 	{
 		public IEnumerable<MovieListItemDto> Movies { get; set; }
 
-		public GetAllMoviesFromLocalResponse()
+		public GetMoviesFromLocalResponse()
 		{
 		}
 
-		public GetAllMoviesFromLocalResponse(IEnumerable<MovieListItemDto> movies) : base(null)
+		public GetMoviesFromLocalResponse(IEnumerable<MovieListItemDto> movies) : base(null)
 		{
 			Movies = movies;
 		}
 
-		public GetAllMoviesFromLocalResponse(string error) : base(error)
+		public GetMoviesFromLocalResponse(string error) : base(error)
 		{
 		}
 	}
