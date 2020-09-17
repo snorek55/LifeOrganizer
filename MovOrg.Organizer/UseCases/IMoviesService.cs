@@ -26,6 +26,6 @@ namespace MovOrg.Organizer.UseCases
 
 		Task<UpdateWatchedResponse> UpdateWatched(string id, bool isWatched);
 
-		Task<GetRatingSourceUrlResponse> GetRatingSourceUrl(string id, string sourceName);
+		Task<DataResponseBase<MovieRatingSourceDto>> GetRatingSourceUrl(string id, string sourceName);
 	}
 }

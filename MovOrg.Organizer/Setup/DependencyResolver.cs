@@ -38,6 +38,9 @@ namespace MovOrg.Organizer.Setup
 			services.AddSingleton<RunnerWriteDb<UpdateUserMovieStatusRequest>>();
 			services.AddSingleton<IServiceAction<UpdateUserMovieStatusRequest>, UpdateUserMovieStatusAction>();
 
+			services.AddSingleton<RunnerReadWriteDb<GetMovieRatingSourceUrlRequest, MovieRatingSourceDto>>();
+			services.AddSingleton<IServiceAction<GetMovieRatingSourceUrlRequest, MovieRatingSourceDto>, GetMovieRatingSourceUrlAction>();
+
 			services.AddSingleton<MovOrgContainerViewModel>();
 			services.AddSingleton<ContainerPluginData>();
 

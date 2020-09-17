@@ -20,5 +20,8 @@ namespace MovOrg.Organizer.UseCases.DbAccess
 		void MarkMovieAsMustWatch(string id, bool isMustWatch);
 
 		void MarkMovieAsWatched(string id, bool isWatched);
+
+		IEnumerable<MovieRatingSourceDto> GetRatingSourceUrls(string id);
+		void UpdateSourcesWebPages(string id, IEnumerable<MovieRatingSourceDto> sourcesWebPages);
 	}
 }

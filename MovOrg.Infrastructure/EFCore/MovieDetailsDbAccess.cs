@@ -111,6 +111,33 @@ namespace MovOrg.Infrastructure.EFCore.DbAccess
 			DbContext.SaveChanges();
 		}
 
+		public IEnumerable<MovieRatingSourceDto> GetRatingSourceUrls(string id)
+		{
+			var ratings = DbContext.Ratings.Where(x => x.MovieId == id).Include(x => x.Source).AsNoTracking().ToList();
+
+			return ratings.Select(x => new MovieRatingSourceDto
+			{
+				SourceName = x.Source.Name,
+				SourceUrl = x.SiteUrl
+			});
+		}
+
+		public void UpdateSourcesWebPages(string id, IEnumerable<MovieRatingSourceDto> sourcesWebPages)
+		{
+			var ratings = DbContext.Ratings.Where(x => x.MovieId == id).Include(x => x.Source).ToList();
+			foreach (var rating in ratings)
+			{
+				foreach (var sourceWebPage in sourcesWebPages)
+				{
+					if (rating.Source.Name == sourceWebPage.SourceName)
+					{
+						rating.SiteUrl = sourceWebPage.SourceUrl;
+						break;
+					}
+				}
+			}
+		}
+
 		private async Task UpdateMovie(UpdateMovieDetailsDto movie)
 		{
 			//TODO: this makes update very slow. must improve

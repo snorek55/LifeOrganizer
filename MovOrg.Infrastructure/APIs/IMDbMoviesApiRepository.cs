@@ -114,22 +114,22 @@ namespace MovOrg.Infrastructure.APIs
 			{
 				new MovieRatingSourceDto
 				{
-					SourceUrl = externalSiteData.RottenTomatoes.Url,
+					SourceUrl = externalSiteData.RottenTomatoes?.Url,
 					SourceName = "RottenTomatoes"
 				},
 				new MovieRatingSourceDto
 				{
-					SourceUrl = externalSiteData.Metacritic.Url,
+					SourceUrl = externalSiteData.Metacritic?.Url,
 					SourceName = "Metacritic"
 				},
 				new MovieRatingSourceDto
 				{
-					SourceUrl = externalSiteData.TV_com.Url,
+					SourceUrl = externalSiteData.TV_com?.Url,
 					SourceName = "TV_com"
 				},
 				new MovieRatingSourceDto
 				{
-					SourceUrl = externalSiteData.IMDb.Url,
+					SourceUrl = externalSiteData.IMDb?.Url,
 					SourceName = "IMDb"
 				}
 			};

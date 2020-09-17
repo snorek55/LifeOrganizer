@@ -12,7 +12,6 @@ using MovOrg.Organizer.UseCases.Runners;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases
@@ -28,8 +27,9 @@ namespace MovOrg.Organizer.UseCases
 		private IConfig config;
 		private readonly RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails;
 		private readonly RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal;
-		private RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages;
-		private RunnerWriteDb<UpdateUserMovieStatusRequest> runnerUserMovieStatus;
+		private readonly RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages;
+		private readonly RunnerWriteDb<UpdateUserMovieStatusRequest> runnerUserMovieStatus;
+		private readonly RunnerReadWriteDb<GetMovieRatingSourceUrlRequest, MovieRatingSourceDto> runnerGetRatingSourceUrl;
 
 		public MoviesService(
 			IDbContextScopeFactory dbContextScopeFactory,
@@ -39,7 +39,8 @@ namespace MovOrg.Organizer.UseCases
 			RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails,
 			RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal,
 			RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages,
-			RunnerWriteDb<UpdateUserMovieStatusRequest> runnerUserMovieStatus
+			RunnerWriteDb<UpdateUserMovieStatusRequest> runnerUserMovieStatus,
+			RunnerReadWriteDb<GetMovieRatingSourceUrlRequest, MovieRatingSourceDto> runnerGetRatingSourceUrl
 			)
 		{
 			this.dbContextScopeFactory = dbContextScopeFactory ?? throw new ArgumentNullException(nameof(dbContextScopeFactory));
@@ -50,6 +51,7 @@ namespace MovOrg.Organizer.UseCases
 			this.runnerMoviesFromLocal = runnerMoviesFromLocal;
 			this.runnerMovieImages = runnerMovieImages;
 			this.runnerUserMovieStatus = runnerUserMovieStatus;
+			this.runnerGetRatingSourceUrl = runnerGetRatingSourceUrl;
 		}
 
 		public async Task<DataResponseBase<IEnumerable<MovieListItemDto>>> GetAllMoviesFromLocal()
@@ -70,6 +72,7 @@ namespace MovOrg.Organizer.UseCases
 			return ReturnIfNotNull(images);
 		}
 
+		//TODO: poner nuevo sistema
 		public async Task<GetSuggestedTitleMoviesResponse> GetMoviesFromSuggestedTitleAsync(string suggestedTitle, bool forceUpdateFromApi = false)
 		{
 			try
@@ -92,17 +95,7 @@ namespace MovOrg.Organizer.UseCases
 			}
 		}
 
-		private async Task<GetSuggestedTitleMoviesResponse> LoadMoviesFromSuggestedTitleAsync(string suggestedTitle, bool forceUpdateFromApi)
-		{
-			using var context = dbContextScopeFactory.Create();
-			IEnumerable<MovieListItemDto> movies;
-			movies = await apiRepository.GetMoviesFromSuggestedTitle(suggestedTitle);
-			await localRepository.UpdateSuggestedTitleMovies(movies);
-			await context.SaveChangesAsync();
-			await config.AddSearchedTitleAsync(suggestedTitle);
-			return new GetSuggestedTitleMoviesResponse(movies);
-		}
-
+		//TODO: poner nuevo sistema
 		public async Task<UpdateTopMoviesResponse> UpdateTopMovies()
 		{
 			try
@@ -153,33 +146,22 @@ namespace MovOrg.Organizer.UseCases
 				return new UpdateWatchedResponse();
 		}
 
-		public async Task<GetRatingSourceUrlResponse> GetRatingSourceUrl(string id, string sourceName)
+		public async Task<DataResponseBase<MovieRatingSourceDto>> GetRatingSourceUrl(string id, string sourceName)
 		{
-			try
-			{
-				using var context = dbContextScopeFactory.Create();
-				var sourcesWebPages = localRepository.GetRatingSourceUrls(id);
+			var ratingSourceUrl = await runnerGetRatingSourceUrl.RunAction(new GetMovieRatingSourceUrlRequest(id, sourceName));
+			return ReturnIfNotNull(ratingSourceUrl);
+		}
 
-				var nullWebPages = sourcesWebPages.Where(x => x.SourceUrl == null);
-				if (nullWebPages.Count() == sourcesWebPages.Count())
-				{
-					sourcesWebPages = await apiRepository.GetRatingSourcesUrls(id);
-					localRepository.UpdateSourcesWebPages(id, sourcesWebPages);
-					await context.SaveChangesAsync();
-				}
-
-				foreach (var source in sourcesWebPages)
-				{
-					if (source.SourceName == sourceName)
-						return new GetRatingSourceUrlResponse(source);
-				}
-
-				return new GetRatingSourceUrlResponse();
-			}
-			catch (RepositoryException ex)
-			{
-				return new GetRatingSourceUrlResponse(ex.ToString());
-			}
+		//TODO: poner nuevo sistema
+		private async Task<GetSuggestedTitleMoviesResponse> LoadMoviesFromSuggestedTitleAsync(string suggestedTitle, bool forceUpdateFromApi)
+		{
+			using var context = dbContextScopeFactory.Create();
+			IEnumerable<MovieListItemDto> movies;
+			movies = await apiRepository.GetMoviesFromSuggestedTitle(suggestedTitle);
+			await localRepository.UpdateSuggestedTitleMovies(movies);
+			await context.SaveChangesAsync();
+			await config.AddSearchedTitleAsync(suggestedTitle);
+			return new GetSuggestedTitleMoviesResponse(movies);
 		}
 	}
 }

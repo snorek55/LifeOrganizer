@@ -123,7 +123,13 @@ namespace MovOrg.Organizer.Adapters.Sections
 				return;
 
 			var response = await service.GetRatingSourceUrl(SelectedMovie.Id, SelectedMovie.SelectedRating.SourceName);
-			Process.Start("explorer.exe", response.MovieRatingSiteDto.SourceUrl);
+			if (response.Data.SourceUrl == null)
+			{
+				parent.NotificationsHandler.NotifyStatus("Url no existe");
+				return;
+			}
+
+			Process.Start("explorer.exe", response.Data.SourceUrl);
 		}
 	}
 }
