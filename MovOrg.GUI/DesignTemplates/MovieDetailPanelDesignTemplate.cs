@@ -16,7 +16,7 @@ namespace MovOrg.GUI.DesignTemplates
 			SelectedMovie = new MovieViewModelDesignTemplate();
 		}
 
-		private class MovieViewModelDesignTemplate : MovieViewModel
+		internal class MovieViewModelDesignTemplate : MovieViewModel
 		{
 			public MovieViewModelDesignTemplate()
 			{

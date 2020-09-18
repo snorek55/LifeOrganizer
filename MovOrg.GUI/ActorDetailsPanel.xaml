@@ -1,0 +1,155 @@
+﻿<UserControl
+    x:Class="MovOrg.GUI.ActorDetailsPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:designTemplates="clr-namespace:MovOrg.GUI.DesignTemplates"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance designTemplates:ActorDetailPanelDesignTemplate,
+                                     IsDesignTimeCreatable=True}"
+    d:DesignHeight="1600"
+    d:DesignWidth="700"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="MovOrgDataTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="mainGrid" Background="Red">
+
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <Grid Margin="5">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Height="300">
+                    <Image Source="{Binding SelectedActor.ImageUrl}">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Setter Property="Height" Value="300" />
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Grid>
+
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.RowSpan="4"
+                    Grid.Column="1"
+                    Margin="5"
+                    Orientation="Vertical">
+
+                    <TextBlock Margin="5" FontFamily="Verdana">
+                        <Run Text="{Binding SelectedActor.Name}">
+                            <Run.Style>
+                                <Style TargetType="Run">
+                                    <Setter Property="FontWeight" Value="Black" />
+                                </Style>
+                            </Run.Style>
+                        </Run>
+                        <Run Text=" (" />
+                        <Run Text="{Binding SelectedActor.BirthDate, StringFormat=d}" />
+                        <Run Text="-" />
+                        <Run Text="{Binding SelectedActor.DeathDate, StringFormat=d}" />
+                        <Run Text=")" />
+                    </TextBlock>
+
+                    <TextBlock Margin="5" Text="{Binding SelectedActor.Awards}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontStyle" Value="Italic" />
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBlock Margin="5" Text="{Binding SelectedActor.Height}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontStyle" Value="Italic" />
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBlock
+                        Margin="5"
+                        Padding="5"
+                        Background="DarkOrange"
+                        Text="{Binding SelectedActor.Summary}"
+                        TextAlignment="Left"
+                        TextWrapping="Wrap" />
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            Margin="5,5,0,0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding WikipediaCommand}"
+                            Content="{materialDesign:PackIcon Kind=Wikipedia}"
+                            Style="{StaticResource MaterialDesignFloatingActionDarkButton}" />
+                        <Button
+                            Margin="5,5,0,0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding UpdateMovieCommand}"
+                            Content="{materialDesign:PackIcon Kind=Refresh}"
+                            Style="{StaticResource MaterialDesignFloatingActionDarkButton}" />
+                        <Button
+                            Margin="5,5,0,0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding IMDbCommand}"
+                            Content="IMDb"
+                            Style="{StaticResource MaterialDesignFloatingActionDarkButton}" />
+
+                        <ToggleButton
+                            Command="{Binding IsFavoriteCommand}"
+                            IsChecked="{Binding SelectedMovie.IsFavorite}"
+                            Style="{StaticResource MaterialDesignFlatPrimaryToggleButton}"
+                            ToolTip="Favorite">
+                            <materialDesign:PackIcon
+                                Width="21"
+                                Height="21"
+                                Kind="Heart" />
+                        </ToggleButton>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2">
+                    <Border
+                        Background="Purple"
+                        BorderBrush="Black"
+                        BorderThickness="1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontFamily="Verdana"
+                            FontSize="16"
+                            Text="Actors" />
+                    </Border>
+                    <CheckBox
+                        Content="Show all cast movies"
+                        FontStyle="Oblique"
+                        FontWeight="Medium"
+                        IsChecked="{Binding SelectedActor.ShowAllCastMovies}" />
+                    <ListView ItemsSource="{Binding SelectedActor.CastMovies}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

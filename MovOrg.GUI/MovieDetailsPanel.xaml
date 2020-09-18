@@ -1,15 +1,16 @@
-﻿<UserControl x:Class="MovOrg.GUI.MovieDetailsPanel"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:designTemplates="clr-namespace:MovOrg.GUI.DesignTemplates"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DataContext="{d:DesignInstance designTemplates:MovieDetailPanelDesignTemplate,
-                                              IsDesignTimeCreatable=True}"
-             d:DesignHeight="1600"
-             d:DesignWidth="700"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="MovOrg.GUI.MovieDetailsPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:designTemplates="clr-namespace:MovOrg.GUI.DesignTemplates"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance designTemplates:MovieDetailPanelDesignTemplate,
+                                     IsDesignTimeCreatable=True}"
+    d:DesignHeight="1600"
+    d:DesignWidth="700"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -21,13 +22,15 @@
 
     <Grid x:Name="mainGrid" Background="Red">
 
-        <ContentControl Content="{Binding ImagePresenter}"
-                        Panel.ZIndex="2"
-                        Visibility="{Binding AreImagesShowing, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=hidden}" />
-        <Border Panel.ZIndex="1"
-                Background="Black"
-                Opacity="0.9"
-                Visibility="{Binding AreImagesShowing, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=hidden}" />
+        <ContentControl
+            Panel.ZIndex="2"
+            Content="{Binding ImagePresenter}"
+            Visibility="{Binding AreImagesShowing, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=hidden}" />
+        <Border
+            Panel.ZIndex="1"
+            Background="Black"
+            Opacity="0.9"
+            Visibility="{Binding AreImagesShowing, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=hidden}" />
 
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <Grid Margin="5">
@@ -46,17 +49,20 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0"
-                      Grid.Column="0"
-                      Height="300">
+                <Grid
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Height="300">
                     <Canvas Panel.ZIndex="1">
 
-                        <Button Canvas.Left="20"
-                                Command="{Binding ShowImagesCommand}"
-                                Style="{StaticResource MahApps.Styles.Button.Chromeless}">
-                            <materialDesign:PackIcon Width="30"
-                                                     Height="30"
-                                                     Kind="Fullscreen" />
+                        <Button
+                            Canvas.Left="20"
+                            Command="{Binding ShowImagesCommand}"
+                            Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+                            <materialDesign:PackIcon
+                                Width="30"
+                                Height="30"
+                                Kind="Fullscreen" />
                         </Button>
                     </Canvas>
 
@@ -69,66 +75,77 @@
                     </Image>
                 </Grid>
 
-                <StackPanel Grid.Row="1"
-                            Grid.Column="0"
-                            Orientation="Horizontal">
-                    <Button Content="{materialDesign:PackIcon Kind=Wikipedia}"
-                            Margin="5,5,0,0"
-                            HorizontalAlignment="Right"
-                            Command="{Binding WikipediaCommand}"
-                            Style="{StaticResource MaterialDesignFloatingActionDarkButton}" />
-                    <Button Content="{materialDesign:PackIcon Kind=Refresh}"
-                            Margin="5,5,0,0"
-                            HorizontalAlignment="Right"
-                            Command="{Binding UpdateMovieCommand}"
-                            Style="{StaticResource MaterialDesignFloatingActionDarkButton}" />
-                    <Button Content="IMDb"
-                            Margin="5,5,0,0"
-                            HorizontalAlignment="Right"
-                            Command="{Binding IMDbCommand}"
-                            Style="{StaticResource MaterialDesignFloatingActionDarkButton}" />
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+                    <Button
+                        Margin="5,5,0,0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding WikipediaCommand}"
+                        Content="{materialDesign:PackIcon Kind=Wikipedia}"
+                        Style="{StaticResource MaterialDesignFloatingActionDarkButton}" />
+                    <Button
+                        Margin="5,5,0,0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding UpdateMovieCommand}"
+                        Content="{materialDesign:PackIcon Kind=Refresh}"
+                        Style="{StaticResource MaterialDesignFloatingActionDarkButton}" />
+                    <Button
+                        Margin="5,5,0,0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding IMDbCommand}"
+                        Content="IMDb"
+                        Style="{StaticResource MaterialDesignFloatingActionDarkButton}" />
 
-                    <Button Margin="5,5,0,0"
-                            HorizontalAlignment="Right"
-                            Command="{Binding TrailerCommand}"
-                            Style="{StaticResource MaterialDesignFloatingActionDarkButton}">
+                    <Button
+                        Margin="5,5,0,0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding TrailerCommand}"
+                        Style="{StaticResource MaterialDesignFloatingActionDarkButton}">
 
                         <materialDesign:PackIcon Kind="Play" />
                     </Button>
                 </StackPanel>
 
-                <StackPanel Grid.Row="2"
-                            Grid.Column="0"
-                            Orientation="Horizontal">
-                    <ToggleButton Command="{Binding IsFavoriteCommand}"
-                                  IsChecked="{Binding SelectedMovie.IsFavorite}"
-                                  Style="{StaticResource MaterialDesignFlatPrimaryToggleButton}"
-                                  ToolTip="Favorite">
-                        <materialDesign:PackIcon Width="21"
-                                                 Height="21"
-                                                 Kind="Heart" />
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+                    <ToggleButton
+                        Command="{Binding IsFavoriteCommand}"
+                        IsChecked="{Binding SelectedMovie.IsFavorite}"
+                        Style="{StaticResource MaterialDesignFlatPrimaryToggleButton}"
+                        ToolTip="Favorite">
+                        <materialDesign:PackIcon
+                            Width="21"
+                            Height="21"
+                            Kind="Heart" />
                     </ToggleButton>
 
-                    <ToggleButton Command="{Binding IsWatchedCommand}"
-                                  IsChecked="{Binding SelectedMovie.IsWatched}"
-                                  Style="{StaticResource MaterialDesignFlatPrimaryToggleButton}"
-                                  ToolTip="Watched">
+                    <ToggleButton
+                        Command="{Binding IsWatchedCommand}"
+                        IsChecked="{Binding SelectedMovie.IsWatched}"
+                        Style="{StaticResource MaterialDesignFlatPrimaryToggleButton}"
+                        ToolTip="Watched">
                         <materialDesign:PackIcon Kind="EyeCheck" />
                     </ToggleButton>
 
-                    <ToggleButton Command="{Binding IsMustWatchCommand}"
-                                  IsChecked="{Binding SelectedMovie.IsMustWatch}"
-                                  Style="{StaticResource MaterialDesignFlatPrimaryToggleButton}"
-                                  ToolTip="Must Watch">
+                    <ToggleButton
+                        Command="{Binding IsMustWatchCommand}"
+                        IsChecked="{Binding SelectedMovie.IsMustWatch}"
+                        Style="{StaticResource MaterialDesignFlatPrimaryToggleButton}"
+                        ToolTip="Must Watch">
                         <materialDesign:PackIcon Kind="EyeCircleOutline" />
                     </ToggleButton>
                 </StackPanel>
 
-                <StackPanel Grid.Row="0"
-                            Grid.RowSpan="4"
-                            Grid.Column="1"
-                            Margin="5"
-                            Orientation="Vertical">
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.RowSpan="4"
+                    Grid.Column="1"
+                    Margin="5"
+                    Orientation="Vertical">
 
                     <TextBlock Margin="5" FontFamily="Verdana">
                         <Run Text="{Binding SelectedMovie.Title}">
@@ -160,12 +177,13 @@
                     </ListView>
 
                     <Button Command="{Binding GoToMoviesWebPage}" Content="Go to site" />
-                    <TextBlock Text="{Binding SelectedMovie.Plot}"
-                               Margin="5"
-                               Padding="5"
-                               Background="DarkOrange"
-                               TextAlignment="Left"
-                               TextWrapping="Wrap" />
+                    <TextBlock
+                        Margin="5"
+                        Padding="5"
+                        Background="DarkOrange"
+                        Text="{Binding SelectedMovie.Plot}"
+                        TextAlignment="Left"
+                        TextWrapping="Wrap" />
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -178,28 +196,32 @@
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
-                            <Border Background="Purple"
-                                    BorderBrush="Black"
-                                    BorderThickness="1">
-                                <TextBlock Text="Info"
-                                           Padding="5"
-                                           HorizontalAlignment="Center"
-                                           FontFamily="Verdana"
-                                           FontSize="16" />
+                            <Border
+                                Background="Purple"
+                                BorderBrush="Black"
+                                BorderThickness="1">
+                                <TextBlock
+                                    Padding="5"
+                                    HorizontalAlignment="Center"
+                                    FontFamily="Verdana"
+                                    FontSize="16"
+                                    Text="Info" />
                             </Border>
 
-                            <UniformGrid Grid.Row="1"
-                                         Margin="0,0,0,5"
-                                         Columns="2">
+                            <UniformGrid
+                                Grid.Row="1"
+                                Margin="0,0,0,5"
+                                Columns="2">
                                 <UniformGrid.Resources>
                                     <Style x:Key="LabelBorder" TargetType="Border">
                                         <Setter Property="BorderBrush" Value="Black" />
                                         <Setter Property="Background" Value="Purple" />
                                         <Setter Property="BorderThickness" Value="1" />
                                     </Style>
-                                    <Style x:Key="InfoBorder"
-                                           BasedOn="{StaticResource LabelBorder}"
-                                           TargetType="Border">
+                                    <Style
+                                        x:Key="InfoBorder"
+                                        BasedOn="{StaticResource LabelBorder}"
+                                        TargetType="Border">
                                         <Setter Property="Background" Value="Transparent" />
                                     </Style>
 
@@ -209,9 +231,10 @@
                                         <Setter Property="FontWeight" Value="DemiBold" />
                                     </Style>
 
-                                    <Style x:Key="InfoText"
-                                           BasedOn="{StaticResource LabelText}"
-                                           TargetType="TextBlock">
+                                    <Style
+                                        x:Key="InfoText"
+                                        BasedOn="{StaticResource LabelText}"
+                                        TargetType="TextBlock">
                                         <Setter Property="FontStyle" Value="Oblique" />
                                         <Setter Property="TextWrapping" Value="Wrap" />
                                         <Setter Property="Margin" Value="5" />
@@ -296,31 +319,35 @@
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
                             </Grid>
-                            <Border Margin="5,0,5,0"
-                                    Background="Purple"
-                                    BorderBrush="Black"
-                                    BorderThickness="1">
-                                <TextBlock Text="People"
-                                           Grid.Row="0"
-                                           Padding="5"
-                                           HorizontalAlignment="Center"
-                                           FontSize="16"
-                                           FontStretch="Expanded" />
+                            <Border
+                                Margin="5,0,5,0"
+                                Background="Purple"
+                                BorderBrush="Black"
+                                BorderThickness="1">
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Padding="5"
+                                    HorizontalAlignment="Center"
+                                    FontSize="16"
+                                    FontStretch="Expanded"
+                                    Text="People" />
                             </Border>
 
-                            <UniformGrid Grid.Row="1"
-                                         Grid.Column="1"
-                                         Margin="5,0,5,5"
-                                         Columns="2">
+                            <UniformGrid
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="5,0,5,5"
+                                Columns="2">
                                 <UniformGrid.Resources>
                                     <Style x:Key="LabelBorder" TargetType="Border">
                                         <Setter Property="BorderBrush" Value="Black" />
                                         <Setter Property="Background" Value="Purple" />
                                         <Setter Property="BorderThickness" Value="1" />
                                     </Style>
-                                    <Style x:Key="InfoBorder"
-                                           BasedOn="{StaticResource LabelBorder}"
-                                           TargetType="Border">
+                                    <Style
+                                        x:Key="InfoBorder"
+                                        BasedOn="{StaticResource LabelBorder}"
+                                        TargetType="Border">
                                         <Setter Property="Background" Value="Transparent" />
                                     </Style>
 
@@ -330,9 +357,10 @@
                                         <Setter Property="FontWeight" Value="DemiBold" />
                                     </Style>
 
-                                    <Style x:Key="InfoText"
-                                           BasedOn="{StaticResource LabelText}"
-                                           TargetType="TextBlock">
+                                    <Style
+                                        x:Key="InfoText"
+                                        BasedOn="{StaticResource LabelText}"
+                                        TargetType="TextBlock">
                                         <Setter Property="FontStyle" Value="Oblique" />
                                         <Setter Property="TextWrapping" Value="Wrap" />
                                         <Setter Property="Margin" Value="5" />
@@ -374,22 +402,26 @@
                     </Grid>
                 </StackPanel>
 
-                <StackPanel Grid.Row="4"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2">
-                    <Border Background="Purple"
-                            BorderBrush="Black"
-                            BorderThickness="1">
+                <StackPanel
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2">
+                    <Border
+                        Background="Purple"
+                        BorderBrush="Black"
+                        BorderThickness="1">
 
-                        <TextBlock Text="Actors"
-                                   HorizontalAlignment="Center"
-                                   FontFamily="Verdana"
-                                   FontSize="16" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontFamily="Verdana"
+                            FontSize="16"
+                            Text="Actors" />
                     </Border>
-                    <CheckBox Content="Show all"
-                              FontStyle="Oblique"
-                              FontWeight="Medium"
-                              IsChecked="{Binding SelectedMovie.ShowAllActors}" />
+                    <CheckBox
+                        Content="Show all"
+                        FontStyle="Oblique"
+                        FontWeight="Medium"
+                        IsChecked="{Binding SelectedMovie.ShowAllActors}" />
                     <ListView ItemsSource="{Binding SelectedMovie.ActorList}" Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
                 </StackPanel>
 
@@ -399,13 +431,15 @@
                         <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
 
-                    <ListView ItemsSource="{Binding SelectedMovie.Similars}"
-                              SelectedItem="{Binding SelectedMovie.SelectedSimilar}"
-                              Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
+                    <ListView
+                        ItemsSource="{Binding SelectedMovie.Similars}"
+                        SelectedItem="{Binding SelectedMovie.SelectedSimilar}"
+                        Style="{StaticResource ExternalScrollVirtualizingPanelStyle}" />
 
-                    <ContentControl Content="{Binding SelectedMovie.SelectedSimilar}"
-                                    Grid.Column="1"
-                                    ContentTemplate="{StaticResource SelectedSimilarStyle}" />
+                    <ContentControl
+                        Grid.Column="1"
+                        Content="{Binding SelectedMovie.SelectedSimilar}"
+                        ContentTemplate="{StaticResource SelectedSimilarStyle}" />
                 </Grid>
 
                 <!--<TextBlock Text="{Binding SelectedMovie.LastUpdatedDetails}" />-->

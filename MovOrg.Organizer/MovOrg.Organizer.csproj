@@ -23,6 +23,13 @@
     <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\Actors\Actions\" />
+    <Folder Include="UseCases\Actors\InfrastructureAccess\" />
+    <Folder Include="UseCases\Actors\Requests\" />
+    <Folder Include="UseCases\Actors\Runners\" />
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="dotnet publish -c $(Configuration) --no-build -p:PublishDir=$(SolutionDir)Main.GUI\bin\$(Configuration)\$(TargetFramework)\" />
   </Target>

@@ -21,7 +21,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ActorDetailsPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MovieDetailsPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ActorsSection.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="MoviesSection.xaml.cs">
@@ -30,7 +36,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="ActorDetailsPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MovieDetailsPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ActorsSection.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MoviesSection.xaml">
