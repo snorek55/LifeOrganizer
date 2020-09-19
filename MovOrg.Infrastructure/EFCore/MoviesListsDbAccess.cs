@@ -60,5 +60,25 @@ namespace MovOrg.Infrastructure.EFCore.DbAccess
 		{
 			return await mapper.ProjectTo<MovieListItemDto>(DbContext.Movies).AsNoTracking().Where(x => EF.Functions.Like(x.Title, $"%{suggestedTitle}%")).ToListAsync();
 		}
+
+		public async Task UpdateTopMovies(IEnumerable<MovieListItemDto> topApiMovies)
+		{
+			await DbContext.Movies.Where(x => x.LastUpdatedTop250 != null).ForEachAsync(x => { x.LastUpdatedTop250 = null; x.Rank = null; });
+
+			foreach (var movie in topApiMovies)
+			{
+				var persistentMovie = await DbContext.Movies.FindAsync(movie.Id);
+				if (persistentMovie == null)
+				{
+					var entryMovie = DbContext.Movies.Add(mapper.Map<Movie>(movie));
+					entryMovie.Entity.LastUpdatedTop250 = DateTime.Now;
+				}
+				else
+				{
+					persistentMovie.LastUpdatedTop250 = DateTime.Now;
+					persistentMovie.Rank = movie.Rank;
+				}
+			}
+		}
 	}
 }

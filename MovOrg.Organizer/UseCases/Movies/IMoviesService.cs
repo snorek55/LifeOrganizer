@@ -1,7 +1,6 @@
 ﻿using Common.UseCases;
 
 using MovOrg.Organizer.UseCases.DTOs;
-using MovOrg.Organizer.UseCases.Responses;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,7 +11,7 @@ namespace MovOrg.Organizer.UseCases
 	{
 		Task<DataResponseBase<IEnumerable<MovieListItemDto>>> GetMoviesFromSuggestedTitleAsync(string suggestedTitle, bool forceUpdateFromApi = false);
 
-		Task<UpdateTopMoviesResponse> UpdateTopMovies();
+		Task<ResponseBase> UpdateTopMovies();
 
 		Task<DataResponseBase<MovieWithDetailsDto>> GetMovieWithId(string id, bool forceUpdateFromApi = false);
 

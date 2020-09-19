@@ -12,5 +12,7 @@ namespace MovOrg.Organizer.UseCases.DbAccess
 		Task<IEnumerable<MovieListItemDto>> GetMoviesFromSuggestedTitle(string suggestedTitle);
 
 		Task UpdateSuggestedTitleMovies(IEnumerable<MovieListItemDto> movies);
+
+		Task UpdateTopMovies(IEnumerable<MovieListItemDto> topApiMovies);
 	}
 }

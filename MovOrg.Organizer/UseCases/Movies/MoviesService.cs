@@ -7,7 +7,6 @@ using MovOrg.Organizer.UseCases.DTOs;
 using MovOrg.Organizer.UseCases.Movies.Requests;
 using MovOrg.Organizer.UseCases.Repositories;
 using MovOrg.Organizer.UseCases.Requests;
-using MovOrg.Organizer.UseCases.Responses;
 using MovOrg.Organizer.UseCases.Runners;
 
 using System;
@@ -31,6 +30,7 @@ namespace MovOrg.Organizer.UseCases
 		private readonly RunnerWriteDb<UpdateUserMovieStatusRequest> runnerUserMovieStatus;
 		private readonly RunnerReadWriteDb<GetMovieRatingSourceUrlRequest, MovieRatingSourceDto> runnerGetRatingSourceUrl;
 		private readonly RunnerReadWriteDb<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>> runnerMoviesWithSuggestedTitle;
+		private readonly RunnerWriteDb<UpdateTopMoviesRequest> runnerUpdateTopMovies;
 
 		public MoviesService(
 			IDbContextScopeFactory dbContextScopeFactory,
@@ -42,7 +42,8 @@ namespace MovOrg.Organizer.UseCases
 			RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages,
 			RunnerWriteDb<UpdateUserMovieStatusRequest> runnerUserMovieStatus,
 			RunnerReadWriteDb<GetMovieRatingSourceUrlRequest, MovieRatingSourceDto> runnerGetRatingSourceUrl,
-			RunnerReadWriteDb<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>> runnerMoviesWithSuggestedTitle
+			RunnerReadWriteDb<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>> runnerMoviesWithSuggestedTitle,
+			 RunnerWriteDb<UpdateTopMoviesRequest> runnerUpdateTopMovies
 			)
 		{
 			this.dbContextScopeFactory = dbContextScopeFactory ?? throw new ArgumentNullException(nameof(dbContextScopeFactory));
@@ -55,6 +56,7 @@ namespace MovOrg.Organizer.UseCases
 			this.runnerUserMovieStatus = runnerUserMovieStatus;
 			this.runnerGetRatingSourceUrl = runnerGetRatingSourceUrl;
 			this.runnerMoviesWithSuggestedTitle = runnerMoviesWithSuggestedTitle;
+			this.runnerUpdateTopMovies = runnerUpdateTopMovies;
 		}
 
 		public async Task<DataResponseBase<IEnumerable<MovieListItemDto>>> GetAllMoviesFromLocal()
@@ -83,21 +85,10 @@ namespace MovOrg.Organizer.UseCases
 		}
 
 		//TODO: poner nuevo sistema
-		public async Task<UpdateTopMoviesResponse> UpdateTopMovies()
+		public async Task<ResponseBase> UpdateTopMovies()
 		{
-			try
-			{
-				using var context = dbContextScopeFactory.Create();
-				var topApiMovies = await apiRepository.GetTopMovies();
-
-				await localRepository.UpdateTopMovies(topApiMovies);
-				await context.SaveChangesAsync();
-				return new UpdateTopMoviesResponse();
-			}
-			catch (RepositoryException ex)
-			{
-				return new UpdateTopMoviesResponse { Error = ex.ToString() };
-			}
+			var isOk = await runnerUpdateTopMovies.RunAction(new UpdateTopMoviesRequest());
+			return ReturnErrorIfFalse(isOk);
 		}
 
 		public async Task<ResponseBase> UpdateFavoriteStatus(string id, bool isFavorite)

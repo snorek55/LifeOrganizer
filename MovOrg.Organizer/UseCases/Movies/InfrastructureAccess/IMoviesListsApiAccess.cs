@@ -8,5 +8,7 @@ namespace MovOrg.Organizer.UseCases.DbAccess
 	public interface IMoviesListsApiAccess
 	{
 		Task<IEnumerable<MovieListItemDto>> GetMoviesFromSuggestedTitle(string suggestedTitle);
+
+		Task<IEnumerable<MovieListItemDto>> GetTopMovies();
 	}
 }

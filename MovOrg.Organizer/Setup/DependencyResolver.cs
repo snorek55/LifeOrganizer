@@ -45,6 +45,9 @@ namespace MovOrg.Organizer.Setup
 			services.AddSingleton<RunnerReadWriteDb<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>>>();
 			services.AddSingleton<IServiceAction<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>>, GetMoviesFromSuggestedTitleAction>();
 
+			services.AddSingleton<RunnerWriteDb<UpdateTopMoviesRequest>>();
+			services.AddSingleton<IServiceAction<UpdateTopMoviesRequest>, UpdateTopMoviesAction>();
+
 			services.AddSingleton<MovOrgContainerViewModel>();
 			services.AddSingleton<ContainerPluginData>();
 

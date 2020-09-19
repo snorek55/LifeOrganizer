@@ -33,7 +33,7 @@ namespace MovOrg.Tests.Unit
 		public MovOrgTests()
 		{
 			//TODO: fix this)
-			moviesService = new MoviesService(contextScopeFactory, mockLocalRepo.Object, mockApiRepo.Object, mockConfig.Object, null, null, null, null, null, null);
+			moviesService = new MoviesService(contextScopeFactory, mockLocalRepo.Object, mockApiRepo.Object, mockConfig.Object, null, null, null, null, null, null, null);
 		}
 
 		[TestInitialize]
