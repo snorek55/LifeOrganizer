@@ -20,11 +20,11 @@ namespace MovOrg.Organizer.UseCases
 
 		Task<DataResponseBase<IEnumerable<MovieListItemDto>>> GetAllMoviesFromLocal();
 
-		Task<UpdateFavoriteResponse> UpdateFavoriteStatus(string id, bool isFavorite);
+		Task<ResponseBase> UpdateFavoriteStatus(string id, bool isFavorite);
 
-		Task<UpdateMustWatchResponse> UpdateMustWatch(string id, bool isMustWatch);
+		Task<ResponseBase> UpdateMustWatch(string id, bool isMustWatch);
 
-		Task<UpdateWatchedResponse> UpdateWatched(string id, bool isWatched);
+		Task<ResponseBase> UpdateWatched(string id, bool isWatched);
 
 		Task<DataResponseBase<MovieRatingSourceDto>> GetRatingSourceUrl(string id, string sourceName);
 	}

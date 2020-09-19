@@ -33,5 +33,13 @@ namespace MovOrg.Organizer.UseCases
 				return response;
 			}
 		}
+
+		protected ResponseBase ReturnErrorIfFalse(bool success)
+		{
+			if (!success)
+				return new ResponseBase(Errors.ToString());
+			else
+				return new ResponseBase();
+		}
 	}
 }

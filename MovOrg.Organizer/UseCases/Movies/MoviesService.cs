@@ -12,7 +12,6 @@ using MovOrg.Organizer.UseCases.Runners;
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases
@@ -101,37 +100,25 @@ namespace MovOrg.Organizer.UseCases
 			}
 		}
 
-		public async Task<UpdateFavoriteResponse> UpdateFavoriteStatus(string id, bool isFavorite)
+		public async Task<ResponseBase> UpdateFavoriteStatus(string id, bool isFavorite)
 		{
 			var isOk = await runnerUserMovieStatus.RunAction(new UpdateUserMovieStatusRequest(MovieUserStatus.IsFavorite, id, isFavorite));
 
-			//TODO: make generic method for this
-			if (!isOk)
-				return new UpdateFavoriteResponse(runnerUserMovieStatus.Errors.ToString());
-			else
-				return new UpdateFavoriteResponse();
+			return ReturnErrorIfFalse(isOk);
 		}
 
-		public async Task<UpdateMustWatchResponse> UpdateMustWatch(string id, bool isMustWatch)
+		public async Task<ResponseBase> UpdateMustWatch(string id, bool isMustWatch)
 		{
 			var isOk = await runnerUserMovieStatus.RunAction(new UpdateUserMovieStatusRequest(MovieUserStatus.MustWatch, id, isMustWatch));
 
-			//TODO: make generic method for this
-			if (!isOk)
-				return new UpdateMustWatchResponse(runnerUserMovieStatus.Errors.ToString());
-			else
-				return new UpdateMustWatchResponse();
+			return ReturnErrorIfFalse(isOk);
 		}
 
-		public async Task<UpdateWatchedResponse> UpdateWatched(string id, bool isWatched)
+		public async Task<ResponseBase> UpdateWatched(string id, bool isWatched)
 		{
 			var isOk = await runnerUserMovieStatus.RunAction(new UpdateUserMovieStatusRequest(MovieUserStatus.Watched, id, isWatched));
 
-			//TODO: make generic method for this
-			if (!isOk)
-				return new UpdateWatchedResponse(runnerUserMovieStatus.Errors.ToString());
-			else
-				return new UpdateWatchedResponse();
+			return ReturnErrorIfFalse(isOk);
 		}
 
 		public async Task<DataResponseBase<MovieRatingSourceDto>> GetRatingSourceUrl(string id, string sourceName)
