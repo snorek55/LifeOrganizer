@@ -28,7 +28,7 @@ namespace MovOrg.Organizer.Setup
 			CreateMap<MovieImageData, ImageViewModel>();
 			CreateMap<BoxOffice, BoxOfficeViewModel>();
 			CreateMap<Trailer, TrailerViewModel>();
-			CreateMap<MovieActor, ActorViewModel>()
+			CreateMap<MovieActor, ActorViewModel>(MemberList.None)
 				.MapFrom(d => d.Id, s => s.Person.Id)
 				.MapFrom(d => d.Name, s => s.Person.Name)
 				.MapFrom(d => d.ImageUrl, s => s.Person.ImageUrl);

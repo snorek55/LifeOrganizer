@@ -22,7 +22,7 @@ namespace MovOrg.Organizer.UseCases
 			(errorMessage, propertyNames));
 		}
 
-		protected DataResponseBase<TData> ReturnIfNotNull<TData>(TData data)
+		protected DataResponseBase<TData> ReturnErrorIfNull<TData>(TData data)
 		{
 			if (data == null)
 				return new DataResponseBase<TData>(Errors.ToString());

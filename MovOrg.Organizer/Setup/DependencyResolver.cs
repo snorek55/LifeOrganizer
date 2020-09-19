@@ -7,6 +7,7 @@ using MovOrg.Organizer.Adapters.Container;
 using MovOrg.Organizer.Adapters.Sections;
 using MovOrg.Organizer.UseCases;
 using MovOrg.Organizer.UseCases.DTOs;
+using MovOrg.Organizer.UseCases.Movies.Requests;
 using MovOrg.Organizer.UseCases.Requests;
 using MovOrg.Organizer.UseCases.Runners;
 
@@ -40,6 +41,9 @@ namespace MovOrg.Organizer.Setup
 
 			services.AddSingleton<RunnerReadWriteDb<GetMovieRatingSourceUrlRequest, MovieRatingSourceDto>>();
 			services.AddSingleton<IServiceAction<GetMovieRatingSourceUrlRequest, MovieRatingSourceDto>, GetMovieRatingSourceUrlAction>();
+
+			services.AddSingleton<RunnerReadWriteDb<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>>>();
+			services.AddSingleton<IServiceAction<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>>, GetMoviesFromSuggestedTitleAction>();
 
 			services.AddSingleton<MovOrgContainerViewModel>();
 			services.AddSingleton<ContainerPluginData>();

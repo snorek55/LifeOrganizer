@@ -10,7 +10,7 @@ namespace MovOrg.Organizer.UseCases
 {
 	public interface IMoviesService
 	{
-		Task<GetSuggestedTitleMoviesResponse> GetMoviesFromSuggestedTitleAsync(string suggestedTitle, bool forceUpdateFromApi = false);
+		Task<DataResponseBase<IEnumerable<MovieListItemDto>>> GetMoviesFromSuggestedTitleAsync(string suggestedTitle, bool forceUpdateFromApi = false);
 
 		Task<UpdateTopMoviesResponse> UpdateTopMovies();
 

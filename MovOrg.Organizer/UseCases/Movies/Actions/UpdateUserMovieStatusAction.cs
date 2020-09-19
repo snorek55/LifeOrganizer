@@ -40,7 +40,8 @@ namespace MovOrg.Organizer.UseCases
 				default:
 					throw new NotImplementedException();
 			}
-
+			//TODO: make this async
+			await Task.CompletedTask;
 			return !HasErrors;
 		}
 	}

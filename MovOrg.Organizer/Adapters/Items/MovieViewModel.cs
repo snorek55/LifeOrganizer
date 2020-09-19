@@ -111,5 +111,10 @@ namespace MovOrg.Organizer.Adapters.Items
 		{
 			actorCollectionView.Refresh();
 		}
+
+		public override string ToString()
+		{
+			return Title;
+		}
 	}
 }

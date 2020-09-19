@@ -4,16 +4,18 @@ using EntityFramework.DbContextScope.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
+using MovOrg.Organizer.Domain;
 using MovOrg.Organizer.UseCases.DbAccess;
 using MovOrg.Organizer.UseCases.DTOs;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovOrg.Infrastructure.EFCore.DbAccess
 {
-	public class MoviesFromLocalDbAccess : IMoviesFromLocalDbAccess
+	public class MoviesListsDbAccess : IMoviesListsDbAccess
 	{
 		//TODO: create base class
 		private readonly IAmbientDbContextLocator ambientDbContextLocator;
@@ -33,7 +35,7 @@ namespace MovOrg.Infrastructure.EFCore.DbAccess
 
 		private readonly IAutoMapper mapper;
 
-		public MoviesFromLocalDbAccess(IAmbientDbContextLocator ambientDbContextLocator, IAutoMapper mapper)
+		public MoviesListsDbAccess(IAmbientDbContextLocator ambientDbContextLocator, IAutoMapper mapper)
 		{
 			this.ambientDbContextLocator = ambientDbContextLocator ?? throw new ArgumentNullException(nameof(ambientDbContextLocator));
 			this.mapper = mapper;
@@ -42,6 +44,21 @@ namespace MovOrg.Infrastructure.EFCore.DbAccess
 		public async Task<IEnumerable<MovieListItemDto>> GetMoviesFromLocal()
 		{
 			return await mapper.ProjectTo<MovieListItemDto>(DbContext.Movies).AsNoTracking().ToListAsync();
+		}
+
+		public async Task UpdateSuggestedTitleMovies(IEnumerable<MovieListItemDto> movies)
+		{
+			foreach (var movie in movies)
+			{
+				var persistentMovie = await DbContext.Movies.FindAsync(movie.Id);
+				if (persistentMovie == null)
+					DbContext.Movies.Add(mapper.Map<Movie>(movie));
+			}
+		}
+
+		public async Task<IEnumerable<MovieListItemDto>> GetMoviesFromSuggestedTitle(string suggestedTitle)
+		{
+			return await mapper.ProjectTo<MovieListItemDto>(DbContext.Movies).AsNoTracking().Where(x => EF.Functions.Like(x.Title, $"%{suggestedTitle}%")).ToListAsync();
 		}
 	}
 }

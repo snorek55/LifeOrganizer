@@ -27,7 +27,8 @@ namespace MovOrg.Infrastructure.Setup
 			services.AddDbContext<MoviesContext>();
 			services.AddSingleton<IMovieDetailsDbAccess, MovieDetailsDbAccess>();
 			services.AddSingleton<IMovieDetailsApiAccess, MovieDetailsApiAccess>();
-			services.AddSingleton<IMoviesFromLocalDbAccess, MoviesFromLocalDbAccess>();
+			services.AddSingleton<IMoviesListsDbAccess, MoviesListsDbAccess>();
+			services.AddSingleton<IMoviesListsApiAccess, MoviesListsApiAccess>();
 
 			services.AddSingleton<IDbContextScopeFactory>(provider =>
 			{

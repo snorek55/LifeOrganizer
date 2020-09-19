@@ -131,21 +131,14 @@ namespace MovOrg.Organizer.Adapters.Sections
 
 			var suggestedTitleResponse = await ExecuteCommandTaskAsync(() => moviesService.GetMoviesFromSuggestedTitleAsync(SuggestedTitle), "");
 
-			if (suggestedTitleResponse.AlreadySearched)
-			{
-				SuggestedTitleFilter = SuggestedTitle;
-				RefreshFilter();
-				return;
-			}
-
 			if (!suggestedTitleResponse.HasError)
 			{
-				ResetAndUpdateMovieList(suggestedTitleResponse.Movies);
-				NotifyStatus("Found " + suggestedTitleResponse.Movies.Count() + " movies");
+				ResetAndUpdateMovieList(suggestedTitleResponse.Data);
+				NotifyStatus("Found " + suggestedTitleResponse.Data.Count() + " movies");
 			}
 			else
 			{
-				Movies.Clear();
+				NotifyError(suggestedTitleResponse.Error);
 			}
 		}
 
@@ -167,10 +160,10 @@ namespace MovOrg.Organizer.Adapters.Sections
 				conditions &= movie.Rank != null && movie.Rank > 0;
 			if (!string.IsNullOrEmpty(SuggestedTitleFilter) && !string.IsNullOrEmpty(movie.Title))
 			{
-				var titleContainsFilter = movie.Title.Contains(SuggestedTitleFilter);
+				var titleContainsFilter = movie.Title.Contains(SuggestedTitleFilter, StringComparison.OrdinalIgnoreCase);
 				var descriptionContainsFilter = false;
 				if (movie.Description != null)
-					descriptionContainsFilter = movie.Description.Contains(SuggestedTitleFilter);
+					descriptionContainsFilter = movie.Description.Contains(SuggestedTitleFilter, StringComparison.OrdinalIgnoreCase);
 				conditions &= titleContainsFilter || descriptionContainsFilter;
 			}
 

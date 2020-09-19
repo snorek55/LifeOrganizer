@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases.DbAccess
 {
-	public interface IMoviesFromLocalDbAccess
+	public interface IMoviesListsApiAccess
 	{
-		Task<IEnumerable<MovieListItemDto>> GetMoviesFromLocal();
+		Task<IEnumerable<MovieListItemDto>> GetMoviesFromSuggestedTitle(string suggestedTitle);
 	}
 }

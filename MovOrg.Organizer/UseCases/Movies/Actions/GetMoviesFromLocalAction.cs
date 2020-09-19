@@ -10,9 +10,9 @@ namespace MovOrg.Organizer.UseCases
 {
 	public class GetMoviesFromLocalAction : ServiceActionBase, IServiceAction<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>>
 	{
-		private IMoviesFromLocalDbAccess dbAccess;
+		private IMoviesListsDbAccess dbAccess;
 
-		public GetMoviesFromLocalAction(IMoviesFromLocalDbAccess dbAccess)
+		public GetMoviesFromLocalAction(IMoviesListsDbAccess dbAccess)
 		{
 			this.dbAccess = dbAccess;
 		}
