@@ -36,16 +36,16 @@ namespace MovOrg.Tests.Setup
 				.ToList(); //#I
 
 			/************************************************************************
-            #A This method looks at the relationships and returns the tables names in the right order to wipe all their rows without incurring a foreign key delete constraint
-            #B You can exclude entity classes that you need to handle yourself, for instance - any references that only contain circular references
-            #C This gets the IEntityType for all the entities, other than those that were excluded. This contains the information on how each table is built, with its relationships
-            #D This contains a check for the hierarchical (entity that references itself) case where an entity refers to itself - if the delete behavior of this foreign key is set to restrict then you cannot simply delete all the rows in one go
-            #E I extract all the principal entities from the entities we are considering ...
-            #F ... And put them in a dictionary, with the IEntityType being the key
-            #G ... I remove any self reference links as these are automatically handled
-            #H ... And the PrincipalEntityType being the value
-            #I I start the list of entities to delete by putting all the dependant entities first, as I must delete the rows in these tables first, and the order doesn't matter
-            ************************************************************/
+			#A This method looks at the relationships and returns the tables names in the right order to wipe all their rows without incurring a foreign key delete constraint
+			#B You can exclude entity classes that you need to handle yourself, for instance - any references that only contain circular references
+			#C This gets the IEntityType for all the entities, other than those that were excluded. This contains the information on how each table is built, with its relationships
+			#D This contains a check for the hierarchical (entity that references itself) case where an entity refers to itself - if the delete behavior of this foreign key is set to restrict then you cannot simply delete all the rows in one go
+			#E I extract all the principal entities from the entities we are considering ...
+			#F ... And put them in a dictionary, with the IEntityType being the key
+			#G ... I remove any self reference links as these are automatically handled
+			#H ... And the PrincipalEntityType being the value
+			#I I start the list of entities to delete by putting all the dependant entities first, as I must delete the rows in these tables first, and the order doesn't matter
+			************************************************************/
 
 			var reversePrincipals = new List<IEntityType>(); //#A
 			int depth = 0; //#B
@@ -76,19 +76,19 @@ namespace MovOrg.Tests.Setup
 		}
 
 		/************************************************************************
-        #A I am going to produce a list of principal entities in the reverse order that they should have all rows wiped in them
-        #B I keep a count of the times I have been round the loop trying to resolve the the relationships
-        #C While there are entities with links to other entities I need to keep going round
-        #D Now loop through all the relationships that don't have a link to another principal (or that link has already been marked as wiped)
-        #E I mark the entity for deletion - this list is in reverse order to the order of table row wiping
-        #F I remove it from the dictionary so that it isn't looked at again
-        #G I look for every reference to this principal entity in other entity''s links ...
-        #H ... and remove the reference to that entity from any existing dependants still in the dictionary
-        #I If I have overstepped the depth limit I throw an exception, with information on what entities had still to be processed. This can happen for certain circular references.
-        #J When I get to here I have the list of entities in the reverse order to how I should wipe them, so I reverse the list
-        #K I now produce combined list with the dependants at the front and the principals at the back in the right order
-        #L Finally I return a collection of table names, with a optional schema, in the right order
-        * ***********************************************************************/
+		#A I am going to produce a list of principal entities in the reverse order that they should have all rows wiped in them
+		#B I keep a count of the times I have been round the loop trying to resolve the the relationships
+		#C While there are entities with links to other entities I need to keep going round
+		#D Now loop through all the relationships that don't have a link to another principal (or that link has already been marked as wiped)
+		#E I mark the entity for deletion - this list is in reverse order to the order of table row wiping
+		#F I remove it from the dictionary so that it isn't looked at again
+		#G I look for every reference to this principal entity in other entity''s links ...
+		#H ... and remove the reference to that entity from any existing dependants still in the dictionary
+		#I If I have overstepped the depth limit I throw an exception, with information on what entities had still to be processed. This can happen for certain circular references.
+		#J When I get to here I have the list of entities in the reverse order to how I should wipe them, so I reverse the list
+		#K I now produce combined list with the dependants at the front and the principals at the back in the right order
+		#L Finally I return a collection of table names, with a optional schema, in the right order
+		* ***********************************************************************/
 
 		public static void WipeAllDataFromDatabase(this DbContext context,
 			int maxDepth = 10, params Type[] excludeTypes)

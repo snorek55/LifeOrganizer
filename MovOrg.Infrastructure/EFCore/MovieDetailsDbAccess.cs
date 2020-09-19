@@ -57,9 +57,9 @@ namespace MovOrg.Infrastructure.EFCore.DbAccess
 			return (await DbContext.Movies.FindAsync(movieId)).AreDetailsAvailable;
 		}
 
-		public async Task AddMovieDetails(UpdateMovieDetailsDto movie)
+		public async Task UpdateMovie(UpdateMovieDetailsDto movie)
 		{
-			await UpdateMovie(movie);
+			await UpdateMovieDetails(movie);
 			var persistentMovie = await DbContext.Movies.FindAsync(movie.Id);
 			persistentMovie.LastUpdatedDetails = RoundToSecond(DateTime.Now);
 		}
@@ -138,7 +138,7 @@ namespace MovOrg.Infrastructure.EFCore.DbAccess
 			}
 		}
 
-		private async Task UpdateMovie(UpdateMovieDetailsDto movie)
+		private async Task UpdateMovieDetails(UpdateMovieDetailsDto movie)
 		{
 			//TODO: this makes update very slow. must improve
 			var existingMovie = await DbContext.Movies

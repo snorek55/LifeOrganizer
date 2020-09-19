@@ -19,12 +19,8 @@ namespace MovOrg.Organizer.UseCases
 	public class MoviesService : ServiceActionBase, IMoviesService
 	{
 		//TODO: tengo que pasarle varios runners pero la clave esta en que cuando termine de implementarlos podre suprimir este service e utilizar directamente los runners en los adapters
-		private IDbContextScopeFactory dbContextScopeFactory;
-
-		private ILocalMoviesRepository localRepository;
-		private IApiMoviesRepository apiRepository;
-		private IConfig config;
 		private readonly RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails;
+
 		private readonly RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal;
 		private readonly RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages;
 		private readonly RunnerWriteDb<UpdateUserMovieStatusRequest> runnerUserMovieStatus;
@@ -33,10 +29,6 @@ namespace MovOrg.Organizer.UseCases
 		private readonly RunnerWriteDb<UpdateTopMoviesRequest> runnerUpdateTopMovies;
 
 		public MoviesService(
-			IDbContextScopeFactory dbContextScopeFactory,
-			ILocalMoviesRepository localRepository,
-			IApiMoviesRepository apiRepository,
-			IConfig config,
 			RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails,
 			RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal,
 			RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages,
@@ -46,10 +38,6 @@ namespace MovOrg.Organizer.UseCases
 			 RunnerWriteDb<UpdateTopMoviesRequest> runnerUpdateTopMovies
 			)
 		{
-			this.dbContextScopeFactory = dbContextScopeFactory ?? throw new ArgumentNullException(nameof(dbContextScopeFactory));
-			this.localRepository = localRepository ?? throw new ArgumentNullException(nameof(localRepository));
-			this.apiRepository = apiRepository ?? throw new ArgumentNullException(nameof(apiRepository));
-			this.config = config ?? throw new ArgumentNullException(nameof(config));
 			this.runnerMovieDetails = runnerMovieDetails;
 			this.runnerMoviesFromLocal = runnerMoviesFromLocal;
 			this.runnerMovieImages = runnerMovieImages;

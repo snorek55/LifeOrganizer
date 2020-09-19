@@ -49,8 +49,6 @@ namespace MovOrg.Organizer.Setup
 			services.AddSingleton<IServiceAction<UpdateTopMoviesRequest>, UpdateTopMoviesAction>();
 
 			services.AddSingleton<MovOrgContainerViewModel>();
-			services.AddSingleton<ContainerPluginData>();
-
 			services.AddSingleton<MoviesSectionViewModel>();
 			services.AddSingleton<ActorsSectionViewModel>();
 		}

@@ -12,9 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using MovOrg.Infrastructure.EFCore;
+using MovOrg.Infrastructure.EFCore.DbAccess;
 using MovOrg.Organizer.Domain;
 using MovOrg.Organizer.UseCases.DTOs;
-using MovOrg.Organizer.UseCases.Repositories;
 using MovOrg.Tests.Setup;
 
 using System;
@@ -29,7 +29,9 @@ namespace MovOrg.Tests.Base
 		protected IDbContextScopeFactory DbContextScopeFactory { get; private set; }
 		protected IAmbientDbContextLocator AmbientDbContextLocator { get; private set; }
 
-		protected ILocalMoviesRepository LocalRepo { get; private set; }
+		protected MovieDetailsDbAccess movieDetailsDbAccess { get; private set; }
+
+		protected MoviesListsDbAccess movieListsDbAccess { get; private set; }
 
 		protected IConfig Config { get; set; }
 
@@ -57,8 +59,8 @@ namespace MovOrg.Tests.Base
 			var contextFactory = new TestDbContextFactory(Config);
 			DbContextScopeFactory = new DbContextScopeFactory(contextFactory);
 			AmbientDbContextLocator = new AmbientDbContextLocator();
-			LocalRepo = new EFCoreLocalMoviesRepository(AmbientDbContextLocator, Config, Mapper);
-
+			movieDetailsDbAccess = new MovieDetailsDbAccess(AmbientDbContextLocator, config, Mapper);
+			movieListsDbAccess = new MoviesListsDbAccess(AmbientDbContextLocator, Mapper);
 			using var context = DbContextScopeFactory.Create();
 			MoviesContext.Database.EnsureDeleted();
 			MoviesContext.Database.EnsureCreated();
@@ -109,14 +111,14 @@ namespace MovOrg.Tests.Base
 
 		#endregion Initialization
 
-		#region UpdateMovieDetails
+		#region UpdateMovie
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldChangeLastUpdatedDetails_WhenCalled()
+		public async Task UpdateMovie_ShouldChangeLastUpdatedDetails_WhenCalled()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(TestMovieSeededWithoutRelatedInfo.Id);
 			existingMovie.LastUpdatedDetails.Value.Should().BeCloseTo(DateTime.Now, 2000);
@@ -124,7 +126,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldAddMovieDirector_WhenDirectorExist()
+		public async Task UpdateMovie_ShouldAddMovieDirector_WhenDirectorExist()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
@@ -137,7 +139,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.DirectorList.Add(relationUnderTest);
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieDirectors.Find(movieUnderTest.Id, TestDirectorSeeded.Id);
@@ -146,7 +148,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldAddDirectorAndMovieDirector_WhenDirectorNotExists()
+		public async Task UpdateMovie_ShouldAddDirectorAndMovieDirector_WhenDirectorNotExists()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
@@ -159,7 +161,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.DirectorList.Add(relationUnderTest);
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieDirectors.Find(movieUnderTest.Id, TestDirectorNotSeeded.Id);
@@ -171,7 +173,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShoulAddSecondMovieDirector_WhenOtherExistsPreviously()
+		public async Task UpdateMovie_ShoulAddSecondMovieDirector_WhenOtherExistsPreviously()
 		{
 			var movieUnderTest = TestMovieSeededWithRelatedInfo;
 			var secondRelationUnderTest = new MovieDirector
@@ -184,7 +186,7 @@ namespace MovOrg.Tests.Base
 
 			using var context = DbContextScopeFactory.Create();
 			movieUnderTest.DirectorList.Add(secondRelationUnderTest);
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 
 			var existingFirstRelation = MoviesContext.MovieDirectors.Find(movieUnderTest.Id, TestDirectorSeeded.Id);
@@ -199,7 +201,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldAddMovieWriter_WhenWriterExist()
+		public async Task UpdateMovie_ShouldAddMovieWriter_WhenWriterExist()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
@@ -212,7 +214,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.WriterList.Add(relationUnderTest);
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieWriters.Find(movieUnderTest.Id, TestWriterSeeded.Id);
@@ -221,7 +223,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldAddWriterAndMovieWriter_WhenWriterNotExists()
+		public async Task UpdateMovie_ShouldAddWriterAndMovieWriter_WhenWriterNotExists()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
@@ -234,7 +236,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.WriterList.Add(relationUnderTest);
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieWriters.Find(movieUnderTest.Id, TestWriterNotSeeded.Id);
@@ -246,7 +248,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShoulAddSecondMovieWriter_WhenOtherExistsPreviously()
+		public async Task UpdateMovie_ShoulAddSecondMovieWriter_WhenOtherExistsPreviously()
 		{
 			var movieUnderTest = TestMovieSeededWithRelatedInfo;
 			var secondRelationUnderTest = new MovieWriter
@@ -259,7 +261,7 @@ namespace MovOrg.Tests.Base
 
 			using var context = DbContextScopeFactory.Create();
 			movieUnderTest.WriterList.Add(secondRelationUnderTest);
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 
 			var existingFirstRelation = MoviesContext.MovieWriters.Find(movieUnderTest.Id, TestWriterSeeded.Id);
@@ -274,7 +276,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldAddMovieCompany_WhenCompanyExist()
+		public async Task UpdateMovie_ShouldAddMovieCompany_WhenCompanyExist()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
@@ -287,7 +289,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.CompanyList.Add(relationUnderTest);
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieCompanies.Find(movieUnderTest.Id, TestCompanySeeded.Id);
@@ -296,7 +298,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldAddCompanyAndMovieCompany_WhenCompanyNotExists()
+		public async Task UpdateMovie_ShouldAddCompanyAndMovieCompany_WhenCompanyNotExists()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
@@ -309,7 +311,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.CompanyList.Add(relationUnderTest);
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieCompanies.Find(movieUnderTest.Id, TestCompanyNotSeeded.Id);
@@ -321,7 +323,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShoulAddSecondMovieCompany_WhenOtherExistsPreviously()
+		public async Task UpdateMovie_ShoulAddSecondMovieCompany_WhenOtherExistsPreviously()
 		{
 			var movieUnderTest = TestMovieSeededWithRelatedInfo;
 			var secondRelationUnderTest = new MovieCompany
@@ -334,7 +336,7 @@ namespace MovOrg.Tests.Base
 
 			using var context = DbContextScopeFactory.Create();
 			movieUnderTest.CompanyList.Add(secondRelationUnderTest);
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 
 			var existingFirstRelation = MoviesContext.MovieCompanies.Include(x => x.Company).Single(x => x.MovieId == movieUnderTest.Id && x.CompanyId == TestCompanySeeded.Id);
@@ -349,7 +351,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldAddMovieSimilar_WhenMovieExists()
+		public async Task UpdateMovie_ShouldAddMovieSimilar_WhenMovieExists()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
@@ -362,7 +364,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.Similars.Add(relationUnderTest);
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieSimilars.Find(movieUnderTest.Id, TestMovieSeededWithRelatedInfo.Id);
@@ -371,7 +373,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldAddMovieAndMovieSimilar_WhenMovieNotExists()
+		public async Task UpdateMovie_ShouldAddMovieAndMovieSimilar_WhenMovieNotExists()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
@@ -384,7 +386,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.Similars.Add(relationUnderTest);
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieSimilars.Find(movieUnderTest.Id, TestMovieNotSeeded.Id);
@@ -396,7 +398,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShoulAddSecondMovieSimilar_WhenOtherExistsPreviously()
+		public async Task UpdateMovie_ShoulAddSecondMovieSimilar_WhenOtherExistsPreviously()
 		{
 			var movieUnderTest = TestMovieSeededWithRelatedInfo;
 			var secondRelationUnderTest = new MovieSimilar
@@ -409,7 +411,7 @@ namespace MovOrg.Tests.Base
 
 			using var context = DbContextScopeFactory.Create();
 			movieUnderTest.Similars.Add(secondRelationUnderTest);
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 
 			var existingFirstRelation = MoviesContext.MovieSimilars.Find(movieUnderTest.Id, TestMovieSeededWithoutRelatedInfo.Id);
@@ -424,7 +426,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldAddImages()
+		public async Task UpdateMovie_ShouldAddImages()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
@@ -434,7 +436,7 @@ namespace MovOrg.Tests.Base
 
 			movieUnderTest.Images.Add(relationUnderTest);
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieImageDatas.Find(movieUnderTest.Id, TestMovieImageNotSeeded.Id);
@@ -443,7 +445,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldAddRating_WhenMovieExists()
+		public async Task UpdateMovie_ShouldAddRating_WhenMovieExists()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
@@ -456,7 +458,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.Ratings.Add(relationUnderTest);
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.Ratings.Find(movieUnderTest.Id, RatingSources[0].Id);
@@ -465,7 +467,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldAddRatingSourceAndRating_WhenRatingSourceNotExists()
+		public async Task UpdateMovie_ShouldAddRatingSourceAndRating_WhenRatingSourceNotExists()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
@@ -481,7 +483,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.Ratings.Add(relationUnderTest);
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.Ratings.Find(movieUnderTest.Id, newRatingSource.Id);
@@ -493,16 +495,16 @@ namespace MovOrg.Tests.Base
 
 		[TestMethod]
 		[ExpectedException(typeof(RepositoryException))]
-		public async Task UpdateMovieDetails_ShouldThrowException_WhenMovieNotExists()
+		public async Task UpdateMovie_ShouldThrowException_WhenMovieNotExists()
 		{
 			using var context = DbContextScopeFactory.Create();
 			var newMovie = TestMovieNotSeeded;
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(newMovie));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(newMovie));
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShoulAddNewMovieActor_WhenOtherExistsPreviously()
+		public async Task UpdateMovie_ShoulAddNewMovieActor_WhenOtherExistsPreviously()
 		{
 			var movieUnderTest = TestMovieSeededWithRelatedInfo;
 			var secondRelationUnderTest = new MovieActor
@@ -517,7 +519,7 @@ namespace MovOrg.Tests.Base
 			using var context = DbContextScopeFactory.Create();
 
 			movieUnderTest.ActorList.Add(secondRelationUnderTest);
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 
 			var existingFirstRelation = MoviesContext.MovieActors.Find(movieUnderTest.Id, TestActorSeeded.Id);
@@ -532,7 +534,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldUpdateBoxOffice()
+		public async Task UpdateMovie_ShouldUpdateBoxOffice()
 		{
 			TestBoxOfficeSeeded.GrossUSA = "11111";
 
@@ -540,7 +542,7 @@ namespace MovOrg.Tests.Base
 
 			TestMovieSeededWithoutRelatedInfo.BoxOffice = TestBoxOfficeSeeded;
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(TestMovieSeededWithoutRelatedInfo));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(TestMovieSeededWithoutRelatedInfo));
 			context.SaveChanges();
 
 			var existingMovie = MoviesContext.Movies.Find(TestMovieSeededWithoutRelatedInfo.Id);
@@ -549,7 +551,7 @@ namespace MovOrg.Tests.Base
 		}
 
 		[TestMethod]
-		public async Task UpdateMovieDetails_ShouldUpdateTrailer()
+		public async Task UpdateMovie_ShouldUpdateTrailer()
 		{
 			TestTrailerSeeded.ThumbnailUrl = "11111";
 
@@ -557,7 +559,7 @@ namespace MovOrg.Tests.Base
 
 			TestMovieSeededWithoutRelatedInfo.Trailer = TestTrailerSeeded;
 
-			await LocalRepo.UpdateMovieDetails(Mapper.Map<UpdateMovieDetailsDto>(TestMovieSeededWithoutRelatedInfo));
+			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(TestMovieSeededWithoutRelatedInfo));
 			context.SaveChanges();
 
 			var existingMovie = MoviesContext.Movies.Find(TestMovieSeededWithoutRelatedInfo.Id);
@@ -565,14 +567,14 @@ namespace MovOrg.Tests.Base
 			existingMovie.Trailer.ThumbnailUrl.Should().Be("11111");
 		}
 
-		#endregion UpdateMovieDetails
+		#endregion UpdateMovie
 
 		[TestMethod]
 		public async Task GetMovieById_ShouldGetAllDetails_WhenMovieExistsInDb()
 		{
 			using var context = DbContextScopeFactory.CreateReadOnly();
 			var movieUnderTest = TestMovieSeededWithRelatedInfo;
-			var actualDto = await LocalRepo.GetMovieDetailsById(movieUnderTest.Id);
+			var actualDto = await movieDetailsDbAccess.GetMovieDetails(movieUnderTest.Id);
 
 			var expectedDto = Mapper.Map<MovieWithDetailsDto>(movieUnderTest);
 
@@ -583,7 +585,7 @@ namespace MovOrg.Tests.Base
 		public async Task GetAllMovies_ShouldGetAllMovies()
 		{
 			using var context = DbContextScopeFactory.CreateReadOnly();
-			var movies = await LocalRepo.GetAllMovies();
+			var movies = await movieListsDbAccess.GetMoviesFromLocal();
 			movies.Should().BeEquivalentTo(InitialMovieListItemDtos);
 		}
 
@@ -591,8 +593,8 @@ namespace MovOrg.Tests.Base
 		public async Task AreDetailsAvailable_ShouldCheckIfTheyAre_WhenMovieExistsInDb()
 		{
 			using var context = DbContextScopeFactory.CreateReadOnly();
-			var detailsAvailable = await LocalRepo.AreDetailsAvailableFor(TestMovieSeededWithRelatedInfo.Id);
-			var detailsNotAvailable = await LocalRepo.AreDetailsAvailableFor(TestMovieSeededWithoutRelatedInfo.Id);
+			var detailsAvailable = await movieDetailsDbAccess.AreDetailsAvailableFor(TestMovieSeededWithRelatedInfo.Id);
+			var detailsNotAvailable = await movieDetailsDbAccess.AreDetailsAvailableFor(TestMovieSeededWithoutRelatedInfo.Id);
 
 			Assert.IsTrue(detailsAvailable);
 			Assert.IsFalse(detailsNotAvailable);

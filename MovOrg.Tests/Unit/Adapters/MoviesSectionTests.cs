@@ -70,9 +70,9 @@ namespace MovOrg.Tests.Unit.Adapters
 		[TestMethod]
 		public void SearchCommand_ShouldAddMoviesWithSameTitle_WhenTheyHaveNotBeenAlreadySearched()
 		{
-			var response = fixture.Build<GetSuggestedTitleMoviesResponse>()
-				.With(x => x.AlreadySearched, false)
+			var response = fixture.Build<DataResponseBase<IEnumerable<MovieListItemDto>>>()
 				.With(x => x.Error, string.Empty)
+				.With(x => x.Data, fixture.CreateMany<MovieListItemDto>())
 				.Create();
 
 			var searchWord = fixture.Create<string>();
@@ -82,49 +82,8 @@ namespace MovOrg.Tests.Unit.Adapters
 			currentList.Should().BeEquivalentTo(MoviesListItemDtos);
 			moviesSectionViewModel.SearchCommand.Execute("");
 
-			var expectedVms = TestData.Mapper.Map<List<MovieViewModel>>(response.Movies);
+			var expectedVms = TestData.Mapper.Map<List<MovieViewModel>>(response.Data);
 			moviesSectionViewModel.Movies.Should().BeEquivalentTo(expectedVms);
-		}
-
-		[TestMethod]
-		public void SearchCommand_ShouldFilterMoviesWithSameTitle_WhenAlreadySearched()
-		{
-			var response = fixture.Build<GetSuggestedTitleMoviesResponse>()
-				.With(x => x.AlreadySearched, true)
-				.With(x => x.Movies, MoviesListItemDtos)
-				.With(x => x.Error, string.Empty)
-				.Create();
-
-			fixture.Register(() => "a5");
-			var searchWord = fixture.Create<string>();
-			mockMoviesService.Setup(x => x.GetMoviesFromSuggestedTitleAsync(searchWord, false)).ReturnsAsync(response);
-			moviesSectionViewModel.SuggestedTitle = searchWord;
-			var currentList = TestData.Mapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
-			currentList.Should().BeEquivalentTo(MoviesListItemDtos);
-			moviesSectionViewModel.SearchCommand.Execute("");
-			//TODO: improve search engine
-			var moviesWithCorrectTitle = response.Movies.ToList().FindAll(x => x.Title.Contains(searchWord));
-			var expectedDtos = TestData.Mapper.Map<List<MovieListItemDto>>(moviesWithCorrectTitle);
-			var expectedVms = TestData.Mapper.Map<List<MovieViewModel>>(expectedDtos);
-			var collectionView = CollectionViewSource.GetDefaultView(moviesSectionViewModel.Movies);
-
-			collectionView.Should().HaveSameCount(expectedVms);
-			collectionView.Should().BeEquivalentTo(expectedVms);
-		}
-
-		[TestMethod]
-		public void SearchCommand_ShouldReturnNoMovies_WhenTitleDoesNotExist_AndIsNotAlreadySearched()
-		{
-			var response = fixture.Build<GetSuggestedTitleMoviesResponse>()
-				.With(x => x.Movies, new List<MovieListItemDto>())
-				.With(x => x.AlreadySearched, false)
-				.Create();
-			var searchWord = fixture.Create<string>();
-			mockMoviesService.Setup(x => x.GetMoviesFromSuggestedTitleAsync(searchWord, false)).ReturnsAsync(response);
-			moviesSectionViewModel.SuggestedTitle = searchWord; var currentList = TestData.Mapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
-			currentList.Should().BeEquivalentTo(MoviesListItemDtos); moviesSectionViewModel.SearchCommand.Execute("");
-
-			moviesSectionViewModel.Movies.Should().BeEmpty();
 		}
 
 		#endregion SearchCommandTests
@@ -164,8 +123,6 @@ namespace MovOrg.Tests.Unit.Adapters
 			moviesSectionViewModel.Movies[0].Rank.Should().NotBe(2);
 			moviesSectionViewModel.Top250Command.Execute("");
 
-			//var actualList = autoMapper.Map<List<MovieListItemDto>>(moviesSectionViewModel.Movies);
-			//actualList.Should().BeEquivalentTo(MoviesListItemDtos);
 			moviesSectionViewModel.Movies[0].Rank.Should().Be(2);
 		}
 

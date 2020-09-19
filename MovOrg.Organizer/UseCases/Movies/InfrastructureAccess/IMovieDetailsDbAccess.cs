@@ -9,7 +9,7 @@ namespace MovOrg.Organizer.UseCases.DbAccess
 	{
 		Task<MovieWithDetailsDto> GetMovieDetails(string id);
 
-		Task AddMovieDetails(UpdateMovieDetailsDto movieDetails);
+		Task UpdateMovie(UpdateMovieDetailsDto movieDetails);
 
 		Task<bool> AreDetailsAvailableFor(string movieId);
 

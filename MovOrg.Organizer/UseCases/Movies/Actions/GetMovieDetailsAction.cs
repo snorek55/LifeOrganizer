@@ -35,7 +35,7 @@ namespace MovOrg.Organizer.UseCases
 			if (!areDetailsAvailable)
 			{
 				var movieDetailsFromApi = await apiAccess.GetMovieDetails(request.MovieId);
-				await dbAccess.AddMovieDetails(movieDetailsFromApi);
+				await dbAccess.UpdateMovie(movieDetailsFromApi);
 				//It does not get the info from the db because we do not save changes so I do it like this.
 				movieWithDetails = mapper.Map<MovieWithDetailsDto>(movieDetailsFromApi);
 			}

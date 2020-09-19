@@ -9,7 +9,6 @@ using MovOrg.Infrastructure.APIs;
 using MovOrg.Infrastructure.EFCore;
 using MovOrg.Infrastructure.EFCore.DbAccess;
 using MovOrg.Organizer.UseCases.DbAccess;
-using MovOrg.Organizer.UseCases.Repositories;
 
 using System.ComponentModel.Composition;
 
@@ -21,8 +20,6 @@ namespace MovOrg.Infrastructure.Setup
 		public void Setup(IServiceCollection services)
 		{
 			services.AddSingleton<IProfilePluginData, ProfilePluginData>();
-			services.AddSingleton<IApiMoviesRepository, IMDbMoviesApiRepository>();
-			services.AddSingleton<ILocalMoviesRepository, EFCoreLocalMoviesRepository>();
 			services.AddSingleton<IAmbientDbContextLocator, AmbientDbContextLocator>();
 			services.AddDbContext<MoviesContext>();
 			services.AddSingleton<IMovieDetailsDbAccess, MovieDetailsDbAccess>();
