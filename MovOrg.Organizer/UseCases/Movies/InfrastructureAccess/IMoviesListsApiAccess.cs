@@ -10,5 +10,6 @@ namespace MovOrg.Organizer.UseCases.DbAccess
 		Task<IEnumerable<MovieListItemDto>> GetMoviesFromSuggestedTitle(string suggestedTitle);
 
 		Task<IEnumerable<MovieListItemDto>> GetTopMovies();
+		Task<IEnumerable<MovieRatingSourceUrlDto>> GetRatingSourcesUrls(string movieId);
 	}
 }

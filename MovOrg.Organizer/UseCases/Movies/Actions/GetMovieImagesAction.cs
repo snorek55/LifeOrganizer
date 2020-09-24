@@ -1,4 +1,6 @@
-﻿using MovOrg.Organizer.UseCases.DbAccess;
+﻿using Common.UseCases;
+
+using MovOrg.Organizer.UseCases.DbAccess;
 using MovOrg.Organizer.UseCases.DTOs;
 using MovOrg.Organizer.UseCases.Requests;
 
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases
 {
-	public class GetMovieImagesAction : ServiceActionBase, IServiceAction<GetMovieImagesRequest, IEnumerable<MovieImageDto>>
+	public class GetMovieImagesAction : ServiceActionBase, IServiceActionAsync<GetMovieImagesRequest, IEnumerable<MovieImageDto>>
 	{
 		private IMovieDetailsDbAccess dbAccess;
 

@@ -15,30 +15,10 @@ using System.Threading.Tasks;
 
 namespace MovOrg.Infrastructure.EFCore.DbAccess
 {
-	public class MoviesListsDbAccess : IMoviesListsDbAccess
+	public class MoviesListsDbAccess : BaseMovieDbAccess, IMoviesListsDbAccess
 	{
-		//TODO: create base class
-		private readonly IAmbientDbContextLocator ambientDbContextLocator;
-
-		private MoviesContext DbContext
+		public MoviesListsDbAccess(IAmbientDbContextLocator ambientDbContextLocator, IAutoMapper mapper) : base(ambientDbContextLocator, mapper)
 		{
-			get
-			{
-				var dbContext = ambientDbContextLocator.Get<MoviesContext>();
-
-				if (dbContext == null)
-					throw new InvalidOperationException("DbContext has been called outside DbContextScope prior to this");
-
-				return dbContext;
-			}
-		}
-
-		private readonly IAutoMapper mapper;
-
-		public MoviesListsDbAccess(IAmbientDbContextLocator ambientDbContextLocator, IAutoMapper mapper)
-		{
-			this.ambientDbContextLocator = ambientDbContextLocator ?? throw new ArgumentNullException(nameof(ambientDbContextLocator));
-			this.mapper = mapper;
 		}
 
 		public async Task<IEnumerable<MovieListItemDto>> GetMoviesFromLocal()
@@ -79,6 +59,11 @@ namespace MovOrg.Infrastructure.EFCore.DbAccess
 					persistentMovie.Rank = movie.Rank;
 				}
 			}
+		}
+
+		public async Task<IEnumerable<RatingSource>> GetRatingSources()
+		{
+			return await mapper.ProjectTo<RatingSource>(DbContext.RatingSources).AsNoTracking().ToListAsync();
 		}
 	}
 }

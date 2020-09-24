@@ -17,32 +17,12 @@ using System.Threading.Tasks;
 
 namespace MovOrg.Infrastructure.EFCore.DbAccess
 {
-	public class MovieDetailsDbAccess : IMovieDetailsDbAccess
+	public class MovieDetailsDbAccess : BaseMovieDbAccess, IMovieDetailsDbAccess
 	{
-		//TODO: create base class
-		private readonly IAmbientDbContextLocator ambientDbContextLocator;
-
-		private readonly IAutoMapper mapper;
-
-		private MoviesContext DbContext
-		{
-			get
-			{
-				var dbContext = ambientDbContextLocator.Get<MoviesContext>();
-
-				if (dbContext == null)
-					throw new InvalidOperationException("DbContext has been called outside DbContextScope prior to this");
-
-				return dbContext;
-			}
-		}
-
 		private readonly IConfig config;
 
-		public MovieDetailsDbAccess(IAmbientDbContextLocator ambientDbContextLocator, IConfig config, IAutoMapper mapper)
+		public MovieDetailsDbAccess(IAmbientDbContextLocator ambientDbContextLocator, IAutoMapper mapper, IConfig config) : base(ambientDbContextLocator, mapper)
 		{
-			this.ambientDbContextLocator = ambientDbContextLocator ?? throw new ArgumentNullException(nameof(ambientDbContextLocator));
-			this.mapper = mapper;
 			this.config = config;
 		}
 
@@ -111,18 +91,18 @@ namespace MovOrg.Infrastructure.EFCore.DbAccess
 			DbContext.SaveChanges();
 		}
 
-		public IEnumerable<MovieRatingSourceDto> GetRatingSourceUrls(string id)
+		public IEnumerable<MovieRatingSourceUrlDto> GetRatingSourceUrls(string id)
 		{
 			var ratings = DbContext.Ratings.Where(x => x.MovieId == id).Include(x => x.Source).AsNoTracking().ToList();
 
-			return ratings.Select(x => new MovieRatingSourceDto
+			return ratings.Select(x => new MovieRatingSourceUrlDto
 			{
 				SourceName = x.Source.Name,
 				SourceUrl = x.SiteUrl
 			});
 		}
 
-		public void UpdateSourcesWebPages(string id, IEnumerable<MovieRatingSourceDto> sourcesWebPages)
+		public void UpdateSourcesWebPages(string id, IEnumerable<MovieRatingSourceUrlDto> sourcesWebPages)
 		{
 			var ratings = DbContext.Ratings.Where(x => x.MovieId == id).Include(x => x.Source).ToList();
 			foreach (var rating in ratings)

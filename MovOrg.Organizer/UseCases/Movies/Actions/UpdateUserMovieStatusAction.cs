@@ -1,4 +1,6 @@
-﻿using MovOrg.Organizer.UseCases.DbAccess;
+﻿using Common.UseCases;
+
+using MovOrg.Organizer.UseCases.DbAccess;
 using MovOrg.Organizer.UseCases.Requests;
 
 using System;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases
 {
-	public class UpdateUserMovieStatusAction : ServiceActionBase, IServiceAction<UpdateUserMovieStatusRequest>
+	public class UpdateUserMovieStatusAction : ServiceActionBase, IServiceActionAsync<UpdateUserMovieStatusRequest>
 	{
 		private IMovieDetailsDbAccess dbAccess;
 
@@ -40,7 +42,7 @@ namespace MovOrg.Organizer.UseCases
 				default:
 					throw new NotImplementedException();
 			}
-			//TODO: make this async
+
 			await Task.CompletedTask;
 			return !HasErrors;
 		}

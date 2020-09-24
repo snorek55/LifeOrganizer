@@ -4,16 +4,15 @@ using MovOrg.Organizer.UseCases.DTOs;
 
 namespace MovOrg.Organizer.UseCases.Responses
 {
-	public class GetRatingSourceUrlResponse : DataResponseBase<MovieRatingSourceDto>
+	public class GetRatingSourceUrlResponse : DataResponseBase<MovieRatingSourceUrlDto>
 	{
-		//TODO: improve naming
-		public MovieRatingSourceDto MovieRatingSiteDto { get; set; }
+		public MovieRatingSourceUrlDto MovieRatingSiteDto { get; set; }
 
 		public GetRatingSourceUrlResponse()
 		{
 		}
 
-		public GetRatingSourceUrlResponse(MovieRatingSourceDto dto)
+		public GetRatingSourceUrlResponse(MovieRatingSourceUrlDto dto)
 		{
 			MovieRatingSiteDto = dto;
 		}

@@ -2,7 +2,6 @@
 {
 	public class DataResponseBase<TData> : ResponseBase, IResponseData<TData>
 	{
-		//TODO: must implement this in all responses
 		public TData Data { get; set; }
 
 		public DataResponseBase()

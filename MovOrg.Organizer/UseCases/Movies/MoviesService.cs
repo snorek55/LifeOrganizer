@@ -1,41 +1,33 @@
-﻿using Common.Setup;
-using Common.UseCases;
-
-using EntityFramework.DbContextScope.Interfaces;
+﻿using Common.UseCases;
+using Common.UseCases.Runners;
 
 using MovOrg.Organizer.UseCases.DTOs;
 using MovOrg.Organizer.UseCases.Movies.Requests;
-using MovOrg.Organizer.UseCases.Repositories;
 using MovOrg.Organizer.UseCases.Requests;
-using MovOrg.Organizer.UseCases.Runners;
 
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases
 {
-	//Adapts info from wpf to call business logic
 	public class MoviesService : ServiceActionBase, IMoviesService
 	{
-		//TODO: tengo que pasarle varios runners pero la clave esta en que cuando termine de implementarlos podre suprimir este service e utilizar directamente los runners en los adapters
-		private readonly RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails;
-
-		private readonly RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal;
-		private readonly RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages;
-		private readonly RunnerWriteDb<UpdateUserMovieStatusRequest> runnerUserMovieStatus;
-		private readonly RunnerReadWriteDb<GetMovieRatingSourceUrlRequest, MovieRatingSourceDto> runnerGetRatingSourceUrl;
-		private readonly RunnerReadWriteDb<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>> runnerMoviesWithSuggestedTitle;
-		private readonly RunnerWriteDb<UpdateTopMoviesRequest> runnerUpdateTopMovies;
+		private readonly RunnerReadWriteDbAsync<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails;
+		private readonly RunnerReadDbAsync<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal;
+		private readonly RunnerReadDbAsync<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages;
+		private readonly RunnerWriteDbAsync<UpdateUserMovieStatusRequest> runnerUserMovieStatus;
+		private readonly RunnerReadWriteDbAsync<GetMovieRatingSourceUrlRequest, MovieRatingSourceUrlDto> runnerGetRatingSourceUrl;
+		private readonly RunnerReadWriteDbAsync<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>> runnerMoviesWithSuggestedTitle;
+		private readonly RunnerWriteDbAsync<UpdateTopMoviesRequest> runnerUpdateTopMovies;
 
 		public MoviesService(
-			RunnerReadWriteDb<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails,
-			RunnerReadDb<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal,
-			RunnerReadDb<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages,
-			RunnerWriteDb<UpdateUserMovieStatusRequest> runnerUserMovieStatus,
-			RunnerReadWriteDb<GetMovieRatingSourceUrlRequest, MovieRatingSourceDto> runnerGetRatingSourceUrl,
-			RunnerReadWriteDb<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>> runnerMoviesWithSuggestedTitle,
-			 RunnerWriteDb<UpdateTopMoviesRequest> runnerUpdateTopMovies
+			RunnerReadWriteDbAsync<GetMovieDetailsRequest, MovieWithDetailsDto> runnerMovieDetails,
+			RunnerReadDbAsync<GetMoviesFromLocalRequest, IEnumerable<MovieListItemDto>> runnerMoviesFromLocal,
+			RunnerReadDbAsync<GetMovieImagesRequest, IEnumerable<MovieImageDto>> runnerMovieImages,
+			RunnerWriteDbAsync<UpdateUserMovieStatusRequest> runnerUserMovieStatus,
+			RunnerReadWriteDbAsync<GetMovieRatingSourceUrlRequest, MovieRatingSourceUrlDto> runnerGetRatingSourceUrl,
+			RunnerReadWriteDbAsync<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>> runnerMoviesWithSuggestedTitle,
+			 RunnerWriteDbAsync<UpdateTopMoviesRequest> runnerUpdateTopMovies
 			)
 		{
 			this.runnerMovieDetails = runnerMovieDetails;
@@ -72,7 +64,6 @@ namespace MovOrg.Organizer.UseCases
 			return ReturnErrorIfNull(moviesWithSuggestedTitle);
 		}
 
-		//TODO: poner nuevo sistema
 		public async Task<ResponseBase> UpdateTopMovies()
 		{
 			var isOk = await runnerUpdateTopMovies.RunAction(new UpdateTopMoviesRequest());
@@ -100,7 +91,7 @@ namespace MovOrg.Organizer.UseCases
 			return ReturnErrorIfFalse(isOk);
 		}
 
-		public async Task<DataResponseBase<MovieRatingSourceDto>> GetRatingSourceUrl(string id, string sourceName)
+		public async Task<DataResponseBase<MovieRatingSourceUrlDto>> GetRatingSourceUrl(string id, string sourceName)
 		{
 			var ratingSourceUrl = await runnerGetRatingSourceUrl.RunAction(new GetMovieRatingSourceUrlRequest(id, sourceName));
 			return ReturnErrorIfNull(ratingSourceUrl);

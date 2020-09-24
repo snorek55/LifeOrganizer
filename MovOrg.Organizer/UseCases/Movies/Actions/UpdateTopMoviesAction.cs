@@ -1,11 +1,13 @@
-﻿using MovOrg.Organizer.UseCases.DbAccess;
+﻿using Common.UseCases;
+
+using MovOrg.Organizer.UseCases.DbAccess;
 using MovOrg.Organizer.UseCases.Requests;
 
 using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases
 {
-	public class UpdateTopMoviesAction : ServiceActionBase, IServiceAction<UpdateTopMoviesRequest>
+	public class UpdateTopMoviesAction : ServiceActionBase, IServiceActionAsync<UpdateTopMoviesRequest>
 	{
 		private IMoviesListsDbAccess dbAccess;
 		private IMoviesListsApiAccess apiAccess;

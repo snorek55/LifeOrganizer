@@ -1,35 +1,26 @@
 ﻿using Common;
 using Common.Setup;
-using Common.UseCases;
 
-using IMDbApiLib;
 using IMDbApiLib.Models;
 
 using MovOrg.Organizer.Domain;
 using MovOrg.Organizer.UseCases.DbAccess;
 using MovOrg.Organizer.UseCases.DTOs;
-using MovOrg.Organizer.UseCases.Repositories;
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovOrg.Infrastructure.APIs
 {
-	public class MovieDetailsApiAccess : IMovieDetailsApiAccess
+	public class ImdbMovieDetailsApiAccess : BaseImdbApiAccess, IMovieDetailsApiAccess
 	{
-		private readonly ApiLib apiLib;
-		private IAutoMapper mapper;
-		private ILocalMoviesRepository localMoviesRepository;
+		private IMoviesListsDbAccess listsDbAccess;
 
-		public MovieDetailsApiAccess(IAutoMapper mapper, IConfig config, ILocalMoviesRepository localMoviesRepository)
+		public ImdbMovieDetailsApiAccess(IAutoMapper mapper, IConfig config, IMoviesListsDbAccess listsDbAccess) : base(mapper, config)
 		{
-			CultureInfo.CurrentCulture = new CultureInfo("en-US");
-			this.mapper = mapper;
-			this.localMoviesRepository = localMoviesRepository;
-			apiLib = new ApiLib(config.GetIMDbApiKey());
+			this.listsDbAccess = listsDbAccess;
 		}
 
 		public async Task<UpdateMovieDetailsDto> GetMovieDetails(string id)
@@ -49,7 +40,7 @@ namespace MovOrg.Infrastructure.APIs
 		private async Task UpdateRatings(RatingData data, Movie movie)
 		{
 			var ratings = new List<Rating>();
-			var sources = await localMoviesRepository.GetRatingSources();
+			var sources = await listsDbAccess.GetRatingSources();
 			var i = 1;
 			foreach (var source in sources)
 			{
@@ -75,11 +66,6 @@ namespace MovOrg.Infrastructure.APIs
 			}
 
 			movie.Ratings = ratings;
-		}
-
-		private static void ThrowIfError(string errorMessage)
-		{
-			if (!string.IsNullOrEmpty(errorMessage)) throw new RepositoryException(errorMessage);
 		}
 	}
 }

@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace MovOrg.Organizer.UseCases
+namespace Common.UseCases
 {
 	public abstract class ServiceActionBase
 	{

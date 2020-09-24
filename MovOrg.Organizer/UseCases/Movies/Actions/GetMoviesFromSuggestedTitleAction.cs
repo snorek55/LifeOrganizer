@@ -1,4 +1,5 @@
 ﻿using Common.Setup;
+using Common.UseCases;
 
 using MovOrg.Organizer.UseCases.DbAccess;
 using MovOrg.Organizer.UseCases.DTOs;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases
 {
-	public class GetMoviesFromSuggestedTitleAction : ServiceActionBase, IServiceAction<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>>
+	public class GetMoviesFromSuggestedTitleAction : ServiceActionBase, IServiceActionAsync<GetMoviesFromSuggestedTitleRequest, IEnumerable<MovieListItemDto>>
 	{
 		private readonly IMoviesListsDbAccess dbAccess;
 		private readonly IMoviesListsApiAccess apiAccess;

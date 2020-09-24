@@ -29,9 +29,9 @@ namespace MovOrg.Tests.Base
 		protected IDbContextScopeFactory DbContextScopeFactory { get; private set; }
 		protected IAmbientDbContextLocator AmbientDbContextLocator { get; private set; }
 
-		protected MovieDetailsDbAccess movieDetailsDbAccess { get; private set; }
+		protected MovieDetailsDbAccess MovieDetailsDbAccess { get; private set; }
 
-		protected MoviesListsDbAccess movieListsDbAccess { get; private set; }
+		protected MoviesListsDbAccess MovieListsDbAccess { get; private set; }
 
 		protected IConfig Config { get; set; }
 
@@ -59,8 +59,8 @@ namespace MovOrg.Tests.Base
 			var contextFactory = new TestDbContextFactory(Config);
 			DbContextScopeFactory = new DbContextScopeFactory(contextFactory);
 			AmbientDbContextLocator = new AmbientDbContextLocator();
-			movieDetailsDbAccess = new MovieDetailsDbAccess(AmbientDbContextLocator, config, Mapper);
-			movieListsDbAccess = new MoviesListsDbAccess(AmbientDbContextLocator, Mapper);
+			MovieDetailsDbAccess = new MovieDetailsDbAccess(AmbientDbContextLocator, Mapper, config);
+			MovieListsDbAccess = new MoviesListsDbAccess(AmbientDbContextLocator, Mapper);
 			using var context = DbContextScopeFactory.Create();
 			MoviesContext.Database.EnsureDeleted();
 			MoviesContext.Database.EnsureCreated();
@@ -118,7 +118,7 @@ namespace MovOrg.Tests.Base
 		{
 			using var context = DbContextScopeFactory.Create();
 			var movieUnderTest = TestMovieSeededWithoutRelatedInfo;
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(TestMovieSeededWithoutRelatedInfo.Id);
 			existingMovie.LastUpdatedDetails.Value.Should().BeCloseTo(DateTime.Now, 2000);
@@ -139,7 +139,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.DirectorList.Add(relationUnderTest);
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieDirectors.Find(movieUnderTest.Id, TestDirectorSeeded.Id);
@@ -161,7 +161,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.DirectorList.Add(relationUnderTest);
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieDirectors.Find(movieUnderTest.Id, TestDirectorNotSeeded.Id);
@@ -186,7 +186,7 @@ namespace MovOrg.Tests.Base
 
 			using var context = DbContextScopeFactory.Create();
 			movieUnderTest.DirectorList.Add(secondRelationUnderTest);
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 
 			var existingFirstRelation = MoviesContext.MovieDirectors.Find(movieUnderTest.Id, TestDirectorSeeded.Id);
@@ -214,7 +214,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.WriterList.Add(relationUnderTest);
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieWriters.Find(movieUnderTest.Id, TestWriterSeeded.Id);
@@ -236,7 +236,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.WriterList.Add(relationUnderTest);
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieWriters.Find(movieUnderTest.Id, TestWriterNotSeeded.Id);
@@ -261,7 +261,7 @@ namespace MovOrg.Tests.Base
 
 			using var context = DbContextScopeFactory.Create();
 			movieUnderTest.WriterList.Add(secondRelationUnderTest);
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 
 			var existingFirstRelation = MoviesContext.MovieWriters.Find(movieUnderTest.Id, TestWriterSeeded.Id);
@@ -289,7 +289,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.CompanyList.Add(relationUnderTest);
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieCompanies.Find(movieUnderTest.Id, TestCompanySeeded.Id);
@@ -311,7 +311,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.CompanyList.Add(relationUnderTest);
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieCompanies.Find(movieUnderTest.Id, TestCompanyNotSeeded.Id);
@@ -336,7 +336,7 @@ namespace MovOrg.Tests.Base
 
 			using var context = DbContextScopeFactory.Create();
 			movieUnderTest.CompanyList.Add(secondRelationUnderTest);
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 
 			var existingFirstRelation = MoviesContext.MovieCompanies.Include(x => x.Company).Single(x => x.MovieId == movieUnderTest.Id && x.CompanyId == TestCompanySeeded.Id);
@@ -364,7 +364,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.Similars.Add(relationUnderTest);
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieSimilars.Find(movieUnderTest.Id, TestMovieSeededWithRelatedInfo.Id);
@@ -386,7 +386,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.Similars.Add(relationUnderTest);
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieSimilars.Find(movieUnderTest.Id, TestMovieNotSeeded.Id);
@@ -411,7 +411,7 @@ namespace MovOrg.Tests.Base
 
 			using var context = DbContextScopeFactory.Create();
 			movieUnderTest.Similars.Add(secondRelationUnderTest);
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 
 			var existingFirstRelation = MoviesContext.MovieSimilars.Find(movieUnderTest.Id, TestMovieSeededWithoutRelatedInfo.Id);
@@ -436,7 +436,7 @@ namespace MovOrg.Tests.Base
 
 			movieUnderTest.Images.Add(relationUnderTest);
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.MovieImageDatas.Find(movieUnderTest.Id, TestMovieImageNotSeeded.Id);
@@ -458,7 +458,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.Ratings.Add(relationUnderTest);
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.Ratings.Find(movieUnderTest.Id, RatingSources[0].Id);
@@ -483,7 +483,7 @@ namespace MovOrg.Tests.Base
 			};
 			movieUnderTest.Ratings.Add(relationUnderTest);
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 			var existingMovie = MoviesContext.Movies.Find(movieUnderTest.Id);
 			var existingRelation = MoviesContext.Ratings.Find(movieUnderTest.Id, newRatingSource.Id);
@@ -500,7 +500,7 @@ namespace MovOrg.Tests.Base
 			using var context = DbContextScopeFactory.Create();
 			var newMovie = TestMovieNotSeeded;
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(newMovie));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(newMovie));
 		}
 
 		[TestMethod]
@@ -519,7 +519,7 @@ namespace MovOrg.Tests.Base
 			using var context = DbContextScopeFactory.Create();
 
 			movieUnderTest.ActorList.Add(secondRelationUnderTest);
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(movieUnderTest));
 			context.SaveChanges();
 
 			var existingFirstRelation = MoviesContext.MovieActors.Find(movieUnderTest.Id, TestActorSeeded.Id);
@@ -542,7 +542,7 @@ namespace MovOrg.Tests.Base
 
 			TestMovieSeededWithoutRelatedInfo.BoxOffice = TestBoxOfficeSeeded;
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(TestMovieSeededWithoutRelatedInfo));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(TestMovieSeededWithoutRelatedInfo));
 			context.SaveChanges();
 
 			var existingMovie = MoviesContext.Movies.Find(TestMovieSeededWithoutRelatedInfo.Id);
@@ -559,7 +559,7 @@ namespace MovOrg.Tests.Base
 
 			TestMovieSeededWithoutRelatedInfo.Trailer = TestTrailerSeeded;
 
-			await movieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(TestMovieSeededWithoutRelatedInfo));
+			await MovieDetailsDbAccess.UpdateMovie(Mapper.Map<UpdateMovieDetailsDto>(TestMovieSeededWithoutRelatedInfo));
 			context.SaveChanges();
 
 			var existingMovie = MoviesContext.Movies.Find(TestMovieSeededWithoutRelatedInfo.Id);
@@ -574,7 +574,7 @@ namespace MovOrg.Tests.Base
 		{
 			using var context = DbContextScopeFactory.CreateReadOnly();
 			var movieUnderTest = TestMovieSeededWithRelatedInfo;
-			var actualDto = await movieDetailsDbAccess.GetMovieDetails(movieUnderTest.Id);
+			var actualDto = await MovieDetailsDbAccess.GetMovieDetails(movieUnderTest.Id);
 
 			var expectedDto = Mapper.Map<MovieWithDetailsDto>(movieUnderTest);
 
@@ -585,7 +585,7 @@ namespace MovOrg.Tests.Base
 		public async Task GetAllMovies_ShouldGetAllMovies()
 		{
 			using var context = DbContextScopeFactory.CreateReadOnly();
-			var movies = await movieListsDbAccess.GetMoviesFromLocal();
+			var movies = await MovieListsDbAccess.GetMoviesFromLocal();
 			movies.Should().BeEquivalentTo(InitialMovieListItemDtos);
 		}
 
@@ -593,8 +593,8 @@ namespace MovOrg.Tests.Base
 		public async Task AreDetailsAvailable_ShouldCheckIfTheyAre_WhenMovieExistsInDb()
 		{
 			using var context = DbContextScopeFactory.CreateReadOnly();
-			var detailsAvailable = await movieDetailsDbAccess.AreDetailsAvailableFor(TestMovieSeededWithRelatedInfo.Id);
-			var detailsNotAvailable = await movieDetailsDbAccess.AreDetailsAvailableFor(TestMovieSeededWithoutRelatedInfo.Id);
+			var detailsAvailable = await MovieDetailsDbAccess.AreDetailsAvailableFor(TestMovieSeededWithRelatedInfo.Id);
+			var detailsNotAvailable = await MovieDetailsDbAccess.AreDetailsAvailableFor(TestMovieSeededWithoutRelatedInfo.Id);
 
 			Assert.IsTrue(detailsAvailable);
 			Assert.IsFalse(detailsNotAvailable);

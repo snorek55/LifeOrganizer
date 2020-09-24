@@ -1,6 +1,7 @@
-﻿using MovOrg.Organizer.UseCases.DbAccess;
+﻿using Common.UseCases;
+
+using MovOrg.Organizer.UseCases.DbAccess;
 using MovOrg.Organizer.UseCases.DTOs;
-using MovOrg.Organizer.UseCases.Repositories;
 using MovOrg.Organizer.UseCases.Requests;
 
 using System.Linq;
@@ -8,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace MovOrg.Organizer.UseCases
 {
-	public class GetMovieRatingSourceUrlAction : ServiceActionBase, IServiceAction<GetMovieRatingSourceUrlRequest, MovieRatingSourceDto>
+	public class GetMovieRatingSourceUrlAction : ServiceActionBase, IServiceActionAsync<GetMovieRatingSourceUrlRequest, MovieRatingSourceUrlDto>
 	{
 		private IMovieDetailsDbAccess dbAccess;
-		private IApiMoviesRepository apiAccess;
+		private IMoviesListsApiAccess apiAccess;
 
-		public GetMovieRatingSourceUrlAction(IMovieDetailsDbAccess dbAccess, IApiMoviesRepository apiAccess)
+		public GetMovieRatingSourceUrlAction(IMovieDetailsDbAccess dbAccess, IMoviesListsApiAccess apiAccess)
 		{
 			this.dbAccess = dbAccess;
 			this.apiAccess = apiAccess;
 		}
 
-		public async Task<MovieRatingSourceDto> Action(GetMovieRatingSourceUrlRequest request)
+		public async Task<MovieRatingSourceUrlDto> Action(GetMovieRatingSourceUrlRequest request)
 		{
 			if (request?.MovieId == null)
 			{
@@ -35,7 +36,7 @@ namespace MovOrg.Organizer.UseCases
 				dbAccess.UpdateSourcesWebPages(request.MovieId, sourcesWebPages);
 			}
 
-			MovieRatingSourceDto source = null;
+			MovieRatingSourceUrlDto source = null;
 			foreach (var s in sourcesWebPages)
 			{
 				if (s.SourceName == request.SourceName)

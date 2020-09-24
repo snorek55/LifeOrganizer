@@ -14,13 +14,13 @@ namespace MovOrg.Tests.Integration
 	[TestClass]
 	public class IMDbMoviesApiTests
 	{
-		private MoviesListsApiAccess imdbApiRepository;
+		private ImdbMoviesListsApiAccess imdbApiRepository;
 		private IConfig config;
 
 		public IMDbMoviesApiTests()
 		{
 			config = new IntegrationTestConfig();
-			imdbApiRepository = new MoviesListsApiAccess(TestData.Mapper, config);
+			imdbApiRepository = new ImdbMoviesListsApiAccess(TestData.Mapper, config);
 		}
 
 		[TestMethod]
